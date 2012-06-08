@@ -13,7 +13,7 @@ The Code
 --------
 The code for this project contains the following:
 
-* a simple, blocking API that  wraps py-pf
+* a simple, blocking API that wraps py-pf
 
 * various scripts that make use of this API
 
@@ -23,14 +23,14 @@ The code for this project contains the following:
 The Product
 -----------
 
-Basically, any running OS with the following installed and running on it, we
-consider an Akanada product:
+Basically, any OS with the following installed and running on it, we consider
+an Akanda product:
 
 * PF
 
 * py-pf
 
-* the Akanada REST server
+* the Akanda REST server
 
 
 The Name
