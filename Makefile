@@ -34,3 +34,7 @@ $(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
 	cd $(PYPF_DIR) && python setup.py install
 
 install-dev: $(GIT) $(TWISTD) $(PYPF_INSTALL)
+	@echo "Be sure you have pf enabled on your system:"
+	@echo " * edit your /etc/rc.conf"
+	@echo " * add rules to /etc/pf.conf"
+	@echo " * start pf: sudo /etc/rc.d/pf start"
