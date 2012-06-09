@@ -18,3 +18,6 @@ class UnsupportedIOCTL(Error):
     """
     Is the pf device correct?
     """
+
+class OperationNotSupported(Error):
+    pass

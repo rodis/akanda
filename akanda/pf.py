@@ -14,6 +14,8 @@ def pf_factory():
             raise exceptions.PermissionDenied()
         elif err == errno.ENOTTY:
             raise exceptions.UnsupportedIOCTL()
+        elif err == errno.EOPNOTSUPP:
+            raise exceptions.OperationNotSupported()
     return pf
 
 
