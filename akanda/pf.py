@@ -14,6 +14,8 @@ def pf_factory():
             raise exceptions.PermissionDenied()
         elif err == errno.ENOTTY:
             raise exceptions.UnsupportedIOCTL()
+    return pf
+
 
 def get_states(pf):
     for state in pf.get_states():
