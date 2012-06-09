@@ -60,7 +60,7 @@ Installation
 Building a FreeBSD Dev Environment
 ----------------------------------
 
-::
+ ::
   portsnap fetch
   portsnap extract
 
