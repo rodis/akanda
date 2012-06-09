@@ -2,10 +2,12 @@ class Error(Exception):
     """
     A base class for exceptions.
     """
-    def __init__(self, msg=None):
+    def __init__(self, msg=None, add=""):
         if msg == None:
             msg = self.__doc__ or ""
-        super(Error, self).__init__(msg.strip())
+        if add:
+            add = " " + add
+        super(Error, self).__init__(msg.strip() + add)
 
 
 class PermissionDenied(Error):
