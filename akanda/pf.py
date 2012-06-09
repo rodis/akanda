@@ -15,7 +15,7 @@ def pf_factory():
         elif err == errno.ENOTTY:
             raise exceptions.UnsupportedIOCTL()
         elif err == errno.EOPNOTSUPP:
-            raise exceptions.OperationNotSupported(add=msg)
+            raise exceptions.OperationNotSupported()
     return pf
 
 
