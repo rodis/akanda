@@ -1,6 +1,6 @@
 import errno
 
-from PF import PacketFilter, PFAddr, PFPort, PFRule, PFRuleAddr, PFRuleSet
+from PF import PacketFilter, PFAddr, PFPort, PFRule, PFRuleAddr, PFRuleset
 
 from akanda import exceptions
 
@@ -50,7 +50,7 @@ def get_states(pf):
 def get_rules():
     r1 = PFRule()
     r2 = PFRule()
-    rs = PFRuleSet()
+    rs = PFRuleset()
     rs.append(r1, r2)
     return rs
 
