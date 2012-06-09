@@ -68,6 +68,10 @@ Building a FreeBSD Dev Environment
 When asked to enable PTH for multiprocessing support say NO! ::
 
   cd /usr/ports/devel/git && make install clean
-  mkdir -p ~/lab/DreamHost/dhc && cd ~/lab/DreamHost/dhc
+  mkdir -p $BASE_DIR && cd $BASE_DIR
   git clone ssh://git.newdream.net/dhc/akanda
   cd akanda
+
+Then, to get the rest of the deps::
+
+  make install-dev
