@@ -1,6 +1,6 @@
 import errno
 
-from PF import PacketFilter
+from PF import PacketFilter, PFAddr, PFPort, PFRule, PFRuleAddr, PFRuleSet
 
 from akanda import exceptions
 
@@ -47,5 +47,16 @@ def get_states(pf):
         print "   Expires in {0.expire} seconds".format(state)
 
 
+def get_rules():
+    r1 = PFRule()
+    r2 = PFRule()
+    rs = PFRuleSet()
+    rs.append(r1, r2)
+    return rs
+
+
 pf = pf_factory()
+get_states(pf)
+pf.load_ruleset(get_rules())
+print pf.get_ruleset()
 get_states(pf)
