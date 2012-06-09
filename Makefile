@@ -27,7 +27,7 @@ $(DEV_DIR):
 	mkdir -p $(DEV_DIR)
 
 $(PYPF_DIR):
-	cd $(DEV_DIR) && git clone $(PYPF_URL)
+	-cd $(DEV_DIR) && git clone $(PYPF_URL)
 
 # This assumes running as root
 $(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
