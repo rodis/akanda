@@ -23,3 +23,7 @@ class UnsupportedIOCTL(Error):
 
 class OperationNotSupported(Error):
     pass
+
+
+class OperationNotSupportedByDevice(OperationNotSupported):
+    pass

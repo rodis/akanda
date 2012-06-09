@@ -16,6 +16,8 @@ def pf_factory():
             raise exceptions.UnsupportedIOCTL()
         elif err == errno.EOPNOTSUPP:
             raise exceptions.OperationNotSupported()
+        elif err == errno.ENODEV:
+            raise exceptions.OperationNotSupportedByDevice()
     return pf
 
 
