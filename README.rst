@@ -57,4 +57,16 @@ Dependencies
 Installation
 ============
 
-TBD
+Building a FreeBSD Dev Environment
+----------------------------------
+
+::
+  portsnap fetch
+  portsnap extract
+
+When asked to enable PTH for multiprocessing support say NO!::
+
+  cd /usr/ports/devel/git && make install clean
+  mkdir -p ~/lab/DreamHost/dhc && cd ~/lab/DreamHost/dhc
+  git clone ssh://git.newdream.net/dhc/akanda
+  cd akanda
