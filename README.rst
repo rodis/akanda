@@ -44,7 +44,7 @@ positive associations ;-)
 However, we found we were able to say something more clearly and with a bevy of
 excellent synonyms by using the Sanskrit word अखण्ड (akhaNDa) which has such
 lovely connotations as "non-stop," "undivided," "entire," "whole," and most
-importantly, "not broken."
+importantly, "**not broken**."
 
 Dependencies
 ============
