@@ -4,8 +4,8 @@ class Error(Exception):
     """
     def __init__(self, msg=None):
         if msg == None:
-            msg = self.__doc__.strip()
-        super(Error, self).__init__(msg)
+            msg = self.__doc__ or ""
+        super(Error, self).__init__(msg.strip())
 
 
 class PermissionDenied(Error):
