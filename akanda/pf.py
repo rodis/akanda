@@ -20,7 +20,11 @@ def pf_factory():
 
 
 def get_states(pf):
-    for state in pf.get_states() or []:
+    states = pf.get_states() or []
+    if not states:
+        print "No state information."
+        return
+    for state in states:
         nk, sk = state.nk, state.sk
         s = "{0}".format(state.nk.addr[1])
         if nk.port[1]:
