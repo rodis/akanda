@@ -21,7 +21,7 @@ def pf_factory():
     return pf
 
 
-def get_states(pf):
+def print_states(pf):
     states = pf.get_states() or []
     if not states:
         print "No state information."
@@ -55,10 +55,3 @@ def get_rules():
     rs = PFRuleset()
     rs.append(r1, r2)
     return rs
-
-
-pf = pf_factory()
-get_states(pf)
-pf.load_ruleset(get_rules())
-print pf.get_ruleset()
-get_states(pf)
