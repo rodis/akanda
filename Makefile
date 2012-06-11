@@ -1,11 +1,12 @@
 DEV_DIR = ~/lab/DreamHost/dhc
 PYPF_DIR = $(DEV_DIR)/pypf
+AKANDA_DIR = $(DEV_DIR)/akanda
 PYPF_INSTALL = /usr/local/lib/python2.7/site-packages/pypf
 PYPF_URL = git@github.com:dreamhost/pypf.git
 USER = oubiwann
 GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
-PYPF_HOST ?= 10.0.4.186
+PF_HOST ?= 10.0.4.186
 
 system-setup:
 	pw user mod $(USER) -G wheel
@@ -48,8 +49,9 @@ install-dev: $(GIT) $(TWISTD) $(PYPF_INSTALL)
 
 push-dev:
 	git push
-	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && git pull && python setup.py install"
+	ssh root@$(PF_HOST) \
+	"cd $(AKANDA_DIR) && git pull && python setup.py install"
 
 check-dev: push-dev
-	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && python -c \
+	ssh root@$(PYPF_HOST) "cd $(AKANDA_DIR) && python -c \
 	'from akanda import scripts;scripts.run_all()'"
