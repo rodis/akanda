@@ -52,4 +52,4 @@ push-dev:
 
 check-dev: push-dev
 	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && python -c \
-	"from akanda import scripts;scripts.run_all()""
+	'from akanda import scripts;scripts.run_all()'"
