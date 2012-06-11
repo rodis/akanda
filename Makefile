@@ -48,7 +48,7 @@ install-dev: $(GIT) $(TWISTD) $(PYPF_INSTALL)
 
 push-dev:
 	git push
-	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && git pull"
+	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && git pull && python setup.py install"
 
 check-dev: push-dev
 	ssh root@$(PYPF_HOST) "cd $(PYPF_DIR) && python -c \
