@@ -53,5 +53,5 @@ push-dev:
 	"cd $(AKANDA_DIR) && git pull && python setup.py install"
 
 check-dev: push-dev
-	ssh root@$(PYPF_HOST) "cd $(AKANDA_DIR) && python -c \
+	ssh root@$(PF_HOST) "cd $(AKANDA_DIR) && python -c \
 	'from akanda import scripts;scripts.run_all()'"
