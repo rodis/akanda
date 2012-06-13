@@ -65,14 +65,14 @@ Set up your packge URL, e.g.::
   export BSD_MIRROR=mirror.ece.vt.edu
   export PKG_PATH=http://$BSD_MIRROR/pub/OpenBSD/5.1/packages/`machine -a`/
 
-Install the basics::
+Then bootstrap the project::
 
-  pkg_add -i python
-  pkg_add -i py-twisted-core
   pkg_add -i git
+  git clone ssh://git.newdream.net/dhc/akanda
 
 Finally, get the rest of the deps::
 
+  cd akanda
   make install-dev
 
 Building a FreeBSD Dev Environment
@@ -90,8 +90,8 @@ Then, continue::
   cd /usr/ports/devel/git && make install clean
   mkdir -p $BASE_DIR && cd $BASE_DIR
   git clone ssh://git.newdream.net/dhc/akanda
-  cd akanda
 
 Finally, get the rest of the deps::
 
+  cd akanda
   make install-dev
