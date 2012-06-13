@@ -7,3 +7,6 @@ def run_all():
     pf.load_ruleset(akanda.pf.get_rules())
     print pf.get_ruleset()
     akanda.pf.get_states(pf)
+
+def set_protected_host():
+    pf = akanda.pf.pf_factory()

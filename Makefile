@@ -10,6 +10,13 @@ GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
 PF_HOST ?= 10.0.4.186
 
+clean:
+	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
+	rm -rfv _trial_temp/ CHECK_THIS_BEFORE_UPLOAD.txt twistd.log
+	find ./ -name "*~" -exec rm -v {} \;
+	sudo find ./ -name "*.py[co]" -exec rm -v {} \;
+	find . -name "*.sw[op]" -exec rm -v {} \;
+
 system-setup:
 	pw user mod $(USER) -G wheel
 
