@@ -1,9 +1,11 @@
 UNAME := $(shell uname)
 DEV_DIR = ~/lab/DreamHost/dhc
 PYPF_DIR = $(DEV_DIR)/pypf
+TXROUTES_DIR = $(DEV_DIR)/txroutes
 AKANDA_DIR = $(DEV_DIR)/akanda
 PYPF_INSTALL = /usr/local/lib/python2.7/site-packages/pypf
 PYPF_URL = git@github.com:dreamhost/pypf.git
+TXROUTES_URL = git@github.com:dreamhost/txroutes.git
 USER = oubiwann
 PYTHON = /usr/local/bin/python
 GIT = /usr/local/bin/git
@@ -58,11 +60,18 @@ $(DEV_DIR):
 $(PYPF_DIR):
 	-cd $(DEV_DIR) && git clone $(PYPF_URL)
 
-# This assumes running as root
 $(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
 	cd $(PYPF_DIR) && python setup.py install
 
-install-dev: $(PYTHON) $(GIT) $(TWISTD) $(PYPF_INSTALL)
+$(TXROUTES_DIR):
+	cd $(DEV_DIR) && git clone $(TXROUTES_URL)
+
+$(TXROUTES_INSTALL): $(DEV_DIR) $(TXROUTES_DIR)
+	cd $(TXROUTES_DIR) && python setup.py install
+
+python-deps: $(TWISTD) $(PYPF_INSTALL) $(TXROUTES_INSTALL)
+
+install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
 	@echo "Be sure you have pf enabled on your system:"
 	@echo " * edit your /etc/rc.conf"
