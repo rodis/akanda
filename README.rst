@@ -57,21 +57,41 @@ Dependencies
 Installation
 ============
 
+Building an OpenBSD Dev Environment
+-----------------------------------
+
+Set up your packge URL, e.g.::
+
+  export BSD_MIRROR=mirror.ece.vt.edu
+  export PKG_PATH=http://$BSD_MIRROR/pub/OpenBSD/5.1/packages/`machine -a`/
+
+Install the basics::
+
+  pkg_add -i python
+  pkg_add -i py-twisted-core
+  pkg_add -i git
+
+Finally, get the rest of the deps::
+
+  make install-dev
+
 Building a FreeBSD Dev Environment
 ----------------------------------
 
-::
+Get ports installed::
 
   portsnap fetch
   portsnap extract
 
-When asked to enable PTH for multiprocessing support say NO! ::
+When asked to enable PTH for multiprocessing support say "NO"! 
+
+Then, continue::
 
   cd /usr/ports/devel/git && make install clean
   mkdir -p $BASE_DIR && cd $BASE_DIR
   git clone ssh://git.newdream.net/dhc/akanda
   cd akanda
 
-Then, to get the rest of the deps::
+Finally, get the rest of the deps::
 
   make install-dev
