@@ -71,13 +71,13 @@ Set up your packge URL, e.g.::
 
 Then bootstrap the project::
 
-  pkg_add -i git
+  pkg_add -i git gmake
   git clone git@github.com:dreamhost/akanda.git
 
 Finally, get the rest of the deps::
 
   cd akanda
-  make install-dev
+  gmake install-dev
 
 
 Building a FreeBSD Dev Environment
