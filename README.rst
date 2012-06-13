@@ -50,9 +50,11 @@ importantly, "**not broken**."
 Dependencies
 ============
 
-* An Akanda instance up and running.
+* An Akanda instance up and running (a BSD with packet filter installed and
+  configured)
 
-* The Akanda code installed
+* The Akanda code installed (this will install other dependencies
+  automatically)
 
 
 Installation
