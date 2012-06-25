@@ -1,3 +1,4 @@
+LIB = akanda
 UNAME := $(shell uname)
 DEV_DIR = ~/lab/DreamHost/dhc
 PYPF_DIR = $(DEV_DIR)/pypf
@@ -93,3 +94,6 @@ push-dev:
 check-dev: push-dev
 	ssh root@$(PF_HOST) "cd $(AKANDA_DIR) && python -c \
 	'from akanda import scripts;scripts.run_all()'"
+
+check:
+	trial $(LIB)
