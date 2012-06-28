@@ -53,6 +53,7 @@ ifeq ($(UNAME), FreeBSD)
 endif
 ifeq ($(UNAME), OpenBSD)
 	pkg_add -i py-twisted-core
+	pkg_add -i py-twisted-web
 endif
 
 $(DEV_DIR):
