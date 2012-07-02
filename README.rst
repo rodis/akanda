@@ -161,3 +161,16 @@ Thinking in REST
 
 General guidelines for API development are given in the
 ``akanda/api/v1.py`` and ``akanda/api/routes.py`` files.
+
+The Horizon Plugin
+==================
+
+Installing Akanda Support in Horizon
+------------------------------------
+
+TBD
+
+Viewing Akanda in Horizon
+-------------------------
+
+TBD
