@@ -4,7 +4,7 @@ akanda
 
 An open source packet filter solution for OpenStack deployments.
 
-.. contents:: Links to Document Sections
+.. contents:: **Links to Document Sections**
 
 About
 =====
