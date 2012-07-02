@@ -90,10 +90,10 @@ endif
 
 clone-dev:
 	git push
-	ssh root@$(PF_HOST) \
+	-ssh root@$(PF_HOST) \
 	"git clone $(AKANDA_URL) $(AKANDA_DIR)"
 
-push-dev:
+push-dev: clone-dev
 	git push
 	ssh root@$(PF_HOST) \
 	"cd $(AKANDA_DIR) && git pull && python setup.py install"

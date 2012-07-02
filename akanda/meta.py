@@ -8,6 +8,7 @@ url = "http://github.com/dreamhost/akanda"
 description = "Akanda Appliance"
 long_description = "A packet filter appliance for OpenStack deployments."
 requires = [
-    "twisted",
+    # XXX twisted pip build fails on OpenBSD because it looks for epoll.h
+    #"twisted",
     "txroutes",
     ]
