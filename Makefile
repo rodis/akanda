@@ -7,6 +7,7 @@ AKANDA_DIR = $(DEV_DIR)/akanda
 PYPF_INSTALL = /usr/local/lib/python2.7/site-packages/pypf
 PYPF_URL = git@github.com:dreamhost/pypf.git
 TXROUTES_URL = git@github.com:dreamhost/txroutes.git
+AKANDA_URL = git@github.com:dreamhost/akanda.git
 USER = oubiwann
 PYTHON = /usr/local/bin/python
 GIT = /usr/local/bin/git
@@ -86,6 +87,11 @@ ifeq ($(UNAME), FreeBSD)
 	@echo "  /etc/rc.d/sshd restart"
 	@echo
 endif
+
+clone-dev:
+	git push
+	ssh root@$(PF_HOST) \
+	"git clone $(AKANDA_URL) $(AKANDA_DIR)"
 
 push-dev:
 	git push
