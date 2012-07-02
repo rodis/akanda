@@ -105,15 +105,25 @@ Finally, get the rest of the deps::
   make install-dev
 
 
-The Akanda REST API
-===================
+The Akanda REST APIs
+====================
 
-The discussion below assums that all actions will take place at the top-level
-of the check-out directory.
+Akanda comes with two REST APIs:
 
+#. The REST API that runs on the router instance itself, recieving simple
+pf-related administrative commands (e.g., "take this data and have pf parse
+it"). This REST API runs only so long a router instance is up and running. This
+is not the user-facing, 24/7 REST API.
 
-The Service Plugin
-------------------
+#. Then there is the user-facing, 24/7, load-balanced REST API :-) This is what
+users will be able to interact with in order to programmatically manage their
+router instances (e.g., set NAT, port-forwarding, and basic firewall rules).
+
+The Router-Instance REST API
+----------------------------
+
+This section assumes that all provided commands will be executed at the
+top-level of the check-out directory.
 
 The plugin is in the ``twisted/plugins`` directory. Note that the string value
 of service module in the plugin file enables one to define the service before
@@ -146,10 +156,18 @@ accessing the following URLs:
 * http://localhost:9999/json/v1/meta/version
 
 
+The User-Facing REST API
+------------------------
+
+This API will be created using the standard REST service tools that come with
+OpenStack.
+
 Adding New API Classes/Methods
 ------------------------------
 
-Edit ``akanda/api/v1.py`` or ``v2.py``.
+For the Router-instance API, edit ``akanda/api/v1.py`` or ``v2.py``.
+
+For the User-facing API, edit ``TBD``.
 
 
 Mapping URLs to Objects
@@ -164,6 +182,7 @@ Thinking in REST
 
 General guidelines for API development are given in the
 ``akanda/api/v1.py`` and ``akanda/api/routes.py`` files.
+
 
 The Horizon Plugin
 ==================
