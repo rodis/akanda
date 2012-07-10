@@ -107,9 +107,13 @@ push-dev: clone-dev
 	ssh root@$(PF_HOST) \
 	"cd $(AKANDA_DIR) && git pull && python setup.py install"
 
-local-push-dev: local-dev-deps
-	#rsync -az -e "ssh . root@$(PF_HOST):$(AKANDA_DIR)/"
-	echo "hey"
+rsync-push-dev: local-dev-deps
+	rsync -az -e "ssh . root@$(PF_HOST):$(AKANDA_DIR)/"
+
+scp-push-dev:
+	scp -r . root@$(PF_HOST):$(AKANDA_DIR)/
+	ssh root@$(PF_HOST) \
+	"cd $(AKANDA_DIR) && python setup.py install"
 
 check-dev: push-dev
 	ssh root@$(PF_HOST) "cd $(AKANDA_DIR) && python -c \
