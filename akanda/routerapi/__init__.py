@@ -1,1 +1,1 @@
-from akanda.api.routes import dispatcher as api
+from akanda.routerapi.routes import dispatcher as api

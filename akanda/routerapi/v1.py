@@ -7,7 +7,7 @@ from twisted.web import resource, server
 from txroutes import Dispatcher
 
 from akanda import meta
-from akanda.api import base
+from akanda.routerapi import base
 
 
 # For info on how to run long-running processes (e.g., use deferreds) see the

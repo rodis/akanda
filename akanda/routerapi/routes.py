@@ -1,6 +1,6 @@
 from txroutes import Dispatcher
 
-from akanda.api import v1, v2
+from akanda.routerapi import v1, v2
 
 
 apiv1 = v1.API()
