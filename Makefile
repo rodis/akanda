@@ -13,6 +13,7 @@ PYTHON = /usr/local/bin/python
 GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
 PF_HOST ?= 10.0.4.186
+PF_HOST_UNAME = $(shell ssh root@$(PF_HOST) "uname")
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -88,6 +89,14 @@ ifeq ($(UNAME), FreeBSD)
 	@echo
 endif
 
+local-dev-deps:
+ifeq ($(PF_HOST_UNAME), FreeBSD)
+	ssh root@$(PF_HOST) "cd /usr/ports/net/rsync && make install clean"
+endif
+ifeq ($(PF_HOST_UNAME), OpenBSD)
+	ssh root@$(PF_HOST) "pkg_add -i rsync"
+endif
+
 clone-dev:
 	git push
 	-ssh root@$(PF_HOST) \
@@ -97,6 +106,10 @@ push-dev: clone-dev
 	git push
 	ssh root@$(PF_HOST) \
 	"cd $(AKANDA_DIR) && git pull && python setup.py install"
+
+local-push-dev: local-dev-deps
+	#rsync -az -e "ssh . root@$(PF_HOST):$(AKANDA_DIR)/"
+	echo "hey"
 
 check-dev: push-dev
 	ssh root@$(PF_HOST) "cd $(AKANDA_DIR) && python -c \
