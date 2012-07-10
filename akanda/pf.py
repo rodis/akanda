@@ -56,5 +56,6 @@ def get_rules():
     rs.append(r1, r2)
     return rs
 
-def block_in_pass_out()
-    
+
+def block_in_pass_out():
+    pass
