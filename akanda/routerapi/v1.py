@@ -123,3 +123,48 @@ class API(base.RESTAPIBase):
             "class methods": dir(self),
             "class data": vars(self),
             })
+
+    def get_interfaces(self, request, filter=""):
+        """
+        Default file will trim commonly unused interfaces.
+
+        HTTP GET
+        """
+
+    def get_interface(self, request, ifname="", mac=""):
+        """
+        HTTP GET
+        """
+
+    def set_interfaces(self, list_of_iface_data):
+        """
+        HTTP PUT
+        """
+
+    def set_interface(self, dict_of_iface_data):
+        """
+        HTTP PUT
+        """
+
+    def get_rules(self):
+        """
+        HTTP GET
+        """
+
+    def set_rules(self, list_of_rules):
+        """
+        HTTP PUT
+        """
+
+    def set_rule(self, rule_data):
+        """
+        Append the provided rule data as a new rule at the end of the PF rule
+        set table.
+
+        HTTP PUT
+        """
+
+    def set_table(self, data):
+        """
+        HTTP PUT
+        """
