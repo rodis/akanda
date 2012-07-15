@@ -77,9 +77,19 @@ class InterfaceManager(base.Manager):
             self._sudo(fmt_args_delete(item))
 
 def _parse_interfaces(data, filters=None):
-    filter_re = '|'.join(filters or ['\w+'])
-    iface_data = re.split('(^|\n)(?=\w+\d{1,3}: flag)', data, re.M)
-    return [_parse_interface(i) for i in iface_data if i.strip()]
+    retval = []
+    for iface_data in re.split('(^|\n)(?=\w+\d{1,3}: flag)', data, re.M):
+        if not iface_data.strip():
+            continue
+
+        for f in filters or ['']:
+            if iface_data.startswith(f):
+                break
+        else:
+            continue
+
+        retval.append(_parse_interface(iface_data))
+    return retval
 
 def _parse_interface(data):
     retval = dict(addresses=[])
@@ -127,8 +137,3 @@ def _parse_other_params(line):
             key = key[:-1]
 
         return [(key, value)]
-
-if __name__ == '__main__':
-    import pprint
-    pprint.pprint(InterfaceManager().get_interfaces())
-
