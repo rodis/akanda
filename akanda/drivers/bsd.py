@@ -1,6 +1,8 @@
 import re
-import subprocess
 
+import netaddr
+
+from akanda import models
 from akanda.drivers import base
 from akanda.utils import execute
 
@@ -43,8 +45,7 @@ class InterfaceManager(base.Manager):
         delete = lambda a: (interface.ifname, '-alias',
                          str(a.ip), 'prefixlen', a.prefixlen)
 
-        self._update_set(interface, old_interface, 'addresses', add, delete,
-                         netaddr.IPSet)
+        self._update_set(interface, old_interface, 'addresses', add, delete)
 
     def _update_primary_v4(self, interface, old_interface):
         if interface.primary_v4 == old_interface.primary_v4:
@@ -61,10 +62,10 @@ class InterfaceManager(base.Manager):
                        interface.primary_v4.prefixlen)
 
     def _update_set(self, interface, old_interface, attribute,
-                    fmt_args_add, fmt_args_delete, conversion_f=set):
+                    fmt_args_add, fmt_args_delete):
 
-        next_set = conversion_f(getattr(interface, attrbute))
-        prev_set = conversion_f(getattr(old_interface, attribute))
+        next_set = set(getattr(interface, attrbute))
+        prev_set = set(getattr(old_interface, attribute))
 
         if next_set == prev_set:
             return
@@ -80,8 +81,6 @@ def _parse_interfaces(data, filters=None):
     iface_data = re.split('(^|\n)(?=\w+\d{1,3}: flag)', data, re.M)
     return [_parse_interface(i) for i in iface_data if i.strip()]
 
-
-
 def _parse_interface(data):
     retval = dict(addresses=[])
     for line in data.split('\n'):
@@ -94,33 +93,26 @@ def _parse_interface(data):
         else:
             retval.update(_parse_head(line))
 
-    return retval
+    return models.Interface.from_dict(retval)
 
 def _parse_head(line):
     retval = {}
     m = re.match(
-            '(?P<name>\w*): flags=\d*<(?P<flags>[\w,]*)> mtu (?P<mtu>\d*)',
+            '(?P<ifname>\w*): flags=\d*<(?P<flags>[\w,]*)> mtu (?P<mtu>\d*)',
             line)
     if m:
-        retval['name'] = m.group('name')
+        retval['ifname'] = m.group('ifname')
         retval['flags'] = m.group('flags').split(',')
         retval['mtu'] = int(m.group('mtu'))
     return retval
 
 def _parse_inet(line):
     tokens = line.split()
-
     if tokens[0] == 'inet6':
-        prefixlen = tokens[3]
+        mask = tokens[3]
     else:
-        prefixlen = 32
-        test = 1
-        mask = int(tokens[3], 16)
-        while not (mask & test):
-            prefixlen-=1
-            test = test<<1
-
-    return '%s/%s' % (tokens[1], prefixlen)
+        mask = str(netaddr.IPAddress(int(tokens[3], 16)))
+    return netaddr.IPNetwork('%s/%s' % (tokens[1], mask))
 
 def _parse_other_params(line):
     if line.startswith('options'):
