@@ -10,7 +10,7 @@ from akanda.utils import execute
 class InterfaceManager(base.Manager):
     EXECUTABLE = '/sbin/ifconfig'
     def get_interfaces(self, filters=None):
-        return _parse_interfaces(self.do('-a'), filters=filters)
+        return _parse_interfaces(self.do('-A'), filters=filters)
 
     def get_interface(self, ifname):
         output = self.do(ifname)
@@ -125,10 +125,12 @@ def _parse_head(line):
 def _parse_inet(line):
     tokens = line.split()
     if tokens[0] == 'inet6':
+	ip = tokens[1].split('%')[0]
         mask = tokens[3]
     else:
+	ip = tokens[1]
         mask = str(netaddr.IPAddress(int(tokens[3], 16)))
-    return netaddr.IPNetwork('%s/%s' % (tokens[1], mask))
+    return netaddr.IPNetwork('%s/%s' % (ip, mask))
 
 def _parse_other_params(line):
     if line.startswith('options'):
