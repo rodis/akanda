@@ -15,8 +15,7 @@ def configure_management_interface():
 
     for address in primary.addresses:
         if str(address.ip).startswith('fe80'):
-            sys.stdout.write('%s%%%s' % (address.ip, primary.ifname))
-            sys.stdout.flush()
+            sys.stdout.write('%s%%%s\n' % (address.ip, primary.ifname))
             sys.exit()
 
     sys.stderr.write('Unable to bring up first interface (%s)!\n' %
