@@ -2,7 +2,7 @@ import sys
 
 from akanda.drivers import ifconfig
 
-def configure_management_interface():
+def configure_ssh():
     mgr = ifconfig.InterfaceManager()
 
     interfaces = mgr.get_interfaces(['em', 're'])
@@ -15,9 +15,14 @@ def configure_management_interface():
 
     for address in primary.addresses:
         if str(address.ip).startswith('fe80'):
-            sys.stdout.write('%s%%%s' % (address.ip, primary.ifname))
-            sys.stdout.flush()
-            sys.exit()
+            listen_ip = '%s%%%s' % (address.ip, primary.ifname)
+    else:
+        sys.stderr.write('Unable to bring up first interface (%s)!\n' %
+                          primary.ifname)
+        sys.exit(1)
 
-    sys.stderr.write('Unable to bring up first interface (%s)!\n' %
-                     primary.ifname)
+    config = open('/etc/ssh/sshd_config', 'r').read()
+    config = re.sub('(^|\n)(#)?(ListenAddress|AddressFamily) .*', '', config)
+    config += '\n'.join(['ListenAddress %s' % listen_ip, 'AddressFamily inet6']
+    open('/etc/ssh/sshd_config', 'w+').write(config)
+    sys.stderr.write('sshd configured to listen on %s\n' % listen_ip)
