@@ -9,7 +9,8 @@ class Options(usage.Options):
     """
     """
     optParameters = [
-        ["port", "p", "9999", "The port to run the REST service on."]]
+        ["port", "p", "9999", "The port to run the REST service on."],
+        ["interface", "i", None, "The interface to run the REST service on."]]
 
 
 def makeService(options):
