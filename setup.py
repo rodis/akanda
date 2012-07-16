@@ -20,8 +20,8 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'akanda-managment-ip ='
-            'akanda.tools.management:configure_management_interface',
+            'akanda-configure-ssh ='
+            'akanda.tools.management:configure_ssh',
         ]
     },
 )
