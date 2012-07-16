@@ -18,7 +18,12 @@ setup(
         },  
     install_requires=meta.requires,
     zip_safe=False,
-    )
-
+    entry_points={
+        'console_scripts': [
+            'akanda-managment-ip ='
+            'akanda.tools.management:configure_management_interface',
+        ]
+    },
+)
 
 dist.refresh_plugin_cache()

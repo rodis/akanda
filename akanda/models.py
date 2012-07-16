@@ -54,6 +54,10 @@ class Interface(object):
             self.addresses.add(cidr)
             self._primary_v4 = cidr
 
+    @property
+    def is_up(self):
+        return 'UP' in self.flags
+
     @classmethod
     def from_dict(self, d):
         return Interface(**d)
@@ -152,7 +156,7 @@ class Anchor(object):
 
 
 class AddressBookEntry(object):
-    def __init__(self, name='', cidrs=[]):
+    def __init__(self, name, cidrs=[]):
         self.name = name
         self.cidrs = cidrs
 
@@ -163,6 +167,18 @@ class AddressBookEntry(object):
     @cidrs.setter
     def cidrs(self, values):
         self._cidrs = set([netaddr.IPNetwork(a) for a in values])
+
+    @property
+    def pf_rule(self):
+        return 'table <%s> {%s}' % (self.name, ', '.join(map(str, self.cidrs)))
+
+    def external_pf_rule(self, base_dir):
+        path = os.path.abspath(os.path.join(base_dir, self.name))
+        return 'table %s\npersist file "%s"' % (self.name,
+                                                path)
+
+    def external_table_data(self):
+        return '\n'.join(str, self.cidrs)
 
 
 class Allocation(object):

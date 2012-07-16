@@ -20,6 +20,12 @@ class InterfaceManager(base.Manager):
         for i in interfaces:
             self.update_interface(i)
 
+    def up(self, interface):
+        self.sudo(interface.name, 'up')
+
+    def down(self, interface):
+        self.sudo(interface.name, 'down')
+
     def update_interface(self, interface):
         old_interface = self.get_interface(interface.ifname)
 
@@ -31,7 +37,7 @@ class InterfaceManager(base.Manager):
         self._update_interface_addresses(interface, old_interface)
 
     def _update_description(self, interface):
-        self._sudo(interface.name, 'description', interface.description)
+        self.sudo(interface.name, 'description', interface.description)
 
     def _update_groups(self, interface, old_interface):
         add = lambda g: ('group', g)
@@ -52,12 +58,12 @@ class InterfaceManager(base.Manager):
             return
 
         if interface.primary_v4 is None:
-            self._sudo(old_interface.primary_v4.ip,
+            self.sudo(old_interface.primary_v4.ip,
                        'prefixlen',
                        interface.primary_v4.prefixlen,
                        'delete')
         else:
-            self._sudo(interface.primary_v4.ip,
+            self.sudo(interface.primary_v4.ip,
                        'prefixlen',
                        interface.primary_v4.prefixlen)
 
@@ -71,10 +77,10 @@ class InterfaceManager(base.Manager):
             return
 
         for item in (next_set - prev_set):
-            self._sudo(fmt_args_add(item))
+            self.sudo(fmt_args_add(item))
 
         for item in (prev_set - next_set):
-            self._sudo(fmt_args_delete(item))
+            self.sudo(fmt_args_delete(item))
 
 def _parse_interfaces(data, filters=None):
     retval = []
