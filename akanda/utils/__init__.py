@@ -1,7 +1,9 @@
+from json import JSONEncoder
 import os
 import shlex
 import subprocess
 import tempfile
+
 
 def execute(args, root_helper=None):
     if root_helper:
@@ -10,6 +12,7 @@ def execute(args, root_helper=None):
         cmd = args
 
     return subprocess.check_output(map(str, cmd))
+
 
 def replace_file(file_name, data):
     """Replaces the contents of file_name with data in a safe manner.
@@ -27,3 +30,15 @@ def replace_file(file_name, data):
     os.chmod(tmp_file.name, 0644)
     os.rename(tmp_file.name, file_name)
 
+
+class ModelSerializer(JSONEncoder):
+    """
+    """
+    def default(self, obj):
+        if isinstance(obj, set):
+            obj = list(set)
+        known_types = [list, dict, str, unicode, int, float, bool, type(None)]
+        if isinstance(obj, known_types):
+            return JSONEncoder.default(self, obj)
+        raise ValueError("Type %s (%s) not serializable" % (
+            type(obj), str(obj)))
