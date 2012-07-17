@@ -13,7 +13,6 @@ PYTHON = /usr/local/bin/python
 GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
 PF_HOST ?= 10.0.4.186
-PF_HOST_UNAME = $(shell ssh root@$(PF_HOST) "uname")
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -89,6 +88,7 @@ ifeq ($(UNAME), FreeBSD)
 	@echo
 endif
 
+local-dev-deps: $(shell ssh root@$(PF_HOST) "uname")
 local-dev-deps:
 ifeq ($(PF_HOST_UNAME), FreeBSD)
 	ssh root@$(PF_HOST) "cd /usr/ports/net/rsync && make install clean"
