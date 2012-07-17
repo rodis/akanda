@@ -4,7 +4,6 @@ import netaddr
 
 from akanda import models
 from akanda.drivers import base
-from akanda.utils import execute
 
 
 class InterfaceManager(base.Manager):
@@ -16,7 +15,6 @@ class InterfaceManager(base.Manager):
         return _parse_interfaces(self.do('-A'), filters=filters)
 
     def get_interface(self, ifname):
-        output = self.do(ifname)
         return _parse_interfaces(self.do(ifname))[0]
 
     def update_interfaces(self, interfaces):
@@ -73,7 +71,7 @@ class InterfaceManager(base.Manager):
     def _update_set(self, interface, old_interface, attribute,
                     fmt_args_add, fmt_args_delete):
 
-        next_set = set(getattr(interface, attrbute))
+        next_set = set(getattr(interface, attribute))
         prev_set = set(getattr(old_interface, attribute))
 
         if next_set == prev_set:

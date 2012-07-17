@@ -1,11 +1,13 @@
 import logging
 import os
+import re
+from cStringIO import StringIO
 
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
 
-LOG = logging.getLogger(__name__)
 
+LOG = logging.getLogger(__name__)
 RUN_DIR = '/var/run/dhcp'
 PID_FILE = os.path.join(RUN_DIR, 'dnsmasq.pid')
 HOSTS_FILE = os.path.join(RUN_DIR, 'dnsmasq.hosts')
@@ -82,7 +84,7 @@ class DnsManager(base.Manager):
     def _output_hosts_file(self):
         """Writes a dnsmasq compatible hosts file."""
         r = re.compile('[:.]')
-        buf = StringIO.StringIO()
+        buf = StringIO()
 
         for alloc in self.allocations:
             name = '%s.%s' % (r.sub('-', alloc.ip_address),

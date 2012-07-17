@@ -1,6 +1,3 @@
-import re
-
-from akanda import models
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
 

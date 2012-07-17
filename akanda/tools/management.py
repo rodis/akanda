@@ -1,3 +1,4 @@
+import re
 import sys
 
 from akanda.drivers import ifconfig
