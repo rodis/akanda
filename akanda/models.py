@@ -2,6 +2,7 @@ import re
 
 import netaddr
 
+
 class Interface(object):
     def __init__(self, ifname=None, addresses=[], groups=None, flags=None,
                  lladdr=None, mtu=1500, media=None, primary_v4=None,
@@ -59,7 +60,7 @@ class Interface(object):
         return 'UP' in self.flags
 
     @classmethod
-    def from_dict(self, d):
+    def from_dict(cls, d):
         return Interface(**d)
 
 
@@ -134,7 +135,7 @@ class FilterRule(object):
         return  ' '.join(retval)
 
     @classmethod
-    def from_dict(self, d):
+    def from_dict(cls, d):
         return FilterRule(**d)
 
 
