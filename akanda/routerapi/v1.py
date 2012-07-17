@@ -96,43 +96,43 @@ class System(base.RESTAPIBase):
     """
     if_mgr = ifconfig.InterfaceManager()
 
-    def getInterface(self, request, ifname):
+    def get_interface(self, request, ifname):
 
-        def parseIfconfigResult(result):
+        def parse_if_config_result(result):
             log.msg(result)
             request.write(json.dumps({"interface": result.ifname}))
             request.finish()
 
-        def handleError(failure):
+        def handle_error(failure):
             # XXX HTTP status/code
             log.err(failure)
             request.write("Error! See the log for more details.")
             request.finish()
 
         deferred = threads.deferToThread(self.if_mgr.get_interface, ifname)
-        deferred.addErrback(handleError)
-        deferred.addCallback(parseIfconfigResult)
-        deferred.addErrback(handleError)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_if_config_result)
+        deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
 
-    def getInterfaces(self, request):
+    def get_interfaces(self, request):
 
-        def parseIfconfigResults(results):
+        def parse_ifconfig_results(results):
             log.msg(results)
             interfaces = [x.ifname for x in results]
             request.write(json.dumps({"interfaces": interfaces}))
             request.finish()
 
-        def handleError(failure):
+        def handle_error(failure):
             # XXX HTTP status/code
             log.err(failure)
             request.write("Error! See the log for more details.")
             request.finish()
 
         deferred = threads.deferToThread(self.if_mgr.get_interfaces)
-        deferred.addErrback(handleError)
-        deferred.addCallback(parseIfconfigResults)
-        deferred.addErrback(handleError)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_ifconfig_results)
+        deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
 
 
