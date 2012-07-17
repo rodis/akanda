@@ -1,0 +1,6 @@
+Routes==1.13
+Twisted==12.1.0
+repoze.lru==0.5
+txroutes==0.0.3
+wsgiref==0.1.2
+zope.interface==4.0.1
