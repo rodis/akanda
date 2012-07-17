@@ -6,6 +6,8 @@ from akanda.utils import execute, replace_file
 
 
 class PfManager(base.Manager):
+    """
+    """
     EXECUTABLE = '/sbin/pfctl'
 
     def _show(self, flag):
@@ -53,9 +55,13 @@ class PfManager(base.Manager):
 
 
 class TableManager(base.Manager):
+    """
+    """
     EXECUTABLE = '/sbin/pfctl'
+
     def __init__(self, name):
         self.name = name
+
     def add(self, cidr):
         self._sudo('-t', self.name, '-T', 'add', str(cidr))
 
@@ -64,4 +70,3 @@ class TableManager(base.Manager):
 
     def show(self):
         return self._sudo('-t', self.name, '-T', self.name)
-

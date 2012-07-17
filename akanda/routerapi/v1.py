@@ -1,4 +1,5 @@
-import json, os
+import json
+import os
 
 from twisted.internet import utils
 from twisted.python import log
@@ -63,7 +64,7 @@ class Demo(base.RESTAPIBase):
 
         #cmd = "/bin/ls"
         cmd = "/bin/date"
-        args = []#["/Users/oubiwann/*"]
+        args = []  #["/Users/oubiwann/*"]
         deferred = utils.getProcessOutputAndValue(
             cmd, args, env=os.environ)
         deferred.addCallback(yay)

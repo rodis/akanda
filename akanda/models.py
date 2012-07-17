@@ -32,7 +32,7 @@ class Interface(object):
         elif re.match('\w*$', value):
             self._description = value
         else:
-            raise ValueError, 'Description must be chars from [a-zA-Z0-9_]'
+            raise ValueError('Description must be chars from [a-zA-Z0-9_]')
 
     @property
     def addresses(self):
@@ -120,7 +120,9 @@ class FilterRule(object):
                 retval.append(str(self.source))
             if self.source_port:
                 retval.append('port %s' % self.source)
-        if (self.destination_interface or self.destination or self.destinaton_port):
+        if (self.destination_interface
+            or self.destination
+            or self.destinaton_port):
             retval.append('to')
             if self.destination_interface:
                 retval.append(self.destination_interface)

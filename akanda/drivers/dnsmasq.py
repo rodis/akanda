@@ -11,7 +11,10 @@ PID_FILE = os.path.join(RUN_DIR, 'dnsmasq.pid')
 HOSTS_FILE = os.path.join(RUN_DIR, 'dnsmasq.hosts')
 OPTS_FILE = os.path.join(RUN_DIR, 'dnsmasq.opts')
 
+
 class DnsManager(base.Manager):
+    """
+    """
     EXECUTABLE = '/sbin/dnsmasq'
 
     def __init__(self, interfaces, allocations,
@@ -72,9 +75,9 @@ class DnsManager(base.Manager):
         for interface in self.interfaces:
             for address in self.addresses:
                 if address in tags:
-                    raise Exception, 'Duplicate network'
+                    raise ValueError('Duplicate network')
                 self.tags[address] = 'tag%d' % i
-                i+=1
+                i += 1
 
     def _output_hosts_file(self):
         """Writes a dnsmasq compatible hosts file."""
@@ -102,4 +105,3 @@ class DnsManager(base.Manager):
         name = self.get_conf_file_name('opts')
         replace_file(OPTS_FILE,
                      '\n'.join(['tag:%s,%s:%s,%s' % o for o in options]))
-

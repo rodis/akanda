@@ -1,5 +1,6 @@
 from akanda.utils import execute
 
+
 class Manager(object):
     def __init__(self, root_helper='sudo'):
         self.root_helper = root_helper

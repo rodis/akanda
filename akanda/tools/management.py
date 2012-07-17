@@ -2,11 +2,14 @@ import sys
 
 from akanda.drivers import ifconfig
 
+
 def configure_ssh():
+    """
+    """
     mgr = ifconfig.InterfaceManager()
 
     interfaces = mgr.get_interfaces(['em', 're'])
-    interfaces.sort(key=lambda x:x.ifname)
+    interfaces.sort(key=lambda x: x.ifname)
     primary = interfaces[0]
 
     if not primary.is_up:
