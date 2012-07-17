@@ -64,7 +64,7 @@ class Demo(base.RESTAPIBase):
 
         #cmd = "/bin/ls"
         cmd = "/bin/date"
-        args = []  #["/Users/oubiwann/*"]
+        args = []
         deferred = utils.getProcessOutputAndValue(
             cmd, args, env=os.environ)
         deferred.addCallback(yay)

@@ -26,6 +26,7 @@ def configure_ssh():
 
     config = open('/etc/ssh/sshd_config', 'r').read()
     config = re.sub('(^|\n)(#)?(ListenAddress|AddressFamily) .*', '', config)
-    config += '\n'.join(['ListenAddress %s' % listen_ip, 'AddressFamily inet6'])
+    config += '\n'.join(
+        ['ListenAddress %s' % listen_ip, 'AddressFamily inet6'])
     open('/etc/ssh/sshd_config', 'w+').write(config)
     sys.stderr.write('sshd configured to listen on %s\n' % listen_ip)
