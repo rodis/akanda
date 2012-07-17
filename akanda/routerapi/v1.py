@@ -3,11 +3,13 @@ import json, os
 from twisted.internet import utils
 from twisted.python import log
 from twisted.web import resource, server
+from twisted.internet import threads
 
 from txroutes import Dispatcher
 
 from akanda import meta
 from akanda.routerapi import base
+from akanda.drivers import ifconfig
 
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
@@ -89,6 +91,51 @@ class VPN(base.RESTAPIBase):
     """
 
 
+class System(base.RESTAPIBase):
+    """
+    """
+    if_mgr = ifconfig.InterfaceManager()
+
+    def getInterface(self, request, ifname):
+
+        def parseIfconfigResult(result):
+            log.msg(result)
+            request.write(json.dumps({"interface": result.ifname}))
+            request.finish()
+
+        def handleError(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.if_mgr.get_interface, ifname)
+        deferred.addErrback(handleError)
+        deferred.addCallback(parseIfconfigResult)
+        deferred.addErrback(handleError)
+        return server.NOT_DONE_YET
+
+    def getInterfaces(self, request):
+
+        def parseIfconfigResults(results):
+            log.msg(results)
+            interfaces = [x.ifname for x in results]
+            request.write(json.dumps({"interfaces": interfaces}))
+            request.finish()
+
+        def handleError(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.if_mgr.get_interfaces)
+        deferred.addErrback(handleError)
+        deferred.addCallback(parseIfconfigResults)
+        deferred.addErrback(handleError)
+        return server.NOT_DONE_YET
+
+
 class Metadata(base.RESTAPIBase):
     """
     """
@@ -106,6 +153,7 @@ class API(base.RESTAPIBase):
     """
     demo = Demo()
     config = Configuration()
+    system = System()
     firewall = Firewall()
     nat = NAT()
     vpn = VPN()
@@ -124,26 +172,14 @@ class API(base.RESTAPIBase):
             "class data": vars(self),
             })
 
-    def get_interfaces(self, request, filter=""):
-        """
-        Default file will trim commonly unused interfaces.
-
-        HTTP GET
-        """
-
-    def get_interface(self, request, ifname="", mac=""):
-        """
-        HTTP GET
-        """
-
     def set_interfaces(self, list_of_iface_data):
         """
-        HTTP PUT
+        HTTP POST
         """
 
     def set_interface(self, dict_of_iface_data):
         """
-        HTTP PUT
+        HTTP POST
         """
 
     def get_rules(self):
@@ -153,7 +189,7 @@ class API(base.RESTAPIBase):
 
     def set_rules(self, list_of_rules):
         """
-        HTTP PUT
+        HTTP POST
         """
 
     def set_rule(self, rule_data):
@@ -161,10 +197,10 @@ class API(base.RESTAPIBase):
         Append the provided rule data as a new rule at the end of the PF rule
         set table.
 
-        HTTP PUT
+        HTTP POST
         """
 
     def set_table(self, data):
         """
-        HTTP PUT
+        HTTP POST
         """

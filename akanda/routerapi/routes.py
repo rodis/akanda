@@ -46,6 +46,10 @@ rule("demo", "/json/v1/demo", controller=apiv1.demo,
      action="longRunningProcess")
 rule("version", "/json/v1/meta/version", controller=apiv1.meta,
      action="version")
+rule("system", "/json/v1/system", controller=apiv1.system,
+     action="getInterface")
+rule("system", "/json/v1/system", controller=apiv1.system,
+     action="getInterfaces")
 
 
 # Version 2
