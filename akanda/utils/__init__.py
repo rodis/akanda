@@ -36,9 +36,5 @@ class ModelSerializer(JSONEncoder):
     """
     def default(self, obj):
         if isinstance(obj, set):
-            obj = list(set)
-        known_types = [list, dict, str, unicode, int, float, bool, type(None)]
-        if isinstance(obj, known_types):
-            return JSONEncoder.default(self, obj)
-        raise ValueError("Type %s (%s) not serializable" % (
-            type(obj), str(obj)))
+            return list(obj)
+        return super(ModelSerializer, self).default(obj)
