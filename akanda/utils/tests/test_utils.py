@@ -17,7 +17,7 @@ class ModelSerializerTestCase(unittest.TestCase):
             "i": 3.14159,
             "j": False,
             "k": None,
-            "l": (4,5,6),
+            "l": (4, 5, 6),
             "m": 12345671238792347L,
             }
         expected = (
@@ -28,8 +28,7 @@ class ModelSerializerTestCase(unittest.TestCase):
         self.assertEqual(serialized, expected)
 
     def test_default_with_set(self):
-        data = {"a": set([1,2,3])}
+        data = {"a": set([1, 2, 3])}
         expected = '{"a": [1, 2, 3]}'
         serialized = json.dumps(data, cls=utils.ModelSerializer)
         self.assertEqual(serialized, expected)
-        
