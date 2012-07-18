@@ -117,9 +117,10 @@ scp-push-dev:
 	ssh root@$(PF_HOST) \
 	"cd $(AKANDA_DIR) && python setup.py install"
 
-check-dev: check
-	pep8 $(LIB)
-	pyflakes $(LIB)
+check-dev:
+	-make check
+	-pep8 $(LIB)
+	-pyflakes $(LIB)
 
 check:
 	trial $(LIB)
