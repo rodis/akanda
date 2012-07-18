@@ -9,6 +9,7 @@ class ModelsTestCase(unittest.TestCase):
     def test_ifname(self):
         iface = models.Interface(ifname="em0")
         self.assertEquals(iface.ifname, "em0")
+
         
     def test_to_dict(self):
         iface = models.Interface()
@@ -18,3 +19,4 @@ class ModelsTestCase(unittest.TestCase):
             'flags', 'groups', 'ifname', 'media', 'mtu']
         self.assertTrue(isinstance(result, dict))
         self.assertEquals(sorted(result.keys()), expected)
+

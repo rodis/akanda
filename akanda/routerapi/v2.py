@@ -47,7 +47,7 @@ class API(base.RESTAPIBase):
         the REST service.
         """
         return json.dumps({
-            "class name": self.__class__.__name__, 
-            "class methods": dir(self), 
+            "class name": self.__class__.__name__,
+            "class methods": dir(self),
             "class data": vars(self),
             })

@@ -1,17 +1,22 @@
 import logging
 import os
+import re
+from cStringIO import StringIO
 
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
 
-LOG = logging.getLogger(__name__)
 
+LOG = logging.getLogger(__name__)
 RUN_DIR = '/var/run/dhcp'
 PID_FILE = os.path.join(RUN_DIR, 'dnsmasq.pid')
 HOSTS_FILE = os.path.join(RUN_DIR, 'dnsmasq.hosts')
 OPTS_FILE = os.path.join(RUN_DIR, 'dnsmasq.opts')
 
+
 class DnsManager(base.Manager):
+    """
+    """
     EXECUTABLE = '/sbin/dnsmasq'
 
     def __init__(self, interfaces, allocations,
@@ -72,14 +77,14 @@ class DnsManager(base.Manager):
         for interface in self.interfaces:
             for address in self.addresses:
                 if address in tags:
-                    raise Exception, 'Duplicate network'
+                    raise ValueError('Duplicate network')
                 self.tags[address] = 'tag%d' % i
-                i+=1
+                i += 1
 
     def _output_hosts_file(self):
         """Writes a dnsmasq compatible hosts file."""
         r = re.compile('[:.]')
-        buf = StringIO.StringIO()
+        buf = StringIO()
 
         for alloc in self.allocations:
             name = '%s.%s' % (r.sub('-', alloc.ip_address),
@@ -102,4 +107,3 @@ class DnsManager(base.Manager):
         name = self.get_conf_file_name('opts')
         replace_file(OPTS_FILE,
                      '\n'.join(['tag:%s,%s:%s,%s' % o for o in options]))
-

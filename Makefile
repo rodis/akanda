@@ -10,9 +10,11 @@ TXROUTES_URL = git@github.com:dreamhost/txroutes.git
 AKANDA_URL = git@github.com:dreamhost/akanda.git
 USER = oubiwann
 PYTHON = /usr/local/bin/python
+PIP = /usr/local/bin/pip-2.7
 GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
 PF_HOST ?= 10.0.4.186
+PF_HOST_UNAME ?= OpenBSD
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -73,6 +75,7 @@ $(TXROUTES_INSTALL): $(DEV_DIR) $(TXROUTES_DIR)
 	cd $(TXROUTES_DIR) && python setup.py install
 
 python-deps: $(TWISTD) $(PYPF_INSTALL) $(TXROUTES_INSTALL)
+	sudo $(PIP) install netaddr
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
@@ -88,7 +91,6 @@ ifeq ($(UNAME), FreeBSD)
 	@echo
 endif
 
-local-dev-deps: $(shell ssh root@$(PF_HOST) "uname")
 local-dev-deps:
 ifeq ($(PF_HOST_UNAME), FreeBSD)
 	ssh root@$(PF_HOST) "cd /usr/ports/net/rsync && make install clean"
@@ -116,8 +118,9 @@ scp-push-dev:
 	"cd $(AKANDA_DIR) && python setup.py install"
 
 check-dev:
-	ssh root@$(PF_HOST) "cd $(AKANDA_DIR) && python -c \
-	'from akanda import scripts;scripts.run_all()'"
+	-make check
+	-pep8 $(LIB)
+	-pyflakes $(LIB)
 
 check:
 	trial $(LIB)

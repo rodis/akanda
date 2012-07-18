@@ -1,12 +1,16 @@
+import re
 import sys
 
 from akanda.drivers import ifconfig
 
+
 def configure_ssh():
+    """
+    """
     mgr = ifconfig.InterfaceManager()
 
     interfaces = mgr.get_interfaces(['em', 're'])
-    interfaces.sort(key=lambda x:x.ifname)
+    interfaces.sort(key=lambda x: x.ifname)
     primary = interfaces[0]
 
     if not primary.is_up:
@@ -23,6 +27,7 @@ def configure_ssh():
 
     config = open('/etc/ssh/sshd_config', 'r').read()
     config = re.sub('(^|\n)(#)?(ListenAddress|AddressFamily) .*', '', config)
-    config += '\n'.join(['ListenAddress %s' % listen_ip, 'AddressFamily inet6']
+    config += '\n'.join(
+        ['ListenAddress %s' % listen_ip, 'AddressFamily inet6'])
     open('/etc/ssh/sshd_config', 'w+').write(config)
     sys.stderr.write('sshd configured to listen on %s\n' % listen_ip)
