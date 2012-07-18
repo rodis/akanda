@@ -10,7 +10,6 @@ def execute(args, root_helper=None):
         cmd = shlex.split(root_helper) + args
     else:
         cmd = args
-
     return subprocess.check_output(map(str, cmd))
 
 
@@ -22,7 +21,6 @@ def replace_file(file_name, data):
 
     We create the tempfile on the same device to ensure that it can be renamed.
     """
-
     base_dir = os.path.dirname(os.path.abspath(file_name))
     tmp_file = tempfile.NamedTemporaryFile('w+', dir=base_dir, delete=False)
     tmp_file.write(data)

@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
-from akanda.horizon.demopanel.views import IndexView, CreateView
+from akanda.horizon.demopanel.views import (
+    IndexView, CreateView, UpdateView, DetailView)
 
 
 urlpatterns = patterns('akanda.horizon.demopanel.views',
