@@ -4,6 +4,14 @@ import re
 import netaddr
 
 
+class Network(netaddr.IPNetwork):
+    """
+    """
+    def to_dict(self):
+        # XXX do something stupid and simple for now;
+        return {"network": self.info}
+
+
 class Interface(object):
     def __init__(self, ifname=None, addresses=[], groups=None, flags=None,
                  lladdr=None, mtu=1500, media=None, primary_v4=None,
@@ -41,7 +49,7 @@ class Interface(object):
 
     @addresses.setter
     def addresses(self, value):
-        self._addresses = set([netaddr.IPNetwork(a) for a in value])
+        self._addresses = set([Network(a) for a in value])
 
     @property
     def primary_v4(self):
@@ -52,7 +60,7 @@ class Interface(object):
         if cidr is None:
             self._primary_v4 = None
         else:
-            cidr = netaddr.IPNetwork(cidr)
+            cidr = Network(cidr)
             self.addresses.add(cidr)
             self._primary_v4 = cidr
 
@@ -95,9 +103,9 @@ class FilterRule(object):
             assert value in ('pass', 'block')
         elif name in ('source', 'desination'):
             if '/' in value:
-                value = netaddr.IPNetwork(value)
+                value = Network(value)
         elif name == 'redirect':
-            value = netaddr.IPNetwork(value)
+            value = Network(value)
         elif name.endswith('_port'):
             value = int(value)
         elif name == 'family':
@@ -173,7 +181,7 @@ class AddressBookEntry(object):
 
     @cidrs.setter
     def cidrs(self, values):
-        self._cidrs = set([netaddr.IPNetwork(a) for a in values])
+        self._cidrs = set([Network(a) for a in values])
 
     @property
     def pf_rule(self):
@@ -206,7 +214,7 @@ class StaticRoute(object):
 
     @dest_cidr.setter
     def dest_cidr(self, value):
-        self._dest_cidr = netaddr.IPNetwork(value)
+        self._dest_cidr = Network(value)
 
     @property
     def next_hop(self):
