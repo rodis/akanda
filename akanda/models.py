@@ -9,14 +9,20 @@ class Network(netaddr.IPNetwork):
     """
     def to_dict(self):
         # XXX do something stupid and simple for now
-        return {"network": {
+        data = {"network": {
             "cidr": str(self.network),
             "broadcast": str(self.broadcast),
             "netmask": str(self.netmask),
             "hostmask": str(self.hostmask),
-            "ipv4": str(self.ipv4()),
-            "ipv6": str(self.ipv6()),
             }}
+        try:
+            data["ipv4"] = str(self.ipv4())
+        except Exception:
+            pass
+        try:
+            data["ipv6"] = str(self.ipv6())
+        except Exception:
+            pass
 
 
 class Interface(object):
