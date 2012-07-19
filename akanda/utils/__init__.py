@@ -33,6 +33,11 @@ class ModelSerializer(JSONEncoder):
     """
     """
     def default(self, obj):
+        # import here to avoid circual imports... ugh; we may need to move this
+        # serialized now...
+        from akanda import models
         if isinstance(obj, set):
             return list(obj)
+        if isinstance(obj, models.Network):
+            return obj.to_dict()
         return super(ModelSerializer, self).default(obj)
