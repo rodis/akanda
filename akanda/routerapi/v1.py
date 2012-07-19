@@ -11,6 +11,7 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
+from akanda.utils import ModelSerializer
 
 
 
@@ -102,7 +103,7 @@ class System(base.RESTAPIBase):
 
         def parse_if_config_result(result):
             log.msg(result)
-            request.write(json.dumps({"interface": result.ifname}))
+            request.write(json.dumps({"interface": result.to_dict()}, cls=ModelSerializer))
             request.finish()
 
         def handle_error(failure):
@@ -122,7 +123,7 @@ class System(base.RESTAPIBase):
         def parse_ifconfig_results(results):
             log.msg(results)
             interfaces = [x.ifname for x in results]
-            request.write(json.dumps({"interfaces": interfaces}))
+            request.write(json.dumps({"interfaces": interfaces} ))
             request.finish()
 
         def handle_error(failure):
