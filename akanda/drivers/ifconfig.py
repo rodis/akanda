@@ -12,7 +12,7 @@ class InterfaceManager(base.Manager):
     EXECUTABLE = '/sbin/ifconfig'
 
     def get_interfaces(self, filters=None):
-        return _parse_interfaces(self.do('-A'), filters=filters)
+        return _parse_interfaces(self.do('-a'), filters=filters)
 
     def get_interface(self, ifname):
         return _parse_interfaces(self.do(ifname))[0]
