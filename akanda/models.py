@@ -64,6 +64,9 @@ class Interface(object):
     def from_dict(cls, d):
         return Interface(**d)
 
+    def to_dict(self):
+        return vars(self)
+
 
 class FilterRule(object):
     def __init__(self, action=None, interface=None, family=None,
