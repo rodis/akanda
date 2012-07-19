@@ -8,9 +8,9 @@ class Network(netaddr.IPNetwork):
     """
     """
     def to_dict(self):
-        # XXX do something stupid and simple for now;
+        # XXX do something stupid and simple for now
         return {"network": {
-            "cidr": str(self.net),
+            "cidr": str(self.network),
             "broadcast": str(self.broadcast),
             "netmask": str(self.netmask),
             "hostmask": str(self.hostmask),
