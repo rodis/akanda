@@ -11,7 +11,7 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
-
+from akanda import utils
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
 # examples here:
@@ -36,7 +36,6 @@ from akanda.drivers import ifconfig
 #
 # Also, be sure to look at akanda.api.routes (both code and comments), as
 # this provides useful information on how the API methods below will be used.
-
 
 class Demo(base.RESTAPIBase):
     """
@@ -101,7 +100,7 @@ class System(base.RESTAPIBase):
 
         def parse_if_config_result(result):
             log.msg(result)
-            request.write(json.dumps({"interface": result.ifname}))
+            request.write(json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer))
             request.finish()
 
         def handle_error(failure):
@@ -120,8 +119,8 @@ class System(base.RESTAPIBase):
 
         def parse_ifconfig_results(results):
             log.msg(results)
-            interfaces = [x.ifname for x in results]
-            request.write(json.dumps({"interfaces": interfaces}))
+            interfaces = [x.to_dict() for x in results]
+            request.write(json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer))
             request.finish()
 
         def handle_error(failure):
