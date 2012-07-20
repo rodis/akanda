@@ -11,8 +11,7 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
-from akanda.utils import ModelSerializer
-
+from akanda import utils
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
 # examples here:
@@ -101,7 +100,7 @@ class System(base.RESTAPIBase):
 
         def parse_if_config_result(result):
             log.msg(result)
-            request.write(json.dumps({"interface": result.to_dict()}, cls=ModelSerializer))
+            request.write(json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer))
             request.finish()
 
         def handle_error(failure):
@@ -121,7 +120,7 @@ class System(base.RESTAPIBase):
         def parse_ifconfig_results(results):
             log.msg(results)
             interfaces = [x.to_dict() for x in results]
-            request.write(json.dumps({"interfaces": interfaces}, cls=ModelSerializer))
+            request.write(json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer))
             request.finish()
 
         def handle_error(failure):
