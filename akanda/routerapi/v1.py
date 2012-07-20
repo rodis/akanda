@@ -12,6 +12,10 @@ from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
 from akanda.utils import ModelSerializer
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0fbbe34... Added to to_dict to get_interface and passing serializer class ModelSerialier
 
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
@@ -120,8 +124,13 @@ class System(base.RESTAPIBase):
 
         def parse_ifconfig_results(results):
             log.msg(results)
+<<<<<<< HEAD
             interfaces = [x.to_dict() for x in results]
             request.write(json.dumps({"interfaces": interfaces}, cls=ModelSerializer))
+=======
+            interfaces = [x.ifname for x in results]
+            request.write(json.dumps({"interfaces": interfaces} ))
+>>>>>>> 0fbbe34... Added to to_dict to get_interface and passing serializer class ModelSerialier
             request.finish()
 
         def handle_error(failure):
