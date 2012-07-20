@@ -122,8 +122,8 @@ class System(base.RESTAPIBase):
 
         def parse_ifconfig_results(results):
             log.msg(results)
-            interfaces = [x.ifname for x in results]
-            request.write(json.dumps({"interfaces": interfaces} ))
+            interfaces = [x.to_dict() for x in results]
+            request.write(json.dumps({"interfaces": interfaces}, cls=ModelSerializer))
             request.finish()
 
         def handle_error(failure):
