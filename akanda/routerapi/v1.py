@@ -13,8 +13,6 @@ from akanda.routerapi import base
 from akanda.drivers import ifconfig
 from akanda.utils import ModelSerializer
 
-
-
 # For info on how to run long-running processes (e.g., use deferreds) see the
 # examples here:
 #   https://github.com/dreamhost/txroutes
@@ -38,7 +36,6 @@ from akanda.utils import ModelSerializer
 #
 # Also, be sure to look at akanda.api.routes (both code and comments), as
 # this provides useful information on how the API methods below will be used.
-
 
 class Demo(base.RESTAPIBase):
     """
