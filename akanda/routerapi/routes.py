@@ -46,10 +46,16 @@ rule("demo", "/json/v1/demo", controller=apiv1.demo,
      action="longRunningProcess")
 rule("version", "/json/v1/meta/version", controller=apiv1.meta,
      action="version")
+
+#System Routes
 rule("system", "/json/v1/system/get_interface/{ifname}", controller=apiv1.system,
      action="get_interface")
 rule("system", "/json/v1/system/get_interfaces", controller=apiv1.system,
      action="get_interfaces")
+
+#Firewall Routes
+rule("firewall", "/json/v1/firewall/get_rules", controller=apiv1.firewall,
+    action="get_rules")
 
 
 # Version 2
