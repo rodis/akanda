@@ -11,6 +11,7 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
+from akanda.drivers import pf
 from akanda import utils
 
 
@@ -94,7 +95,26 @@ class AliasManagement(base.RESTAPIBase):
 class NetPortManagement(base.RESTAPIBase):
     """
     """
+    pf_mgr = pf.PfManager()
 
+    def get_rules(self, request):
+
+        def parse_pf_rules_results(results):
+            log.msg(results)
+            rules = [x.to_dict() for x in results]
+            request.write(json.dumps({"rules": rules}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_rules)
+        deferred.addCallback(parse_pf_rules_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
 
 class NAT(base.RESTAPIBase):
     """
