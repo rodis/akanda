@@ -1,7 +1,10 @@
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
 from akanda import models
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa38f9de5f907ff946aa8000d194766c96804820
 
 class PfManager(base.Manager):
     """
@@ -9,7 +12,7 @@ class PfManager(base.Manager):
     EXECUTABLE = '/sbin/pfctl'
 
     def _show(self, flag):
-        return self._sudo('-s' + flag)
+        return self.sudo('-s' + flag)
 
     def get_rules(self):
         # -sr
