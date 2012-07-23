@@ -124,3 +124,7 @@ check-dev:
 
 check:
 	trial $(LIB)
+
+check-cover:
+	coverage run `which trial` $(LIB)
+	coverage report -m
