@@ -4,7 +4,7 @@ from twisted.web import resource
 
 from txroutes import Dispatcher
 
-from akanda.api import base
+from akanda.routerapi import base
 
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
@@ -47,7 +47,7 @@ class API(base.RESTAPIBase):
         the REST service.
         """
         return json.dumps({
-            "class name": self.__class__.__name__, 
-            "class methods": dir(self), 
+            "class name": self.__class__.__name__,
+            "class methods": dir(self),
             "class data": vars(self),
             })

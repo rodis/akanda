@@ -1,8 +1,8 @@
 import logging
 
-from django.utils.translation import ugettext_lazy as _
+# from django.utils.translation import ugettext_lazy as _
 
-from horizon import api, exceptions, forms, tables
+#from horizon import api, exceptions, forms, tables
 
 from akanda.horizon.demopanel.aliases import forms, tables
 
@@ -20,6 +20,6 @@ class UpdateView(forms.XXX):
     form_class = forms.UpdateForm
 
 
-class DetailView(xxx.XXX):
-    """ Admin placeholder for image detail view. """
-    pass
+#class DetailView(xxx.XXX):
+#    """ Admin placeholder for image detail view. """
+#    pass

@@ -1,7 +1,4 @@
 import os
-import re
-
-from akanda import meta
 
 
 CHEAT_URL = "http://docutils.sourceforge.net/docs/user/rst/cheatsheet.txt"
@@ -21,7 +18,7 @@ def has_docutils():
     """
     try:
         import docutils
-        return True
+        return docutils
     except ImportError:
         return False
 

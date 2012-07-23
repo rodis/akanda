@@ -1,14 +1,17 @@
-import json, os
+import json
+import os
 
 from twisted.internet import utils
 from twisted.python import log
 from twisted.web import resource, server
+from twisted.internet import threads
 
 from txroutes import Dispatcher
 
 from akanda import meta
-from akanda.api import base
-
+from akanda.routerapi import base
+from akanda.drivers import ifconfig
+from akanda import utils
 
 # For info on how to run long-running processes (e.g., use deferreds) see the
 # examples here:
@@ -33,7 +36,6 @@ from akanda.api import base
 #
 # Also, be sure to look at akanda.api.routes (both code and comments), as
 # this provides useful information on how the API methods below will be used.
-
 
 class Demo(base.RESTAPIBase):
     """
@@ -61,7 +63,7 @@ class Demo(base.RESTAPIBase):
 
         #cmd = "/bin/ls"
         cmd = "/bin/date"
-        args = []#["/Users/oubiwann/*"]
+        args = []
         deferred = utils.getProcessOutputAndValue(
             cmd, args, env=os.environ)
         deferred.addCallback(yay)
@@ -104,6 +106,51 @@ class VPN(base.RESTAPIBase):
     """
 
 
+class System(base.RESTAPIBase):
+    """
+    """
+    if_mgr = ifconfig.InterfaceManager()
+
+    def get_interface(self, request, ifname):
+
+        def parse_if_config_result(result):
+            log.msg(result)
+            request.write(json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.if_mgr.get_interface, ifname)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_if_config_result)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_interfaces(self, request):
+
+        def parse_ifconfig_results(results):
+            log.msg(results)
+            interfaces = [x.to_dict() for x in results]
+            request.write(json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.if_mgr.get_interfaces)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_ifconfig_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+
 class Metadata(base.RESTAPIBase):
     """
     """
@@ -120,6 +167,8 @@ class API(base.RESTAPIBase):
     """
     """
     demo = Demo()
+    system = System()
+    meta = Metadata()
     config = Configuration()
     firewall = FirewallRules()
     portForward = PortForward()
@@ -127,7 +176,6 @@ class API(base.RESTAPIBase):
     netPortManagement = NetPortManagement()
     nat = NAT()
     vpn = VPN()
-    meta = Metadata()
 
     # XXX create a json.dumps decorator for json-returning methods
     def index(self, request):
@@ -141,3 +189,36 @@ class API(base.RESTAPIBase):
             "class methods": dir(self),
             "class data": vars(self),
             })
+
+    def set_interfaces(self, list_of_iface_data):
+        """
+        HTTP POST
+        """
+
+    def set_interface(self, dict_of_iface_data):
+        """
+        HTTP POST
+        """
+
+    def get_rules(self):
+        """
+        HTTP GET
+        """
+
+    def set_rules(self, list_of_rules):
+        """
+        HTTP POST
+        """
+
+    def set_rule(self, rule_data):
+        """
+        Append the provided rule data as a new rule at the end of the PF rule
+        set table.
+
+        HTTP POST
+        """
+
+    def set_table(self, data):
+        """
+        HTTP POST
+        """

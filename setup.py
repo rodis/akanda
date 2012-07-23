@@ -18,7 +18,12 @@ setup(
         },  
     install_requires=meta.requires,
     zip_safe=False,
-    )
-
+    entry_points={
+        'console_scripts': [
+            'akanda-configure-ssh ='
+            'akanda.tools.management:configure_ssh',
+        ]
+    },
+)
 
 dist.refresh_plugin_cache()

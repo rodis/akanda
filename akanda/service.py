@@ -2,14 +2,15 @@ from twisted.application import internet
 from twisted.python import usage
 from twisted.web import server
 
-from akanda.api import api
+from akanda.routerapi import api
 
 
 class Options(usage.Options):
     """
     """
     optParameters = [
-        ["port", "p", "9999", "The port to run the REST service on."]]
+        ["port", "p", "9999", "The port to run the REST service on."],
+        ["interface", "i", None, "The interface to run the REST service on."]]
 
 
 def makeService(options):
