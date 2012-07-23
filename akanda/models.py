@@ -164,7 +164,9 @@ class FilterRule(object):
     @classmethod
     def from_dict(cls, d):
         return FilterRule(**d)
-
+    
+    def to_dict(self):
+        return vars(self)
 
 class Anchor(object):
     def __init__(self, name, rules=[]):

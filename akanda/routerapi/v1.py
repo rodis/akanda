@@ -79,15 +79,15 @@ class Configuration(base.RESTAPIBase):
 
 class Firewall(base.RESTAPIBase):
     """
+    Version 1.0 will be just a plain text dump. Implement parsers under pf.py 1.1.
     """
     pf_mgr = pf.PfManager()
 
     def get_rules(self, request):
-
+    
         def parse_pf_rules_results(results):
             log.msg(results)
-            rules = [x.to_dict() for x in results]
-            request.write(json.dumps({"rules": rules}, cls=utils.ModelSerializer))
+            request.write(json.dumps({"rules": results.split('\n')}, cls=utils.ModelSerializer))
             request.finish()
 
         def handle_error(failure):
@@ -97,6 +97,7 @@ class Firewall(base.RESTAPIBase):
             request.finish()
 
         deferred = threads.deferToThread(self.pf_mgr.get_rules)
+        deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_rules_results)
         deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
