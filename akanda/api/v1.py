@@ -74,7 +74,22 @@ class Configuration(base.RESTAPIBase):
     """
 
 
-class Firewall(base.RESTAPIBase):
+class FirewallRules(base.RESTAPIBase):
+    """
+    """
+
+
+class PortForward(base.RESTAPIBase):
+    """
+    """
+
+
+class AliasManagement(base.RESTAPIBase):
+    """
+    """
+
+
+class NetPortManagement(base.RESTAPIBase):
     """
     """
 
@@ -106,7 +121,10 @@ class API(base.RESTAPIBase):
     """
     demo = Demo()
     config = Configuration()
-    firewall = Firewall()
+    firewall = FirewallRules()
+    portForward = PortForward()
+    aliasManagement = AliasManagement()
+    netPortManagement = NetPortManagement()
     nat = NAT()
     vpn = VPN()
     meta = Metadata()
