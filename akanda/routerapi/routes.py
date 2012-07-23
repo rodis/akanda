@@ -56,7 +56,8 @@ rule("system", "/json/v1/system/get_interfaces", controller=apiv1.system,
 #Firewall Routes
 rule("firewall", "/json/v1/firewall/get_rules", controller=apiv1.firewall,
     action="get_rules")
-
+rule("firewall", "/json/v1/firewall/get_states", controller=apiv1.firewall,
+    action="get_states")
 
 # Version 2
 rule("index", "/json/v2", controller=apiv2, action="index")

@@ -12,8 +12,7 @@ class PfManager(base.Manager):
 
     def get_rules(self):
         # -sr
-        return self._show('r')
-        #return _parse_pf_rules(self._show('r'))        
+        return self._show('r')       
 
     def get_states(self):
         # -ss
