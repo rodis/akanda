@@ -14,11 +14,10 @@ from akanda.drivers import ifconfig
 from akanda.drivers import pf
 from akanda import utils
 
-# For info on how to run long-running processes (e.g., use deferreds) see the
-# examples here:
+
+# For info on how to use deferreds with routes, see examples here:
 #   https://github.com/dreamhost/txroutes
-
-
+#
 # Thoughts that should guide REST implementations:
 #
 #   For collections (e.g., /json/v1/firewall/groups):
@@ -37,6 +36,7 @@ from akanda import utils
 #
 # Also, be sure to look at akanda.api.routes (both code and comments), as
 # this provides useful information on how the API methods below will be used.
+
 
 class Demo(base.RESTAPIBase):
     """
@@ -77,7 +77,22 @@ class Configuration(base.RESTAPIBase):
     """
 
 
-class Firewall(base.RESTAPIBase):
+class FirewallRules(base.RESTAPIBase):
+    """
+    """
+
+
+class PortForward(base.RESTAPIBase):
+    """
+    """
+
+
+class AliasManagement(base.RESTAPIBase):
+    """
+    """
+
+
+class NetPortManagement(base.RESTAPIBase):
     """
     Version 1.0 will be just a plain text dump (ugly and repeating code). Implement parsers for each get_xyz under pf.py for 1.1. 
     """
@@ -325,12 +340,15 @@ class API(base.RESTAPIBase):
     """
     """
     demo = Demo()
-    config = Configuration()
     system = System()
-    firewall = Firewall()
+    meta = Metadata()
+    config = Configuration()
+    firewall = FirewallRules()
+    portForward = PortForward()
+    aliasManagement = AliasManagement()
+    netPortManagement = NetPortManagement()
     nat = NAT()
     vpn = VPN()
-    meta = Metadata()
 
     # XXX create a json.dumps decorator for json-returning methods
     def index(self, request):
