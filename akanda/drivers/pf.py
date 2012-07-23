@@ -1,10 +1,7 @@
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
 from akanda import models
-<<<<<<< HEAD
 
-=======
->>>>>>> fa38f9de5f907ff946aa8000d194766c96804820
 
 class PfManager(base.Manager):
     """
