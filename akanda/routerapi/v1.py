@@ -102,6 +102,25 @@ class Firewall(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
 
+    def get_states(self, request):
+    
+        def parse_pf_states_results(results):
+            log.msg(results)
+            request.write(json.dumps({"state table": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_states)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_states_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET    
+
 class NAT(base.RESTAPIBase):
     """
     """
