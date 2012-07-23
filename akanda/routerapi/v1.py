@@ -13,11 +13,9 @@ from akanda.routerapi import base
 from akanda.drivers import ifconfig
 from akanda import utils
 
-# For info on how to run long-running processes (e.g., use deferreds) see the
-# examples here:
+# For info on how to use deferreds with routes, see examples here:
 #   https://github.com/dreamhost/txroutes
-
-
+#
 # Thoughts that should guide REST implementations:
 #
 #   For collections (e.g., /json/v1/firewall/groups):
