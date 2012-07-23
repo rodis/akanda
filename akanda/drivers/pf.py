@@ -9,7 +9,7 @@ class PfManager(base.Manager):
     EXECUTABLE = '/sbin/pfctl'
 
     def _show(self, flag):
-        return self.sudo('-s' + flag)
+        return self._sudo('-s' + flag)
 
     def get_rules(self):
         # -sr

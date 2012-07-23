@@ -100,7 +100,7 @@ class FirewallRules(base.RESTAPIBase):
     pf_mgr = pf.PfManager()
 
     def get_rules(self, request):
-        
+
         def parse_pf_rules_results(results):
             log.msg(results)
             request.write(json.dumps({"rules": results.split('\n')}, cls=utils.ModelSerializer))
