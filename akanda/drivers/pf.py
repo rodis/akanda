@@ -2,13 +2,14 @@ from akanda.drivers import base
 from akanda.utils import execute, replace_file
 from akanda import models
 
+
 class PfManager(base.Manager):
     """
     """
     EXECUTABLE = '/sbin/pfctl'
 
     def _show(self, flag):
-        return self.sudo('-s' + flag)
+        return self._sudo('-s' + flag)
 
     def get_rules(self):
         # -sr

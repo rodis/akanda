@@ -77,7 +77,7 @@ class Configuration(base.RESTAPIBase):
     """
 
 
-class FirewallRules(base.RESTAPIBase):
+class NetPortManagement(base.RESTAPIBase):
     """
     """
 
@@ -92,9 +92,10 @@ class AliasManagement(base.RESTAPIBase):
     """
 
 
-class NetPortManagement(base.RESTAPIBase):
+class FirewallRules(base.RESTAPIBase):
     """
-    Version 1.0 will be just a plain text dump (ugly and repeating code). Implement parsers for each get_xyz under pf.py for 1.1. 
+    Version 1.0 will be just a plain text dump (ugly and repeating code). 
+    Implement parsers for each get_xyz under pf.py for 1.1. 
     """
     pf_mgr = pf.PfManager()
 
@@ -268,6 +269,7 @@ class NetPortManagement(base.RESTAPIBase):
         deferred.addCallback(parse_pf_memory_results)
         deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
+
 
 class NAT(base.RESTAPIBase):
     """
