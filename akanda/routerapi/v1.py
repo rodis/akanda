@@ -120,7 +120,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET
 
     def get_states(self, request):
-    
+
         def parse_pf_states_results(results):
             log.msg(results)
             request.write(json.dumps({"state table": results.split('\n')}, cls=utils.ModelSerializer))
@@ -139,7 +139,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET    
 
     def get_anchors(self, request):
-    
+
         def parse_pf_anchors_results(results):
             log.msg(results)
             request.write(json.dumps({"anchors": results.split('\n')}, cls=utils.ModelSerializer))
@@ -158,7 +158,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET    
 
     def get_sources(self, request):
-    
+
         def parse_pf_sources_results(results):
             log.msg(results)
             request.write(json.dumps({"sources": results.split('\n')}, cls=utils.ModelSerializer))
@@ -177,7 +177,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET 
 
     def get_info(self, request):
-    
+
         def parse_pf_info_results(results):
             log.msg(results)
             request.write(json.dumps({"info": results.split('\n')}, cls=utils.ModelSerializer))
@@ -196,7 +196,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET 
 
     def get_tables(self, request):
-    
+
         def parse_pf_tables_results(results):
             log.msg(results)
             request.write(json.dumps({"tables": results.split('\n')}, cls=utils.ModelSerializer))
@@ -215,7 +215,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET 
 
     def get_labels(self, request):
-    
+
         def parse_pf_labels_results(results):
             log.msg(results)
             request.write(json.dumps({"labels": results.split('\n')}, cls=utils.ModelSerializer))
@@ -233,8 +233,8 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
 
-    def get_timeouts(self, request):
-    
+    def get_timeouts(self, request):       
+
         def parse_pf_timeouts_results(results):
             log.msg(results)
             request.write(json.dumps({"timeouts": results.split('\n')}, cls=utils.ModelSerializer))
@@ -253,7 +253,7 @@ class FirewallRules(base.RESTAPIBase):
         return server.NOT_DONE_YET
 
     def get_memory(self, request):
-    
+
         def parse_pf_memory_results(results):
             log.msg(results)
             request.write(json.dumps({"memory": results.split('\n')}, cls=utils.ModelSerializer))
