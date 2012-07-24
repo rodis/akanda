@@ -11,6 +11,7 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
+
 from akanda.drivers import pf
 from akanda import utils
 
@@ -95,7 +96,7 @@ class AliasManagement(base.RESTAPIBase):
 class FirewallRules(base.RESTAPIBase):
     """
     Version 1.0 will be just a plain text dump (ugly and repeating code).
-    Implement parsers for each get_xyz under pf.py for 1.1.
+    Implement parsers for each get_xyz under pf.py for version 1.1.
     """
     pf_mgr = pf.PfManager()
 
