@@ -136,7 +136,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_states_results)
         deferred.addErrback(handle_error)
-        return server.NOT_DONE_YET    
+        return server.NOT_DONE_YET
 
     def get_anchors(self, request):
 
@@ -155,7 +155,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_anchors_results)
         deferred.addErrback(handle_error)
-        return server.NOT_DONE_YET    
+        return server.NOT_DONE_YET
 
     def get_sources(self, request):
 
@@ -174,7 +174,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_sources_results)
         deferred.addErrback(handle_error)
-        return server.NOT_DONE_YET 
+        return server.NOT_DONE_YET
 
     def get_info(self, request):
 
@@ -193,7 +193,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_info_results)
         deferred.addErrback(handle_error)
-        return server.NOT_DONE_YET 
+        return server.NOT_DONE_YET
 
     def get_tables(self, request):
 
@@ -212,7 +212,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         deferred.addCallback(parse_pf_tables_results)
         deferred.addErrback(handle_error)
-        return server.NOT_DONE_YET 
+        return server.NOT_DONE_YET
 
     def get_labels(self, request):
 
@@ -233,7 +233,7 @@ class FirewallRules(base.RESTAPIBase):
         deferred.addErrback(handle_error)
         return server.NOT_DONE_YET
 
-    def get_timeouts(self, request):       
+    def get_timeouts(self, request):
 
         def parse_pf_timeouts_results(results):
             log.msg(results)
