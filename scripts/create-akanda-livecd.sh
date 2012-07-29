@@ -26,7 +26,7 @@ TZ=US/Eastern			# Time zones are in /usr/share/zoneinfo
 SETS="base etc man"
 # Additional packages that should be installed on the akanda live cd
 PACKAGES="python-2.7.1p12 rsync-3.0.9 git py-pip gmake curl wget"
-#PACKAGES="vim"
+
 
 WDIR=/tmp/akanda-livecdx			# Working directory
 CDBOOTDIR=$WDIR/$MAJ.$MIN/$ARCH		# CD Boot directory
@@ -36,7 +36,7 @@ CDBOOTDIR=$WDIR/$MAJ.$MIN/$ARCH		# CD Boot directory
 BASEURL=http://openbsd.mirrors.pair.com
 MIRROR=$BASEURL/$MAJ.$MIN/$ARCH
 PKG_PATH=$BASEURL/$MAJ.$MIN/packages/$ARCH
-DNS=208.67.220.220			# Open DNS Server to use in live cd (change accordingly)
+DNS=8.8.8.8			# Google DNS Server to use in live cd (change accordingly)
 
 
 CLEANUP=no					# Clean up downloaded files and workdir (disabled by default)
@@ -204,6 +204,16 @@ EOF
 	host-name;
 EOF
 
+	echo "[*] Setting name..."
+	cat > $WDIR/etc/myname <<EOF
+	akanda
+EOF
+
+	echo "[*] Setting hostname.em0 to dhcp..."
+	cat > $WDIR/etc/hostname <<EOF
+	dhcp
+EOF
+	
 	echo "[*] Modifying rc.local..."
 	cat >>$WDIR/etc/rc.local <<EOF
 # If you have enough memory, this speeds up some bins, but you must 
@@ -314,34 +324,39 @@ fi
 EOF
 	echo "[*] Modifying the library path..."
 	echo >> $WDIR/root/.cshrc << EOF
-# Workaround for missing libraries:
-export LD_LIBRARY_PATH=/usr/local/lib
-EOF
-	echo >> $WDIR/root/.profile << EOF
-# Workaround for missing libraries:
-export LD_LIBRARY_PATH=/usr/local/lib
-EOF
-	echo >> $WDIR/etc/profile/.cshrc << EOF
-# Workaround for missing libraries:
-export LD_LIBRARY_PATH=/usr/local/lib
-EOF
-	echo >> $WDIR/etc/profile/.profile << EOF
-# Workaround for missing libraries:
-export LD_LIBRARY_PATH=/usr/local/lib
-EOF
+	# Workaround for missing libraries:
+	export LD_LIBRARY_PATH=/usr/local/lib
+	EOF
+		echo >> $WDIR/root/.profile << EOF
+	# Workaround for missing libraries:
+	export LD_LIBRARY_PATH=/usr/local/lib
+	EOF
+		echo >> $WDIR/etc/profile/.cshrc << EOF
+	# Workaround for missing libraries:
+	export LD_LIBRARY_PATH=/usr/local/lib
+	EOF
+		echo >> $WDIR/etc/profile/.profile << EOF
+	# Workaround for missing libraries:
+	export LD_LIBRARY_PATH=/usr/local/lib
+	EOF
 
 	echo "[*] Using DNS ($DNS) in livecd environment..."
 	echo "nameserver $DNS" > $WDIR/etc/resolv.conf
 
 	echo "[*] Installing additional packages..."
 	cat > $WDIR/tmp/packages.sh <<EOF
-#!/bin/sh
-export PKG_PATH=$(echo $PKG_PATH | sed 's#\ ##g')
-for i in $PACKAGES
-do
-	pkg_add -i \$i
-done
+	#!/bin/sh
+	export PKG_PATH=$(echo $PKG_PATH | sed 's#\ ##g')
+	for i in $PACKAGES
+	do
+		pkg_add -i \$i
+	done
 EOF
+
+	echo "[*] Copying akanda to /var/..."
+	cp -r /root/repos/akanda $WDIR/var
+
+	
 	chmod +x $WDIR/tmp/packages.sh
 	chroot $WDIR /tmp/packages.sh
 	rm $WDIR/tmp/packages.sh
