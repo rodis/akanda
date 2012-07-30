@@ -13,7 +13,7 @@ PYTHON = /usr/local/bin/python
 PIP = /usr/local/bin/pip-2.7
 GIT = /usr/local/bin/git
 TWISTD = /usr/local/bin/twistd
-PF_HOST ?= 10.0.4.186
+#PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
 
 clean:
@@ -128,3 +128,6 @@ check:
 check-cover:
 	coverage run `which trial` $(LIB)
 	coverage report -m
+
+iso:
+	"./scripts/create-akanda-livecd.sh"
