@@ -11,6 +11,8 @@ from txroutes import Dispatcher
 from akanda import meta
 from akanda.routerapi import base
 from akanda.drivers import ifconfig
+
+from akanda.drivers import pf
 from akanda import utils
 
 
@@ -76,7 +78,7 @@ class Configuration(base.RESTAPIBase):
     """
 
 
-class FirewallRules(base.RESTAPIBase):
+class NetPortManagement(base.RESTAPIBase):
     """
     """
 
@@ -91,9 +93,183 @@ class AliasManagement(base.RESTAPIBase):
     """
 
 
-class NetPortManagement(base.RESTAPIBase):
+class FirewallRules(base.RESTAPIBase):
     """
+    Version 1.0 will be just a plain text dump (ugly and repeating code).
+    Implement parsers for each get_xyz under pf.py for version 1.1.
     """
+    pf_mgr = pf.PfManager()
+
+    def get_rules(self, request):
+
+        def parse_pf_rules_results(results):
+            log.msg(results)
+            request.write(json.dumps({"rules": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_rules)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_rules_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_states(self, request):
+
+        def parse_pf_states_results(results):
+            log.msg(results)
+            request.write(json.dumps({"state table": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_states)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_states_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_anchors(self, request):
+
+        def parse_pf_anchors_results(results):
+            log.msg(results)
+            request.write(json.dumps({"anchors": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_anchors)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_anchors_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_sources(self, request):
+
+        def parse_pf_sources_results(results):
+            log.msg(results)
+            request.write(json.dumps({"sources": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_sources)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_sources_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_info(self, request):
+
+        def parse_pf_info_results(results):
+            log.msg(results)
+            request.write(json.dumps({"info": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_info)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_info_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_tables(self, request):
+
+        def parse_pf_tables_results(results):
+            log.msg(results)
+            request.write(json.dumps({"tables": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_tables)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_tables_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_labels(self, request):
+
+        def parse_pf_labels_results(results):
+            log.msg(results)
+            request.write(json.dumps({"labels": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_labels)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_labels_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_timeouts(self, request):
+
+        def parse_pf_timeouts_results(results):
+            log.msg(results)
+            request.write(json.dumps({"timeouts": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_timeouts)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_timeouts_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
+
+    def get_memory(self, request):
+
+        def parse_pf_memory_results(results):
+            log.msg(results)
+            request.write(json.dumps({"memory": results.split('\n')}, cls=utils.ModelSerializer))
+            request.finish()
+
+        def handle_error(failure):
+            # XXX HTTP status/code
+            log.err(failure)
+            request.write("Error! See the log for more details.")
+            request.finish()
+
+        deferred = threads.deferToThread(self.pf_mgr.get_memory)
+        deferred.addErrback(handle_error)
+        deferred.addCallback(parse_pf_memory_results)
+        deferred.addErrback(handle_error)
+        return server.NOT_DONE_YET
 
 
 class NAT(base.RESTAPIBase):

@@ -1,5 +1,6 @@
 from akanda.drivers import base
 from akanda.utils import execute, replace_file
+from akanda import models
 
 
 class PfManager(base.Manager):
@@ -12,7 +13,7 @@ class PfManager(base.Manager):
 
     def get_rules(self):
         # -sr
-        return self._show('r')
+        return self._show('r')       
 
     def get_states(self):
         # -ss
@@ -67,3 +68,25 @@ class TableManager(base.Manager):
 
     def show(self):
         return self._sudo('-t', self.name, '-T', self.name)
+
+
+def _parse_pf_rules(data, filters=None):
+    '''
+    Parser for pfctl -sr
+    '''
+    retval = []
+
+    return retval
+
+
+def _parse_pf_rule(line):
+    '''
+    Parser for pfctl -sr
+    '''
+    retval = {}
+        
+
+    return models.PfManager.from_dict(retval)
+
+
+

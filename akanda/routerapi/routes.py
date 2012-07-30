@@ -46,11 +46,32 @@ rule("demo", "/json/v1/demo", controller=apiv1.demo,
      action="longRunningProcess")
 rule("version", "/json/v1/meta/version", controller=apiv1.meta,
      action="version")
+
+# System Routes
 rule("system", "/json/v1/system/get_interface/{ifname}", controller=apiv1.system,
      action="get_interface")
 rule("system", "/json/v1/system/get_interfaces", controller=apiv1.system,
      action="get_interfaces")
 
+# Firewall Routes
+rule("firewall", "/json/v1/firewall/get_rules", controller=apiv1.firewall,
+    action="get_rules")
+rule("firewall", "/json/v1/firewall/get_states", controller=apiv1.firewall,
+    action="get_states")
+rule("firewall", "/json/v1/firewall/get_anchors", controller=apiv1.firewall,
+    action="get_anchors")
+rule("firewall", "/json/v1/firewall/get_sources", controller=apiv1.firewall,
+    action="get_sources")
+rule("firewall", "/json/v1/firewall/get_info", controller=apiv1.firewall,
+    action="get_info")
+rule("firewall", "/json/v1/firewall/get_tables", controller=apiv1.firewall,
+    action="get_tables")
+rule("firewall", "/json/v1/firewall/get_labels", controller=apiv1.firewall,
+    action="get_labels")
+rule("firewall", "/json/v1/firewall/get_timeouts", controller=apiv1.firewall,
+    action="get_timeouts")
+rule("firewall", "/json/v1/firewall/get_memory", controller=apiv1.firewall,
+    action="get_memory")
 
 # Version 2
 rule("index", "/json/v2", controller=apiv2, action="index")
