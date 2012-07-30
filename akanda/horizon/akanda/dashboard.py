@@ -6,8 +6,10 @@ import horizon
 class Akanda(horizon.Dashboard):
     name = _("Akanda")
     slug = "akanda"
-    panels = ()  # Add your panels here.
-    default_panel = ''  # Specify the slug of the dashboard's default panel.
+    panels = ('alias', 'configuration', 'firewall', 'nat',
+              'portforward', 'vpn', 'networking',)
+    default_panel = ('alias')
+    supports_tenants = True
 
 
 horizon.register(Akanda)
