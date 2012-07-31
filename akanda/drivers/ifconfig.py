@@ -5,70 +5,103 @@ import netaddr
 from akanda import models
 from akanda.drivers import base
 
+GENERIC_IFNAME = 'ge'
+PHYSICAL_INTERFACES = ['em', 're', 'en']
+
 
 class InterfaceManager(base.Manager):
     """
     """
     EXECUTABLE = '/sbin/ifconfig'
 
-    def get_interfaces(self, filters=None):
-        return _parse_interfaces(self.do('-a'), filters=filters)
+    def __init__(self, root_helper='sudo'):
+        super(InterfaceManager, self).__init__(root_helper)
+        self.next_generic_index = 0
+        self.host_mapping = {}
+        self.generic_mapping = {}
+
+    def _ensure_mapping(self):
+        if not self.host_mapping:
+            self.get_interfaces()
+
+    def get_interfaces(self):
+        interfaces = _parse_interfaces(self.do('-A'),
+                                       filters=PHYSICAL_INTERFACES)
+
+        interfaces.sort(key=lambda x: x.ifname)
+        for i in interfaces:
+            if i.ifname not in self.host_mapping:
+                generic_name = 'ge%d' % self.next_generic_index
+                self.host_mapping[i.ifname] = generic_name
+                self.next_generic_index += 1
+
+            # change ifname to generic version
+            i.ifname = self.host_mapping[i.ifname]
+        self.generic_mapping = dict((v,k) for k, v in
+                                    self.host_mapping.iteritems())
+
+        return interfaces
 
     def get_interface(self, ifname):
-        return _parse_interfaces(self.do(ifname))[0]
+        real_ifname = self.generic_to_host(ifname)
+        retval = _parse_interface(self.do(real_ifname))
+        retval.ifname = ifname
+        return retval
+
+    def is_valid(self, ifname):
+        self._ensure_mapping()
+        return ifname in self.generic_mapping
+
+    def generic_to_host(self, generic_name):
+        self._ensure_mapping()
+        return self.generic_mapping.get(generic_name)
+
+    def host_to_generic(self, real_name):
+        self._ensure_mapping()
+        return self.host_mapping.get(real_name)
 
     def update_interfaces(self, interfaces):
         for i in interfaces:
             self.update_interface(i)
 
     def up(self, interface):
-        self.sudo(interface.name, 'up')
+        real_ifname = self.generic_to_host(interface.ifname)
+        self.sudo(real_ifname, 'up')
 
     def down(self, interface):
-        self.sudo(interface.name, 'down')
+        real_ifname = self.generic_to_host(interface.ifname)
+        self.sudo(real_ifname, 'down')
 
     def update_interface(self, interface):
-        old_interface = self.get_interface(interface.ifname)
+        real_ifname = self.generic_to_host(interface.ifname)
+        old_interface = self.get_interface(real_ifname)
 
-        self._update_interface_description(interface)
-        self._update_interface_groups(interface, old_interface)
+        self._update_description(real_ifname, interface)
+        self._update_groups(real_ifname, interface, old_interface)
         # Must update primary before aliases otherwise will lose address
         # in case where primary and alias are swapped.
-        self._update_interface_primary_v4(interface, old_interface)
-        self._update_interface_addresses(interface, old_interface)
+        self._update_addresses(real_ifname, interface, old_interface)
 
-    def _update_description(self, interface):
-        self.sudo(interface.name, 'description', interface.description)
+    def _update_description(self, real_ifname, interface):
+        self.sudo(real_ifname, 'description', interface.description)
 
-    def _update_groups(self, interface, old_interface):
-        add = lambda g: ('group', g)
-        delete = lambda g: ('-group', g)
+    def _update_groups(self, real_ifname, interface, old_interface):
+        add = lambda g: (real_ifname, 'group', g)
+        delete = lambda g: (real_ifname, '-group', g)
 
-        self._update_set(interface, old_interface, 'groups', add, delete)
+        self._update_set(real_ifname, interface, old_interface, 'groups',
+                         add, delete)
 
-    def _update_addresses(self, interface, old_interface):
-        add = lambda a: (interface.ifname, 'alias',
+    def _update_addresses(self, real_ifname, interface, old_interface):
+        add = lambda a: (real_ifname, 'alias',
                          str(a.ip), 'prefixlen', a.prefixlen)
-        delete = lambda a: (interface.ifname, '-alias',
-                         str(a.ip), 'prefixlen', a.prefixlen)
+        delete = lambda a: (real_ifname, '-alias',
+                            str(a.ip), 'prefixlen', a.prefixlen)
 
-        self._update_set(interface, old_interface, 'addresses', add, delete)
+        self._update_set(real_ifname, interface, old_interface,
+                         'addresses', add, delete)
 
-    def _update_primary_v4(self, interface, old_interface):
-        if interface.primary_v4 == old_interface.primary_v4:
-            return
-
-        if interface.primary_v4 is None:
-            self.sudo(old_interface.primary_v4.ip,
-                       'prefixlen',
-                       interface.primary_v4.prefixlen,
-                       'delete')
-        else:
-            self.sudo(interface.primary_v4.ip,
-                       'prefixlen',
-                       interface.primary_v4.prefixlen)
-
-    def _update_set(self, interface, old_interface, attribute,
+    def _update_set(self, real_ifname, interface, old_interface, attribute,
                     fmt_args_add, fmt_args_delete):
 
         next_set = set(getattr(interface, attribute))
@@ -118,8 +151,8 @@ def _parse_interface(data):
 def _parse_head(line):
     retval = {}
     m = re.match(
-            '(?P<ifname>\w*): flags=\d*<(?P<flags>[\w,]*)> mtu (?P<mtu>\d*)',
-            line)
+        '(?P<ifname>\w*): flags=\d*<(?P<flags>[\w,]*)> mtu (?P<mtu>\d*)',
+        line)
     if m:
         retval['ifname'] = m.group('ifname')
         retval['flags'] = m.group('flags').split(',')
@@ -139,13 +172,14 @@ def _parse_inet(line):
 
 
 def _parse_other_params(line):
-    if line.startswith('options'):
+    # TODO (mark): remove the no cover for FreeBSD variant of ifconfig
+    if line.startswith('options'):  # pragma nocover
         m = re.match('options=[0-9a-f]*<(?P<options>[\w,]*)>', line)
         return m.groupdict()
     else:
         key, value = line.split(' ', 1)
 
-        if key == 'ether':
+        if key == 'ether':  # pragma nocover
             key = 'lladdr'
         elif key.endswith(':'):
             key = key[:-1]

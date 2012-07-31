@@ -11,4 +11,6 @@ requires = [
     # XXX twisted pip build fails on OpenBSD because it looks for epoll.h
     #"twisted",
     "txroutes",
+    "mock",
+    "netaddr",
     ]

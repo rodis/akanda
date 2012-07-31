@@ -4,6 +4,8 @@ import shlex
 import subprocess
 import tempfile
 
+import netaddr
+
 
 def execute(args, root_helper=None):
     if root_helper:
@@ -35,9 +37,8 @@ class ModelSerializer(JSONEncoder):
     def default(self, obj):
         # import here to avoid circual imports... ugh; we may need to move this
         # serialized now...
-        from akanda import models
         if isinstance(obj, set):
             return list(obj)
-        if isinstance(obj, models.Network):
-            return obj.to_dict()
+        if isinstance(obj, netaddr.IPNetwork):
+            return str(obj)
         return super(ModelSerializer, self).default(obj)
