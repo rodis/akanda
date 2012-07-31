@@ -14,7 +14,7 @@ class ModelSerializerTestCase(unittest.TestCase):
             "d": "e",
             "f": u"g",
             "h": 42,
-            "i": 3.14159,
+            "i": float(3),
             "j": False,
             "k": None,
             "l": (4, 5, 6),
@@ -22,7 +22,7 @@ class ModelSerializerTestCase(unittest.TestCase):
             }
         expected = (
             '{"a": [1, 2, 3], "b": {"c": 4}, "d": "e", "f": "g", '
-            '"i": 3.14159, "h": 42, "k": null, "j": false, '
+            '"i": 3.0, "h": 42, "k": null, "j": false, '
             '"m": 12345671238792347, "l": [4, 5, 6]}')
         serialized = json.dumps(data, cls=utils.ModelSerializer)
         self.assertEqual(serialized, expected)
