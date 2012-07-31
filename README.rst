@@ -25,20 +25,18 @@ The code for this project contains the following:
 * a user-facing REST server that passes requests to a user's Akanda instance
   and that instance's REST server (forth-coming)
 
+* a GUI for integrating Akanda into OpenStack `Horizon`_
+
 * a set of tools/scripts for developing Akanda and building Akanda images
+
+In the future, this will be extended to make use of the IOCTL interface for
+controlling PF and a Python library for manipulating it.
 
 The Product
 -----------
 
-Basically, any OS with the following installed and running on it, we consider
-an Akanda product:
-
-* `PF`_
-
-* the Akanda REST server
-
-In the future, this will be extended to make use of the IOCTL interface for
-controlling PF and a Python library for manipulating it.
+Akanda "the product" is this code bundled into an OpenBSD .iso image. The make
+file provides a target for building your own image.
 
 The Name
 --------
@@ -210,5 +208,6 @@ TBD
 
 .. Links/References
 .. _OpenStack: http://www.openstack.org/
+.. _Horizon: http://docs.openstack.org/developer/horizon/
 .. _PF: http://www.openbsd.org/faq/pf/
 .. _Glance: http://docs.openstack.org/developer/glance/
