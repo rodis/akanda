@@ -106,6 +106,13 @@ Finally, get the rest of the deps::
   make install-dev
 
 
+Building an Akanda ISO
+======================
+
+Akanda is intended to be used in OpenStack deployments, uploaded to Glance as
+an .iso image. OpenStack deployments can then spin up Akanda router instances
+to manage the Layer 3 features supported by Akanda.
+
 The Akanda REST APIs
 ====================
 
