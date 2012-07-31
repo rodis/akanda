@@ -194,7 +194,8 @@ EOF
 | | | | '_ \\ / _ \\ '_ \\|  _ \\___ \\| | | |
 | |_| | |_) |  __/ | | | |_) |__) | |_| |
  \\___/| .__/ \\___|_| |_|____/____/|____/
-      |_| ----------------------Akanda Live CD-
+      | |
+      |_| -----------------Akanda Live CD-
 
 Welcome to Akanda: Powered by OpenBSD - the proactively secure Unix-like operating system.
 
