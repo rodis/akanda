@@ -1,8 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 import horizon
-
-from akanda.horizon.akanda import dashboard
+from horizon.dashboards.nova.dashboard import Nova
 
 
 class AkandaNetworking(horizon.Panel):
@@ -10,4 +9,4 @@ class AkandaNetworking(horizon.Panel):
     slug = "networking"
 
 
-dashboard.Akanda.register(AkandaNetworking)
+Nova.register(AkandaNetworking)
