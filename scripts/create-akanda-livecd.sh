@@ -1,15 +1,15 @@
 #!/bin/sh
-#  ___                   ____ ____  ____
-# / _ \ _ __   ___ _ __ | __ ) ___||  _ \
-#| | | | '_ \ / _ \ '_ \|  _ \___ \| | | |
-#| |_| | |_) |  __/ | | | |_) |__) | |_| |
-# \___/| .__/ \___|_| |_|____/____/|____/
-#      | |
-#      |_| ----------------Akanda Live CD-
 #
-# This script creates an Akanda Live CD - powered by OpenBSD and Twisted - and
-# lets you customize it
+#     ___   ___                       .___
+#    /   \  \  | - L3 for OpenStack - | _/
+#   /  _  \ |  | _______    ____    __| | ____
+#  /  /_\  \|  |/ /\__  \  /    \  / __ |\__  \
+# /    |    \    <  / __ \|   |  \/ /_/ | / __ \_
+# \____|__  /__|_ \(____  /___|  /\____ |(____  /
+#         \/     \/     \/     \/      \/     \/
 #
+# This script creates an Akanda Live CD - powered by OpenBSD, Python, and
+# Twisted - and # lets you customize it.
 #
 # Copyright (c) 2009 Reiner Rottmann. Released under the BSD license.
 # Copyright (c) 2012 New Dream Network, LLC (DreamHost).
@@ -189,15 +189,14 @@ EOF
     echo "[*] Creating motd file..."
     cat >$WDIR/etc/motd <<EOF
 
-  ___                   ____ ____  ____
- / _ \\ _ __   ___ _ __ | __ ) ___||  _ \\
-| | | | '_ \\ / _ \\ '_ \\|  _ \\___ \\| | | |
-| |_| | |_) |  __/ | | | |_) |__) | |_| |
- \\___/| .__/ \\___|_| |_|____/____/|____/
-      | |
-      |_| -----------------Akanda Live CD-
-
-Welcome to Akanda: Powered by OpenBSD - the proactively secure Unix-like operating system.
+    ___   ___                       .___
+   /   \\  \\  | - L3 for OpenStack - | _/
+  /  _  \\ |  | _______    ____    __| | ____
+ /  /_\\  \\|  |/ /\\__  \\  /    \\  / __ |\\__  \\
+/    |    \\    <  / __ \\|   |  \\/ /_/ | / __ \\_
+\\____|__  /__|_ \\(____  /___|  /\\____ |(____  /
+        \\/     \\/     \\/     \\/      \\/     \\/
+Welcome to Akanda: Powered by OpenBSD.
 
 
 EOF
