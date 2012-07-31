@@ -2,7 +2,7 @@
 akanda
 ~~~~~~
 
-An open source packet filter solution for OpenStack deployments.
+An open source packet filter solution for `OpenStack`_ deployments.
 
 ----
 
@@ -15,14 +15,17 @@ About
 
 The Code
 --------
+
 The code for this project contains the following:
 
-* a simple, blocking API that wraps py-pf
+* a set of APIs that manipulate PF (in-progress)
 
-* various scripts that make use of this API
+* a service-facing REST server for controlling PF (in-progress)
 
-* a non-blocking REST server that also makes use of this API
+* a user-facing REST server that passes requests to a user's Akanda instance
+  and that instance's REST server (forth-coming)
 
+* a set of tools/scripts for developing Akanda and building Akanda images
 
 The Product
 -----------
@@ -30,12 +33,12 @@ The Product
 Basically, any OS with the following installed and running on it, we consider
 an Akanda product:
 
-* PF
-
-* py-pf
+* `PF`_
 
 * the Akanda REST server
 
+In the future, this will be extended to make use of the IOCTL interface for
+controlling PF and a Python library for manipulating it.
 
 The Name
 --------
@@ -109,9 +112,9 @@ Finally, get the rest of the deps::
 Building an Akanda ISO
 ======================
 
-Akanda is intended to be used in OpenStack deployments, uploaded to Glance as
-an .iso image. OpenStack deployments can then spin up Akanda router instances
-to manage the Layer 3 features supported by Akanda.
+Akanda is intended to be used in OpenStack deployments, uploaded to `Glance`_
+as an .iso image. OpenStack deployments can then spin up Akanda router
+instances to manage the Layer 3 features supported by Akanda.
 
 The Akanda REST APIs
 ====================
@@ -204,3 +207,8 @@ Viewing Akanda in Horizon
 -------------------------
 
 TBD
+
+.. Links/References
+.. _OpenStack: http://www.openstack.org/
+.. _PF: http://www.openbsd.org/faq/pf/
+.. _Glance: http://docs.openstack.org/developer/glance/
