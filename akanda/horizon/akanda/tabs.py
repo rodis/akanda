@@ -6,7 +6,7 @@ from horizon import tabs
 class AliasTab(tabs.Tab):
     name = _("Alias")
     slug = "alias"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
@@ -15,7 +15,7 @@ class AliasTab(tabs.Tab):
 class ConfigurationTab(tabs.Tab):
     name = _("Configuration")
     slug = "configuration"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
@@ -24,7 +24,7 @@ class ConfigurationTab(tabs.Tab):
 class FirewallTab(tabs.Tab):
     name = _("Firewall")
     slug = "firewall"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
@@ -33,7 +33,7 @@ class FirewallTab(tabs.Tab):
 class NatTab(tabs.Tab):
     name = _("Nat")
     slug = "nat"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
@@ -42,7 +42,7 @@ class NatTab(tabs.Tab):
 class PortForwardTab(tabs.Tab):
     name = _("Port Forward")
     slug = "portforward"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
@@ -51,7 +51,7 @@ class PortForwardTab(tabs.Tab):
 class VPNTab(tabs.Tab):
     name = _("VPN")
     slug = "vpn"
-    template_name = "networking/simple.html"
+    template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
         return {}
