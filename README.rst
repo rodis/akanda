@@ -114,6 +114,20 @@ Akanda is intended to be used in OpenStack deployments, uploaded to `Glance`_
 as an .iso image. OpenStack deployments can then spin up Akanda router
 instances to manage the Layer 3 features supported by Akanda.
 
+At this time, building an ISO requires an OpenBSD system. Future iterations
+will potentially use other mechanisms.
+
+To build an .iso image:
+
+Run 'gmake iso' inside the Akanda directory containing the Makefile. The script 
+will invoke the download of OpenBSD base and eventually drop into a chroot jail 
+environment. Follow the instructions highlighted in the chroot login screen. 
+Type 'exit' when complete to build the .iso image.
+
+The .iso image (Ramdisk) requires at least 512mb of RAM to run. The current .iso 
+should be around around 384mb with base packages required to run Akanda. The booted
+.iso should contain akanda under /var/akanda.  
+
 The Akanda REST APIs
 ====================
 
