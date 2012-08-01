@@ -19,8 +19,8 @@
 #
 # Notes:
 #
-# * Modified for use with Akanda by Murali Raju - murali.raju@dreamhost.com -
-#   2012
+# * Modified 2012 by DreamHost <dev-community@dreamhost.com> for use with
+#   Akanda
 
 ###############################################################################
 # Defaults
@@ -73,7 +73,7 @@ function usage {
     echo "This program creates an OpenBSD live cd and lets you customize it." >&2
     echo "The software is released under BSD license. Use it at your own risk!" >&2
     echo "Copyright (c) 2009 Reiner Rottmann. Email: reiner[AT]rottmann.it" >&2
-    echo "Modified for Akanda by Murali Raju. Email: murali.raju[AT]dreamhost.com" >&2
+    echo "Copyright (c) 2012 New Dream Network, LLC. Email: dev-community[AT]dreamhost.com" >&2
     echo >&2
     echo -e "  -A :\tselect architecture (default: $ARCH)" >&2
     echo -e "  -h :\tgive this help list" >&2
@@ -139,7 +139,7 @@ function livecd {
     echo "[*] Akanda (powered by OpenBSD) LiveCD script"
     echo "[*] The software is released under BSD license. Use it at your own risk!" >&2
     echo "[*] Copyright (c) 2009 Reiner Rottmann." >&2
-    echo "[*] Modified for Akanda by Murali Raju. Email: murali.raju[AT]dreamhost.com" >&2
+    echo "[*] Copyright (c) 2012 New Dream Network, LLC (DreamHost)." >&2
     echo "[*] This script is released under the BSD License."
     uname -a | grep OpenBSD || echo "[*] WARNING: This software should run on an OpenBSD System!"
     date
