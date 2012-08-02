@@ -2,28 +2,13 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-
-class AliasTab(tabs.Tab):
-    name = _("Alias")
-    slug = "alias"
-    template_name = "akanda/simple.html"
-
-    def get_context_data(self, request):
-        return {}
+from akanda.horizon.akanda.firewall.tabs import FirewallTab
+from akanda.horizon.akanda.alias.tabs import AliasTab
 
 
 class ConfigurationTab(tabs.Tab):
     name = _("Configuration")
     slug = "configuration"
-    template_name = "akanda/simple.html"
-
-    def get_context_data(self, request):
-        return {}
-
-
-class FirewallTab(tabs.Tab):
-    name = _("Firewall")
-    slug = "firewall"
     template_name = "akanda/simple.html"
 
     def get_context_data(self, request):
