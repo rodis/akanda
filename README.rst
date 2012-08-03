@@ -102,7 +102,7 @@ To build an .iso image:
 #. ``cd akanda`` (the git clone dir)
 
 #. ``gmake iso`` This script will invoke the download of OpenBSD base and
-eventually drop into a chroot jail environment.
+   eventually drop into a chroot jail environment.
 
 #. Follow the instructions highlighted in the chroot login screen.
 
