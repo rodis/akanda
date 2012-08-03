@@ -11,7 +11,7 @@ class DeletePortForwardingRule(tables.DeleteAction):
 class CreatePortForwardingRule(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Rule")
-    url = "createfirewallrule"
+    url = "createportforwardingrule"
     classes = ("ajax-modal", "btn-create")
 
 
