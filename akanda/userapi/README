@@ -1,0 +1,15 @@
+You also have to update Quantum's policy file for the extension to work with
+authZ.
+
+    "create_portforward": [],
+    "get_portforward": [["rule:admin_or_owner"]],
+    "update_portforward": [["rule:admin_or_owner"]],
+    "delete_portforward": [["rule:admin_or_owner"]]
+
+
+If you want to use quotas:
+
+add to the QUOTAS section of quantum.conf
+
+quota_portforward = 10
+

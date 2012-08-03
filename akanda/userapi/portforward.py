@@ -1,50 +1,54 @@
-import webob.exc
-
-from quantum.api.v2 import resource
+from quantum.api.v2 import attributes
+from quantum.db import models_v2
 from quantum.extensions import extensions
-from quantum import wsgi
+
+from quantum.extensions import _authzbase
+
+# XXX: I used Network as an existing model for testing.  Need to change to
+# use an actual PortForward model.
+
+class PortforwardResource(_authzbase.ResourceDelegate):
+    model = models_v2.Network
+    resource_name = 'portforward'
+    collection_name = 'portforwards'
+
+    ATTRIBUTE_MAP = {
+        'id': {'allow_post': False, 'allow_put': False,
+            'validate': {'type:regex': attributes.UUID_PATTERN},
+            'is_visible': True},
+        'name': {'allow_post': True, 'allow_put': True,
+                 'default': '', 'is_visible': True},
+        'tenant_id': {'allow_post': True, 'allow_put': False,
+                      'required_by_policy': True,
+                      'is_visible': True},
+    }
 
 
-class PortForwardController(object):
-    """
-    """
-    def _get_resource(self, request, id):
-        """Lookup up the resource and verify ownership."""
-        resource = None
-        # find resource by id
-        # if we can't find it raise
-        #raise webob.exc.HTTPNotFound()
+    def make_dict(self, network):
+        res = {'id': network['id'],
+                'name': network['name'],
+                'tenant_id': network['tenant_id'],
+                'admin_state_up': network['admin_state_up'],
+                'status': network['status'],
+                'subnets': [subnet['id']
+                            for subnet in network['subnets']]}
 
-        # if request.context.tenant_id != resource.tenant_id:
-        #    raise webob.exc.HTTPNotAuthorized()
-        return resource
+        return res
 
-    def index(self, request):
-        return {'portforwards': []} # return forwarded ports
+    def create(self, tenant_id, resource_dict):
+        import pdb;pdb.set_trace()
 
-    def create(self, request, body={}):
-        input_body = request.json
-        # validate and process incoming json dict
-        # return new model with UUID
-        fake_model = dict(id=id, destination='192.168.1.1/24', port=22)
-        return {'portforward': fake_model}
+        return {}
 
-    def show(self, request, id):
-        return {'portforward': self._get_resource(request, id)}
+    def update(self, tenant_id, resource, resource_dict):
+        import pdb;pdb.set_trace()
 
-    def update(self, request, id=None, body={}):
-        resource = self._get_resource(request, id)
-        # TODO: validate the body and update the resource
-        return {'portforward': resource}
+        return {}
 
-    def delete(self, request, id):
-        resource = self._get_resource(request, id)
-        return None
+_authzbase.register_quota('portforward', 'quota_portforward')
 
 
 class Portforward(object):
-    """
-    """
     def get_name(self):
         return "port forward"
 
@@ -62,8 +66,9 @@ class Portforward(object):
 
     def get_resources(self):
         return [extensions.ResourceExtension(
-            'dhportforward',
-            resource.Resource(PortForwardController()))]
+                    'dhportforward',
+                    _authzbase.create_extension(PortforwardResource()))]
+                    #_authzbase.ResourceController(PortforwardResource()))]
 
     def get_actions(self):
         return []
