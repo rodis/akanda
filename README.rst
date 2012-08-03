@@ -85,28 +85,6 @@ Finally, get the rest of the deps::
   gmake install-dev
 
 
-Building a FreeBSD Dev Environment
-----------------------------------
-
-Get ports installed::
-
-  portsnap fetch
-  portsnap extract
-
-When asked to enable PTH for multiprocessing support say "NO"!
-
-Then, continue::
-
-  cd /usr/ports/devel/git && make install clean
-  mkdir -p $BASE_DIR && cd $BASE_DIR
-  git clone git@github.com:dreamhost/akanda.git
-
-Finally, get the rest of the deps::
-
-  cd akanda
-  make install-dev
-
-
 Building an Akanda ISO
 ======================
 
@@ -119,14 +97,14 @@ will potentially use other mechanisms.
 
 To build an .iso image:
 
-Run 'gmake iso' inside the Akanda directory containing the Makefile. The script 
-will invoke the download of OpenBSD base and eventually drop into a chroot jail 
-environment. Follow the instructions highlighted in the chroot login screen. 
+Run 'gmake iso' inside the Akanda directory containing the Makefile. The script
+will invoke the download of OpenBSD base and eventually drop into a chroot jail
+environment. Follow the instructions highlighted in the chroot login screen.
 Type 'exit' when complete to build the .iso image.
 
-The .iso image (Ramdisk) requires at least 512mb of RAM to run. The current .iso 
-should be around around 384mb with base packages required to run Akanda. The booted
-.iso should contain akanda under /var/akanda.  
+The .iso image (Ramdisk) requires at least 512mb of RAM to run. The current
+.iso should be around around 384mb with base packages required to run Akanda.
+The booted .iso should contain akanda under /var/akanda.
 
 The Akanda REST APIs
 ====================
