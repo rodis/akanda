@@ -7,5 +7,5 @@ class IndexView(tabs.TabbedTableView):
     template_name = 'akanda/index.html'
     tab_group_class = NetworkingTabs
 
-    def get_data(self, request, context, *args, **kwargs):
-        return context
+    def get(self, request, *args, **kwargs):
+        return super(IndexView, self).get(request, *args, **kwargs)
