@@ -118,13 +118,14 @@ The Akanda REST APIs
 Akanda comes with two REST APIs:
 
 #. The REST API that runs on the router instance itself, recieving simple
-pf-related administrative commands (e.g., "take this data and have pf parse
-it"). This REST API runs only so long a router instance is up and running. This
-is not the user-facing, 24/7 REST API.
+   pf-related administrative commands (e.g., "take this data and have pf parse
+   it"). This REST API runs only so long a router instance is up and running.
+   This is not the user-facing, 24/7 REST API.
 
 #. Then there is the user-facing, 24/7, load-balanced REST API :-) This is what
-users will be able to interact with in order to programmatically manage their
-router instances (e.g., set NAT, port-forwarding, and basic firewall rules).
+   users will be able to interact with in order to programmatically manage
+   their router instances (e.g., set NAT, port-forwarding, and basic firewall
+   rules).
 
 The Router-Instance REST API
 ----------------------------
