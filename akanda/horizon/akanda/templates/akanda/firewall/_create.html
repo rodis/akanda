@@ -8,16 +8,10 @@
 {% block modal_id %}create_firewall_rule_modal{% endblock %}
 
 {% block modal-body %}
-<div class="left">
-    <fieldset>
-    {% include "horizon/common/_form_fields.html" %}
-    </fieldset>
-</div>
+    {% include "akanda/firewall/_form_fields.html" %}
 {% endblock %}
 
 {% block modal-footer %}
   <input class="btn btn-primary pull-right" type="submit" value="{% trans "Create Rule" %}" />
   <a href="" class="btn secondary cancel close">{% trans "Cancel" %}</a>
 {% endblock %}
-
-

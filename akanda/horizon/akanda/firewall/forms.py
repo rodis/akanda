@@ -14,6 +14,7 @@ class CreateFirewallRule(forms.SelfHandlingForm):
     destination_port_alias = forms.CharField(label=_("Port Alias"),)
     destination_protocol = forms.CharField(label=_("Protocol"),)
     destination_public_ports = forms.CharField(label=_("Public Ports"),)
+    policy = forms.CharField(label=_("Policy"),)
 
     def handle(self, request, data):
         pass
