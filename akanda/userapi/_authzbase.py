@@ -11,6 +11,8 @@ from quantum.openstack.common import cfg
 
 
 class ResourcePlugin(object):
+    """
+    """
     JOINS = ()
     def __init__(self, delegate):
         # synthesize the hooks because Quantum's base class uses the
@@ -20,9 +22,7 @@ class ResourcePlugin(object):
         setattr(self, 'update_%s' % delegate.resource_name, self._update_item)
         setattr(self, 'create_%s' % delegate.resource_name, self._create_item)
         setattr(self, 'delete_%s' % delegate.resource_name, self._delete_item)
-
         self.delegate = delegate
-
 
     def _get_tenant_id_for_create(self, context, resource):
         if context.is_admin and 'tenant_id' in resource:
@@ -101,6 +101,8 @@ class ResourcePlugin(object):
 
 
 class ResourceDelegate(object):
+    """
+    """
     __metaclass__ = abc.ABCMeta
 
     def before_delete(self, resource):
@@ -136,17 +138,21 @@ class ResourceDelegate(object):
 
 
 def create_extension(delegate):
+    """
+    """
     #for key, value in delegate.ATTRIBUTE_MAP.iteritems():
     #    if key in attributes.RESOURCE_ATTRIBUTE_MAP:
     #        pass # TODO(mark): should log that we're doing this
     #    attributes.RESOURCE_ATTRIBUTE_MAP[key] = value
-
     return api_resource.Resource(base.Controller(ResourcePlugin(delegate),
                                                  delegate.collection_name,
                                                  delegate.resource_name,
                                                  delegate.ATTRIBUTE_MAP))
 
+
 def register_quota(resource_name, config_key_name, default=-1):
+    """
+    """
     quota_opt = cfg.IntOpt(config_key_name,
                            default=default,
                            help=('number of %s allowed per tenant, -1 for '
