@@ -4,10 +4,17 @@ from quantum.extensions import extensions
 
 from quantum.extensions import _authzbase
 
+
 # XXX: I used Network as an existing model for testing.  Need to change to
 # use an actual PortForward model.
+#
+# Duncan: cool, we'll get a PortForward model in place ASAP, so that this code
+# can be updated to use it.
+
 
 class PortforwardResource(_authzbase.ResourceDelegate):
+    """
+    """
     model = models_v2.Network
     resource_name = 'portforward'
     collection_name = 'portforwards'
@@ -23,7 +30,6 @@ class PortforwardResource(_authzbase.ResourceDelegate):
                       'is_visible': True},
     }
 
-
     def make_dict(self, network):
         res = {'id': network['id'],
                 'name': network['name'],
@@ -32,23 +38,23 @@ class PortforwardResource(_authzbase.ResourceDelegate):
                 'status': network['status'],
                 'subnets': [subnet['id']
                             for subnet in network['subnets']]}
-
         return res
 
     def create(self, tenant_id, resource_dict):
         import pdb;pdb.set_trace()
-
         return {}
 
     def update(self, tenant_id, resource, resource_dict):
         import pdb;pdb.set_trace()
-
         return {}
+
 
 _authzbase.register_quota('portforward', 'quota_portforward')
 
 
 class Portforward(object):
+    """
+    """
     def get_name(self):
         return "port forward"
 
