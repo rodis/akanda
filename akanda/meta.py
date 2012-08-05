@@ -13,4 +13,5 @@ requires = [
     "txroutes",
     "mock",
     "netaddr",
+    "flask"
     ]
