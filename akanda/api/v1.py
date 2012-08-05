@@ -2,7 +2,7 @@
 """
 # Fix paths for imports for production deployment
 import flask
-
+from drivers import ifconfig
 
 blueprint = flask.Blueprint('v1', __name__)
 
@@ -12,7 +12,8 @@ blueprint = flask.Blueprint('v1', __name__)
 
 @blueprint.route('/get_interfaces')
 def get_interfaces():
-    pass
+    if_mgr = ifconfig.interfaceManager()
+    return if_mgr.get_interfaces
 
 
 ## APIs for working with firewall.
