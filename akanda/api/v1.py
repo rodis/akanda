@@ -3,6 +3,8 @@
 # Fix paths for imports for production deployment
 import flask
 from drivers import ifconfig
+import utils
+
 
 blueprint = flask.Blueprint('v1', __name__)
 
@@ -12,8 +14,7 @@ blueprint = flask.Blueprint('v1', __name__)
 
 @blueprint.route('/get_interfaces')
 def get_interfaces():
-    if_mgr = ifconfig.interfaceManager()
-    return if_mgr.get_interfaces
+    return 'OpenBSD ifconfig -a'
 
 
 ## APIs for working with firewall.

@@ -7,5 +7,5 @@ import app
 
 if __name__ == '__main__':
     app.app.debug = True
-    #app.app.logger.debug('api_debug')
+    app.app.logger.debug('api_debug')
     app.app.run(host='0.0.0.0', port=5000)
