@@ -11,6 +11,7 @@ class AliasTab(tabs.TableTab):
     slug = "alias_tab"
     table_classes = (PortTable, HostTable, NetworkTable)
     template_name = "akanda/alias/index.html"
+    # preload = False
 
     def get_port_data(self):
         return {}

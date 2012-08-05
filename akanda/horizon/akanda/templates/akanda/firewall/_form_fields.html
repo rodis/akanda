@@ -1,0 +1,30 @@
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+{% if form.non_field_errors %}
+  <div class="alert alert-message alert-error">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+
+ <div class="left">
+   <h3>Source</h3>
+   <fieldset>
+      {% for field in form.visible_fields %}
+        {% ifnotequal field.html_name|slice:":11" 'destination' %}
+          {% include "akanda/common/_form_field_snippet.html" %}
+        {% endifnotequal %}
+      {% endfor %}
+   </fieldset>
+ </div>
+ <div class="right">
+   <h3>Destination</h3>
+   <fieldset>
+      {% for field in form.visible_fields %}
+        {% ifequal field.html_name|slice:":11" 'destination' %}
+          {% include "akanda/common/_form_field_snippet.html" %}
+        {% endifequal %}
+      {% endfor %}
+   </fieldset>
+ </div>

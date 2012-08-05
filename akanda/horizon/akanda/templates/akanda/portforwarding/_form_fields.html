@@ -1,0 +1,29 @@
+{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+{% if form.non_field_errors %}
+  <div class="alert alert-message alert-error">
+    {{ form.non_field_errors }}
+  </div>
+{% endif %}
+
+
+ <div class="left">
+   <fieldset>
+      {% for field in form.visible_fields %}
+        {% ifnotequal field.html_name|slice:":9" 'public_ip' %}
+          {% include "akanda/common/_form_field_snippet.html" %}
+        {% endifnotequal %}
+      {% endfor %}
+   </fieldset>
+ </div>
+ <div class="right">
+   <fieldset>
+      {% for field in form.visible_fields %}
+        {% ifequal field.html_name|slice:":10" 'private_ip' %}
+          {% include "akanda/common/_form_field_snippet.html" %}
+        {% endifequal %}
+      {% endfor %}
+   </fieldset>
+ </div>
+

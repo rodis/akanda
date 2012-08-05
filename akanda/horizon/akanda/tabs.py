@@ -2,8 +2,9 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from akanda.horizon.akanda.firewall.tabs import FirewallTab
-from akanda.horizon.akanda.alias.tabs import AliasTab
+from .firewall.tabs import FirewallTab
+from .alias.tabs import AliasTab
+from .portforwarding.tabs import PortForwardingTab
 
 
 class ConfigurationTab(tabs.Tab):
@@ -24,15 +25,6 @@ class NatTab(tabs.Tab):
         return {}
 
 
-class PortForwardTab(tabs.Tab):
-    name = _("Port Forward")
-    slug = "portforward"
-    template_name = "akanda/simple.html"
-
-    def get_context_data(self, request):
-        return {}
-
-
 class VPNTab(tabs.Tab):
     name = _("VPN")
     slug = "vpn"
@@ -45,4 +37,4 @@ class VPNTab(tabs.Tab):
 class NetworkingTabs(tabs.TabGroup):
     slug = "networkingtabs"
     tabs = (AliasTab, ConfigurationTab, FirewallTab,
-            NatTab, PortForwardTab, VPNTab)
+            NatTab, PortForwardingTab, VPNTab)
