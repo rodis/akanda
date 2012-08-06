@@ -25,7 +25,7 @@ class InterfaceManager(base.Manager):
             self.get_interfaces()
 
     def get_interfaces(self):
-        interfaces = _parse_interfaces(self.do('-A'),
+        interfaces = _parse_interfaces(self.do('-a'),
                                        filters=PHYSICAL_INTERFACES)
 
         interfaces.sort(key=lambda x: x.ifname)
