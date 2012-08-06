@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from akanda.horizon.akanda.firewall.tables import FirewallTable
+from .tables import FirewallTable
 
 
 class FirewallTab(tabs.TableTab):

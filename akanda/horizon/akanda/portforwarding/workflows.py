@@ -35,7 +35,6 @@ class PortsAction(workflows.Action):
     class Meta:
         name = _("Ports")
         permissions = ()
-        help_text = ""
 
 
 class Ports(workflows.Step):
