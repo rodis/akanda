@@ -14,7 +14,7 @@ PIP = pip-2.7
 GIT = git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
-NOSE= $(PYTHON) $(shell which nosetests-2.7)
+NOSE = nosetests-2.7
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
