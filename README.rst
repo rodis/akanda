@@ -71,18 +71,30 @@ Building an OpenBSD Dev Environment
 
 Set up your packge URL, e.g.::
 
-  export BSD_MIRROR=mirror.ece.vt.edu
-  export PKG_PATH=http://$BSD_MIRROR/pub/OpenBSD/5.1/packages/`machine -a`/
+  $ export BSD_MIRROR=mirror.ece.vt.edu
+  $ export PKG_PATH=http://$BSD_MIRROR/pub/OpenBSD/5.1/packages/`machine -a`/
 
 Then bootstrap the project::
 
-  pkg_add -i git gmake
-  git clone git@github.com:dreamhost/akanda.git
+  $ pkg_add -i git gmake
+  $ git clone git@github.com:dreamhost/akanda.git
+  $ cd akanda
+
+Set up a virtualenv for Python, to avoid any conflicts or inconsistencies::
+
+  $ virtualenv -p `which python2.7` .venv
+  $ . .venv/bin/activate
+
+Akanda works with Python 2.6, so feel free to substitute the version number
+above, if you have such a requirement.
 
 Finally, get the rest of the deps::
 
-  cd akanda
-  gmake install-dev
+  $ (.venv) make python-deps
+
+Or, for OpenBSD::
+
+  $ (.venv) gmake install-dev
 
 
 Building an Akanda ISO
