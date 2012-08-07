@@ -65,9 +65,37 @@ Dependencies
 Installation
 ============
 
+Setting up a Linux/Mac OS X Dev Environment
+-------------------------------------------
 
-Building an OpenBSD Dev Environment
------------------------------------
+Get the source code::
+
+  $ git clone git@github.com:dreamhost/akanda.git
+  $ cd akanda
+
+Set up a virtualenv for Python, to avoid any conflicts or inconsistencies::
+
+  $ make setup-venv
+  $ . .venv/bin/activate
+
+Akanda works with Python 2.6, so feel free to substitute the version number
+above, if you have such a requirement.
+
+Finally, get the rest of the deps::
+
+  $ (.venv) make python-deps
+
+Run the unit tests to make sure that everything is okay::
+
+  $ (.venv) make check
+
+If you are writing code and want to keep tabs on your pep8 violations, code
+flakes, and coverage::
+
+  $ (.venv) make check-dev
+
+Setting up an OpenBSD Dev Environment
+-------------------------------------
 
 Set up your packge URL, e.g.::
 
@@ -77,20 +105,17 @@ Set up your packge URL, e.g.::
 Then bootstrap the project::
 
   $ pkg_add -i git gmake
+
   $ git clone git@github.com:dreamhost/akanda.git
   $ cd akanda
 
 Set up a virtualenv for Python, to avoid any conflicts or inconsistencies::
 
-  $ virtualenv -p `which python2.7` .venv
+  $ gmake setup-venv
   $ . .venv/bin/activate
 
 Akanda works with Python 2.6, so feel free to substitute the version number
 above, if you have such a requirement.
-
-Finally, get the rest of the deps::
-
-  $ (.venv) make python-deps
 
 Or, for OpenBSD::
 
