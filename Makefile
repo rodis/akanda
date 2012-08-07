@@ -14,7 +14,7 @@ PIP = /usr/local/bin/pip-2.7
 GIT = /usr/local/bin/git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
-NOSE= nosetests-2.7
+NOSE= $(PYTHON) $(shell which nosetests-2.7)
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -63,6 +63,7 @@ python-deps: $(PYPF_INSTALL)
 	sudo $(PIP) install netaddr
 	sudo $(PIP) install flask
 	sudo $(PIP) install https://github.com/nose-devs/nose/zipball/master
+#	sudo $(PIP) install https://github.com/openstack/horizon/zipball/master
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
