@@ -12,7 +12,6 @@ USER = oubiwann
 PYTHON = /usr/local/bin/python
 PIP = /usr/local/bin/pip-2.7
 GIT = /usr/local/bin/git
-TWISTD = /usr/local/bin/twistd
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
 
@@ -50,15 +49,6 @@ ifeq ($(UNAME), OpenBSD)
 	pkg_add -i git
 endif
 
-$(TWISTD):
-ifeq ($(UNAME), FreeBSD)
-	cd /usr/ports/devel/py-twisted && make install clean
-endif
-ifeq ($(UNAME), OpenBSD)
-	pkg_add -i py-twisted-core
-	pkg_add -i py-twisted-web
-endif
-
 $(DEV_DIR):
 	mkdir -p $(DEV_DIR)
 
@@ -74,7 +64,7 @@ $(TXROUTES_DIR):
 $(TXROUTES_INSTALL): $(DEV_DIR) $(TXROUTES_DIR)
 	cd $(TXROUTES_DIR) && python setup.py install
 
-python-deps: $(TWISTD) $(PYPF_INSTALL) $(TXROUTES_INSTALL)
+python-deps: $(PYPF_INSTALL) $(TXROUTES_INSTALL)
 	sudo $(PIP) install netaddr
 
 install-dev: $(PYTHON) $(GIT) python-deps
