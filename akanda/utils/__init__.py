@@ -4,8 +4,6 @@ import shlex
 import subprocess
 import tempfile
 
-import netaddr
-
 
 def execute(args, root_helper=None):
     if root_helper:
@@ -35,6 +33,8 @@ class ModelSerializer(JSONEncoder):
     """
     """
     def default(self, obj):
+        import netaddr
+
         # import here to avoid circual imports... ugh; we may need to move this
         # serialized now...
         if isinstance(obj, set):
