@@ -123,3 +123,6 @@ iso:
 
 run-dev:
 	$(PYTHON) akanda/routerapi/devserver.py
+
+install: python-deps
+	sudo $(PIP) install .
