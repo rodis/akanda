@@ -12,10 +12,6 @@ setup(
     author_email=meta.author_email,
     url=meta.url,
     license=meta.license,
-    packages=find_packages() + ["twisted.plugins"],
-    package_data={
-        "twisted": ['plugins/restapi.py']
-        },  
     install_requires=meta.requires,
     zip_safe=False,
     entry_points={
