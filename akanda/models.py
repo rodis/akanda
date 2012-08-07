@@ -56,7 +56,8 @@ class Interface(object):
         if extended:
             include.extend(['flags', 'extra_params'])
 
-        retval = {k: v for k, v in vars(self).iteritems() if k in include}
+        retval = dict(
+            [(k, v) for k, v in vars(self).iteritems() if k in include])
         retval['description'] = self.description
         retval['addresses'] = self.addresses
         retval['state'] = (self.is_up and 'up') or 'down'
