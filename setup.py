@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 
 from akanda import meta
-from akanda.utils import dist
 
 
 setup(
@@ -21,5 +20,3 @@ setup(
         ]
     },
 )
-
-dist.refresh_plugin_cache()
