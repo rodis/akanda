@@ -8,7 +8,8 @@ PYPF_INSTALL = /usr/local/lib/python2.7/site-packages/pypf
 PYPF_URL = git@github.com:dreamhost/pypf.git
 TXROUTES_URL = git@github.com:dreamhost/txroutes.git
 AKANDA_URL = git@github.com:dreamhost/akanda.git
-USER = oubiwann
+USER ?= oubiwann
+REQUIREMENTS = requirements.txt
 PYTHON = python2.7
 PIP = pip-2.7
 GIT = git
@@ -53,19 +54,11 @@ endif
 $(DEV_DIR):
 	mkdir -p $(DEV_DIR)
 
-$(PYPF_DIR):
-	-cd $(DEV_DIR) && git clone $(PYPF_URL)
+$(REQUIREMENTS):
+	$(PYTHON) -c "from akanda import meta;meta.generate_requirements('$(REQUIREMENTS)');"
 
-$(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
-	-cd $(PYPF_DIR) && sudo $(PYTHON) setup.py install
-
-python-deps: $(PYPF_INSTALL)
-	sudo $(PIP) install coverage
-	sudo $(PIP) install mock
-	sudo $(PIP) install netaddr
-	sudo $(PIP) install flask
-	sudo $(PIP) install https://github.com/nose-devs/nose/zipball/master
-#	sudo $(PIP) install https://github.com/openstack/horizon/zipball/master
+python-deps: $(REQUIREMENTS)
+	sudo $(PIP) install $(REQUIREMENTS)
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
@@ -107,16 +100,16 @@ scp-push-dev:
 	ssh root@$(PF_HOST) \
 	"cd $(AKANDA_DIR) && python setup.py install"
 
-check-dev:
-	-make check
-	-pep8 $(LIB)
-	-pyflakes $(LIB)
-
-check:
+check: python-deps
 	$(NOSE) -v $(LIB)
 
-check-cover:
+check-cover: python-deps
 	$(NOSE) -v --with-coverage --cover-package=$(LIB) --cover-branches
+
+check-dev:
+	-make check-cover
+	-pep8 $(LIB)
+	-pyflakes $(LIB)
 
 iso:
 	"./scripts/create-akanda-livecd.sh"

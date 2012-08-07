@@ -1,5 +1,0 @@
-repoze.lru==0.5
-wsgiref==0.1.2
-netaddr>=0.7.7
-mock>=0.8.0
-flask>=0.9
