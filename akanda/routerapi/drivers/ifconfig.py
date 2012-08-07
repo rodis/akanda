@@ -3,7 +3,8 @@ import re
 import netaddr
 
 from akanda import models
-from akanda.drivers import base
+from akanda.routerapi.drivers import base
+
 
 GENERIC_IFNAME = 'ge'
 PHYSICAL_INTERFACES = ['em', 're', 'en']
