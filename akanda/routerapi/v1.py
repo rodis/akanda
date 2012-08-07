@@ -12,7 +12,7 @@ blueprint = flask.Blueprint('v1', __name__)
 ## APIs for working with system.
 
 
-@blueprint.route('/get_interfaces')
+@blueprint.route('/system/get_interfaces')
 def get_interfaces():
     return 'OpenBSD ifconfig -a'
 
@@ -20,6 +20,6 @@ def get_interfaces():
 ## APIs for working with firewall.
 
 
-@blueprint.route('/get_rules')
+@blueprint.route('/firewall/get_rules')
 def get_rules():
     pass
