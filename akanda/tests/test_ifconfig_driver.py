@@ -3,7 +3,7 @@ import unittest
 import mock
 import netaddr
 
-from akanda.drivers import ifconfig
+from akanda.routerapi.drivers import ifconfig
 
 SAMPLE_OUTPUT = """lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 33152
 \tpriority: 0
