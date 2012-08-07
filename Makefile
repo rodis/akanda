@@ -60,6 +60,7 @@ $(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
 	-cd $(PYPF_DIR) && sudo $(PYTHON) setup.py install
 
 python-deps: $(PYPF_INSTALL)
+	sudo $(PIP) install coverage
 	sudo $(PIP) install netaddr
 	sudo $(PIP) install flask
 	sudo $(PIP) install https://github.com/nose-devs/nose/zipball/master
