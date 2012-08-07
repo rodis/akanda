@@ -58,7 +58,7 @@ $(REQUIREMENTS):
 	$(PYTHON) -c "from akanda import meta;meta.generate_requirements('$(REQUIREMENTS)');"
 
 python-deps: $(REQUIREMENTS)
-	sudo $(PIP) install $(REQUIREMENTS)
+	sudo $(PIP) install -r $(REQUIREMENTS)
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
@@ -110,6 +110,9 @@ check-dev:
 	-make check-cover
 	-pep8 $(LIB)
 	-pyflakes $(LIB)
+
+setup-venv:
+	virtualenv -p $(shell which $(PYTHON)) .venv
 
 iso:
 	"./scripts/create-akanda-livecd.sh"
