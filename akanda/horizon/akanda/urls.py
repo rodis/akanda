@@ -2,9 +2,9 @@ from django.conf.urls.defaults import patterns, url, include
 
 from .views import IndexView
 
-from .alias import urls as alias_urls
-from .firewall import urls as firewall_urls
-from .portforwarding import urls as forwarding_rules
+from akanda.horizon.akanda.alias import urls as alias_urls
+from akanda.horizon.akanda.firewall import urls as firewall_urls
+from akanda.horizon.akanda.portforwarding import urls as forwarding_rules
 
 
 urlpatterns = patterns('',

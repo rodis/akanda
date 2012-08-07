@@ -2,9 +2,9 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from .firewall.tabs import FirewallTab
-from .alias.tabs import AliasTab
-from .portforwarding.tabs import PortForwardingTab
+from akanda.horizon.akanda.firewall.tabs import FirewallTab
+from akanda.horizon.akanda.alias.tabs import AliasTab
+from akanda.horizon.akanda.portforwarding.tabs import PortForwardingTab
 
 
 class ConfigurationTab(tabs.Tab):

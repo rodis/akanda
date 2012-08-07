@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from horizon import forms
 
-from .forms import CreateFirewallRule
+from akanda.horizon.akanda.firewall.forms import CreateFirewallRule
 
 
 class CreateFirewallRuleView(forms.ModalFormView):

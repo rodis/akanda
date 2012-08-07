@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from .tables import PortForwardingTable
+from akanda.horizon.akanda.portforwarding.tables import PortForwardingTable
 
 
 class PortForwardingTab(tabs.TableTab):

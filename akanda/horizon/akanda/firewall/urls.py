@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import CreateFirewallRuleView
+from akanda.horizon.akanda.firewall.views import CreateFirewallRuleView
 
 urlpatterns = patterns('',
     url(r'^rule/create/$', CreateFirewallRuleView.as_view(),

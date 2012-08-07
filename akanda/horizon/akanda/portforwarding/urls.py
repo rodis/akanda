@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import CreatePortForwardingRuleView
+from akanda.horizon.akanda.portforwarding.views import (
+    CreatePortForwardingRuleView)
 
 urlpatterns = patterns('',
     url(r'^rule/create/$', CreatePortForwardingRuleView.as_view(),

@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import CreatePortView, CreateHostView, CreateNetworkView
+from akanda.horizon.akanda.alias.views import (
+    CreatePortView, CreateHostView, CreateNetworkView)
 
 
 urlpatterns = patterns('',
