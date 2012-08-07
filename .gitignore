@@ -2,6 +2,8 @@
 *.py[co]
 *.sw[po]
 *.pyc
+*.egg-info
+.venv
 dropin.cache
 _trial_temp
 build
