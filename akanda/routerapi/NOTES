@@ -1,0 +1,38 @@
+# Thoughts that should guide REST implementations:
+#
+#   For collections (e.g., /json/v1/firewall/groups):
+#       GET - list the details of the groups
+#       PUT - replace the current groups data entirely with new groups data
+#       POST - create a new group in the groups collection
+#       DELETE - delete the entire collection
+#
+#   For elements (e.g., /json/v1/firewall/{name}/rule/{rule-number}):
+#       GET - retreive rule data for the given firewall rule
+#       PUT - replace the given firewall rule with a new one
+#       DELETE - delete the given firewall rule
+#
+#   For elements (e.g., /json/v1/firewall/{name}/rule/):
+#       POST - create a new firewall rule
+#
+# Also, be sure to look at akanda.api.routes (both code and comments), as
+# this provides useful information on how the API methods below will be used.
+#
+# XXX For information on Routes (used by txroutes), see:
+#   http://routes.readthedocs.org/en/latest/setting_up.html
+#   http://routes.readthedocs.org/en/latest/restful.html
+#
+# In particular, the restful.html link above defines a route mapping via the
+# Routes API that produces a logical map like the following:
+#
+# GET    /messages        => messages.index()    => url("messages")
+# POST   /messages        => messages.create()   => url("messages")
+# GET    /messages/new    => messages.new()      => url("new_message")
+# PUT    /messages/1      => messages.update(id) => url("message", id=1)
+# DELETE /messages/1      => messages.delete(id) => url("message", id=1)
+# GET    /messages/1      => messages.show(id)   => url("message", id=1)
+# GET    /messages/1/edit => messages.edit(id)   => url("edit_message", id=1)
+#
+# We should create a document that defines something similar for our Firewall,
+# VPN, NAT, Config, etc., API components. Once we have a definition like this,
+# we can work it backwards to see what our Routes connect ("rule", below)
+# method calls/parameters will look like.
