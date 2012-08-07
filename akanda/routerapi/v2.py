@@ -1,15 +1,6 @@
 import json
 
-from twisted.web import resource
-
-from txroutes import Dispatcher
-
 from akanda.routerapi import base
-
-
-# For info on how to run long-running processes (e.g., use deferreds) see the
-# examples here:
-#   https://github.com/dreamhost/txroutes
 
 
 class Firewall(base.RESTAPIBase):
