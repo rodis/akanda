@@ -5,6 +5,7 @@ import netaddr
 
 from akanda.routerapi.drivers import ifconfig
 
+
 SAMPLE_OUTPUT = """lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 33152
 \tpriority: 0
 \tgroups: lo
@@ -69,21 +70,24 @@ class IfconfigTestCase(unittest.TestCase):
 
         iface_b = mock.Mock()
         iface_b.ifname = 'em1'
-        with mock.patch('akanda.drivers.ifconfig._parse_interfaces') as parse:
+        with mock.patch(
+            'akanda.routerapi.drivers.ifconfig._parse_interfaces') as parse:
             parse.return_value = [iface_a, iface_b]
             mgr = ifconfig.InterfaceManager()
             interfaces = mgr.get_interfaces()
             self.assertEqual(interfaces, [iface_a, iface_b])
 
         self.mock_execute.assert_has_calls(
-            [mock.call(['/sbin/ifconfig', '-A'])])
+            [mock.call(['/sbin/ifconfig', '-a'])])
 
     def test_get_interface(self):
         iface_a = mock.Mock()
         iface_a.ifname = 'em0'
 
-        with mock.patch('akanda.drivers.ifconfig._parse_interface') as parse:
-            with mock.patch('akanda.drivers.ifconfig._parse_interfaces') as pi:
+        with mock.patch(
+            'akanda.routerapi.drivers.ifconfig._parse_interface') as parse:
+            with mock.patch(
+                'akanda.routerapi.drivers.ifconfig._parse_interfaces') as pi:
                 pi.return_value = [iface_a]
                 parse.return_value = iface_a
                 mgr = ifconfig.InterfaceManager()
@@ -92,7 +96,7 @@ class IfconfigTestCase(unittest.TestCase):
                 self.assertEqual(iface_a.ifname, 'ge0')
 
         self.mock_execute.assert_has_calls(
-            [mock.call(['/sbin/ifconfig', '-A'])])
+            [mock.call(['/sbin/ifconfig', '-a'])])
 
     def test_ensure_mapping_uninitialized(self):
         attr = 'get_interfaces'
