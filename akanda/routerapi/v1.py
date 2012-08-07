@@ -2,8 +2,8 @@
 """
 # Fix paths for imports for production deployment
 import flask
-from drivers import ifconfig
-import utils
+
+from akanda.routerapi.drivers import ifconfig
 
 
 blueprint = flask.Blueprint('v1', __name__)
