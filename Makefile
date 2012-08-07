@@ -9,11 +9,12 @@ PYPF_URL = git@github.com:dreamhost/pypf.git
 TXROUTES_URL = git@github.com:dreamhost/txroutes.git
 AKANDA_URL = git@github.com:dreamhost/akanda.git
 USER = oubiwann
-PYTHON = /usr/local/bin/python
+PYTHON = python2.7
 PIP = /usr/local/bin/pip-2.7
 GIT = /usr/local/bin/git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
+NOSE= nosetests-2.7
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -56,16 +57,12 @@ $(PYPF_DIR):
 	-cd $(DEV_DIR) && git clone $(PYPF_URL)
 
 $(PYPF_INSTALL): $(DEV_DIR) $(PYPF_DIR)
-	cd $(PYPF_DIR) && python setup.py install
+	-cd $(PYPF_DIR) && sudo $(PYTHON) setup.py install
 
-$(TXROUTES_DIR):
-	cd $(DEV_DIR) && git clone $(TXROUTES_URL)
-
-$(TXROUTES_INSTALL): $(DEV_DIR) $(TXROUTES_DIR)
-	cd $(TXROUTES_DIR) && python setup.py install
-
-python-deps: $(PYPF_INSTALL) $(TXROUTES_INSTALL)
+python-deps: $(PYPF_INSTALL)
 	sudo $(PIP) install netaddr
+	sudo $(PIP) install flask
+	sudo $(PIP) install https://github.com/nose-devs/nose/zipball/master
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
@@ -113,11 +110,10 @@ check-dev:
 	-pyflakes $(LIB)
 
 check:
-	trial $(LIB)
+	$(NOSE) -v $(LIB)
 
 check-cover:
-	coverage run `which trial` $(LIB)
-	coverage report -m
+	$(NOSE) -v --with-coverage --cover-package=$(LIB) --cover-branches
 
 iso:
 	"./scripts/create-akanda-livecd.sh"
