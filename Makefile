@@ -119,3 +119,6 @@ check-cover:
 
 iso:
 	"./scripts/create-akanda-livecd.sh"
+
+run-dev:
+	$(PYTHON) akanda/routerapi/devserver.py

@@ -7,7 +7,7 @@ import flask
 from akanda.routerapi import v1, v2
 
 
-app = flask.Flask('api')
+app = flask.Flask('routerapi')
 app.register_blueprint(v1.blueprint, url_prefix='/v1')
 
 
@@ -20,11 +20,3 @@ def attach_config():
 @app.route('/')
 def welcome():
     return 'Welcome to Akanda'
-"""Set up the development API server.
-"""
-
-
-def run_dev_server():
-    app.debug = True
-    app.logger.debug('api_debug')
-    app.run(host='0.0.0.0', port=5000)
