@@ -170,36 +170,7 @@ The Router-Instance REST API
 This section assumes that all provided commands will be executed at the
 top-level of the check-out directory.
 
-The plugin is in the ``twisted/plugins`` directory. Note that the string value
-of service module in the plugin file enables one to define the service before
-the service module in question is present in the Python namespace.
-
-The filename of the plugin has no impact on usage; the plugin name is given as
-a string value in the service definition in the plugin file.
-
-You can get a complete list of plugins via::
-
-  $ twistd --help
-
-You can get a list of options particular to this plugin via::
-
-  $ twistd akanda --help
-
-You start the service in the foreground using the twistd command line tool::
-
-  $ twistd -n akanda
-
-Or, you can run it as a daemon with::
-
-  $ twistd akanda
-
-Once the service is up and running, you can test it via a web browser by
-accessing the following URLs:
-
-* http://localhost:9999/json/v1/
-* http://localhost:9999/json/v1/demo
-* http://localhost:9999/json/v1/meta/version
-
+TBD
 
 The User-Facing REST API
 ------------------------
