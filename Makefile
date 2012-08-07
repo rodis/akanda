@@ -16,6 +16,7 @@ GIT = git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
 NOSE = nosetests-2.7
+VENV = .venv
 
 clean:
 	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
@@ -112,7 +113,10 @@ check-dev:
 	-pyflakes $(LIB)
 
 setup-venv:
-	virtualenv -p $(shell which $(PYTHON)) .venv
+	virtualenv -p $(shell which $(PYTHON)) $(VENV)
+
+check-venv: setup-venv
+	. $(VENV)/bin/activate && make check-dev
 
 iso:
 	"./scripts/create-akanda-livecd.sh"
