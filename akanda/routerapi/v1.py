@@ -3,7 +3,9 @@
 
 import flask
 
+from akanda.routerapi.drivers import base
 from akanda.routerapi.drivers import ifconfig
+from akanda.routerapi.drivers import pf
 
 blueprint = flask.Blueprint('v1', __name__)
 
@@ -23,6 +25,7 @@ def get_interfaces():
 
 ## APIs for working with firewall.
 
+pf_mgr = pf.PfManager()
 
 @blueprint.route('/firewall/rules')
 def get_rules():
