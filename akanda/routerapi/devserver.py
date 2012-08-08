@@ -1,4 +1,4 @@
-from akanda.routerapi.routes import app
+from akanda.routerapi.v1 import app
 
 
 def __main__():
