@@ -18,14 +18,14 @@ def welcome():
     return 'Welcome to Akanda'
 
 
-## APIs for working with system.
+## APIs for working with OpenBSD System.
 
 if_mgr = ifconfig.InterfaceManager()
 
 
 @blueprint.route('/system/interface/<ifname>')
 def get_interface(ifname):
-    result = (if_mgr.get_interface(), ifname)
+    result = if_mgr.get_interface(ifname)
     return json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer)
 
 
@@ -36,7 +36,7 @@ def get_interfaces():
     return json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
 
 
-## APIs for working with the firewall.
+## APIs for working with the Firewall.
 
 pf_mgr = pf.PfManager()
 
