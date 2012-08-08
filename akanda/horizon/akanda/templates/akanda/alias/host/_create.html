@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block form_id %}create_host_alias_form{% endblock %}
-{% block form_action %}{% url horizon:nova:access_and_security:security_groups:create %}{% endblock %}
+{% block form_action %}{% url horizon:nova:networking:port:create_host_alias %}{% endblock %}
 
 {% block modal-header %}{% trans "Create a Host Alias" %}{% endblock %}
 {% block modal_id %}create_host_alias_modal{% endblock %}
@@ -23,4 +23,5 @@
   <input class="btn btn-primary pull-right" type="submit" value="{% trans "Create Alias" %}" />
   <a href="" class="btn secondary cancel close">{% trans "Cancel" %}</a>
 {% endblock %}
+
 

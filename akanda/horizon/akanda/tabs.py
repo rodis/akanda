@@ -38,3 +38,21 @@ class NetworkingTabs(tabs.TabGroup):
     slug = "networkingtabs"
     tabs = (AliasTab, ConfigurationTab, FirewallTab,
             NatTab, PortForwardingTab, VPNTab)
+
+
+def alias_tab_redirect():
+    tab_group_slug = NetworkingTabs.slug
+    tab_slug = AliasTab.slug
+    return "%s__%s" % (tab_group_slug, tab_slug)
+
+
+def firewall_tab_redirect():
+    tab_group_slug = NetworkingTabs.slug
+    tab_slug = FirewallTab.slug
+    return "%s__%s" % (tab_group_slug, tab_slug)
+
+
+def portforwarding_tab_redirect():
+    tab_group_slug = NetworkingTabs.slug
+    tab_slug = PortForwardingTab.slug
+    return "%s__%s" % (tab_group_slug, tab_slug)
