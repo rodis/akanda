@@ -27,6 +27,8 @@ def get_interfaces():
 
 pf_mgr = pf.PfManager()
 
+
 @blueprint.route('/firewall/rules')
 def get_rules():
-    pass
+    results = pf_mgr.get_rules()
+    return results
