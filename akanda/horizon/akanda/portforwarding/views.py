@@ -1,6 +1,6 @@
 from horizon import workflows
 
-from .workflows import PortForwardingRule
+from akanda.horizon.akanda.portforwarding.workflows import PortForwardingRule
 
 
 class CreatePortForwardingRuleView(workflows.WorkflowView):

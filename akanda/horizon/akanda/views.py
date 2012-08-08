@@ -1,6 +1,6 @@
 from horizon import tabs
 
-from tabs import NetworkingTabs
+from akanda.horizon.akanda.tabs import NetworkingTabs
 
 
 class IndexView(tabs.TabbedTableView):

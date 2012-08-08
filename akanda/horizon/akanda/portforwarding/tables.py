@@ -11,7 +11,7 @@ class DeletePortForwardingRule(tables.DeleteAction):
 class CreatePortForwardingRule(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Rule")
-    url = "createportforwardingrule"
+    url = "horizon:nova:networking:forwarding:create_rule"
     classes = ("ajax-modal", "btn-create")
 
 

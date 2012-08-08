@@ -11,7 +11,7 @@
  <div class="left">
    <fieldset>
       {% for field in form.visible_fields %}
-        {% ifnotequal field.html_name|slice:":9" 'public_ip' %}
+        {% ifnotequal field.html_name|slice:":10" 'private_ip' %}
           {% include "akanda/common/_form_field_snippet.html" %}
         {% endifnotequal %}
       {% endfor %}
@@ -26,4 +26,3 @@
       {% endfor %}
    </fieldset>
  </div>
-

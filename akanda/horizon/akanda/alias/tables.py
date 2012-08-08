@@ -11,7 +11,7 @@ class DeletePort(tables.DeleteAction):
 class CreatePort(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Alias")
-    url = "createport"
+    url = "horizon:nova:networking:port:create_port_alias"
     classes = ("ajax-modal", "btn-create")
 
 
@@ -42,7 +42,7 @@ class DeleteHost(tables.DeleteAction):
 class CreateHost(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Alias")
-    url = "createhost"
+    url = "horizon:nova:networking:port:create_host_alias"
     classes = ("ajax-modal", "btn-create")
 
 
@@ -72,7 +72,7 @@ class DeleteNetwork(tables.DeleteAction):
 class CreateNetwork(tables.LinkAction):
     name = "createnetwork"
     verbose_name = _("Create Alias")
-    url = "createnetwork"
+    url = "horizon:nova:networking:port:create_network_alias"
     classes = ("ajax-modal", "btn-create")
 
 

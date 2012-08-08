@@ -2,8 +2,8 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from akanda.horizon.akanda.alias.tables import PortTable, HostTable, \
-     NetworkTable
+from akanda.horizon.akanda.alias.tables import (
+    PortTable, HostTable, NetworkTable)
 
 
 class AliasTab(tabs.TableTab):

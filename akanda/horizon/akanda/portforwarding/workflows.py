@@ -2,11 +2,16 @@ from django.utils.translation import ugettext as _
 
 from horizon import workflows
 from horizon import forms
+from horizon import exceptions
+
+from akanda.horizon.akanda import common
+from akanda.horizon.akanda.tabs import portforwarding_tab_redirect
 
 
 class DetailsAction(workflows.Action):
-    rule_name = forms.ChoiceField(label=_("Name"))
-    instance = forms.ChoiceField(label=_("Instance"))
+    rule_name = forms.CharField(label=_("Name"))
+    instance = forms.ChoiceField(
+        label=_("Instance"), choices=common.TEST_CHOICE)
 
     class Meta:
         name = _("Details")
@@ -23,19 +28,22 @@ class Details(workflows.Step):
 
 
 class PortsAction(workflows.Action):
-    public_ip = forms.ChoiceField(label=_("Public Ip"))
-    public_ip_port_alias = forms.ChoiceField(label=_("Port Alias"))
-    public_ip_protocol = forms.ChoiceField(label=_("Protocol"))
-    public_ip_ports = forms.ChoiceField(label=_("Public Ports"))
-    private_ip = forms.ChoiceField(label=_("Privare Ip"))
-    private_ip_port_alias = forms.ChoiceField(label=_("Port Alias"))
-    private_ip_protocol = forms.ChoiceField(label=_("Protocol"))
-    private_ip_ports = forms.ChoiceField(label=_("Public Ports"))
+    public_ip = forms.CharField(label=_("Public Ip"))
+    public_ip_port_alias = forms.ChoiceField(
+        label=_("Port Alias"), choices=common.TEST_CHOICE)
+    public_ip_protocol = forms.ChoiceField(
+        label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
+    public_ip_ports = forms.CharField(label=_("Public Ports"))
+    private_ip = forms.CharField(label=_("Private Ip"))
+    private_ip_port_alias = forms.ChoiceField(
+        label=_("Port Alias"), choices=common.TEST_CHOICE)
+    private_ip_protocol = forms.ChoiceField(
+        label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
+    private_ip_ports = forms.CharField(label=_("Public Ports"))
 
     class Meta:
         name = _("Ports")
         permissions = ()
-        help_text = ""
 
 
 class Ports(workflows.Step):
@@ -58,5 +66,17 @@ class PortForwardingRule(workflows.Workflow):
     finalize_button_name = _("Create Rule")
     success_message = _('Port Forwarding Rule successfully created')
     failure_message = _('Unable to create Port Forwarding Rule".')
-    success_url = ""
+    success_url = "horizon:nova:networking:index"
     default_steps = (Details, Ports)
+
+    def get_success_url(self):
+        url = super(PortForwardingRule, self).get_success_url()
+        return "%s?tab=%s" % (url, portforwarding_tab_redirect())
+
+    def handle(self, request, data):
+        try:
+            # port forwarding rule  creation goes here
+            return True
+        except:
+            exceptions.handle(request)
+            return False
