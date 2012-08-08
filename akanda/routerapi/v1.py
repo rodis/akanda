@@ -2,6 +2,9 @@
 """
 
 import flask
+import json
+
+from akanda import utils
 
 from akanda.routerapi.drivers import base
 from akanda.routerapi.drivers import ifconfig
@@ -17,10 +20,14 @@ def welcome():
 
 ## APIs for working with system.
 
+if_mgr = ifconfig.InterfaceManager()
+
 
 @blueprint.route('/system/interfaces')
 def get_interfaces():
-    return 'OpenBSD ifconfig -a'
+    results = if_mgr.get_interfaces()
+    interfaces = [x.to_dict() for x in results]
+    return json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
 
 
 ## APIs for working with firewall.
