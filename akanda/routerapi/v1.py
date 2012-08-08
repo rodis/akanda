@@ -5,17 +5,7 @@ import flask
 
 from akanda.routerapi.drivers import ifconfig
 
-
 blueprint = flask.Blueprint('v1', __name__)
-
-app = flask.Flask('routerapi')
-app.register_blueprint(blueprint, url_prefix='/v1')
-
-
-@blueprint.before_request
-def attach_config():
-    #Use for attaching config prior to starting
-    pass
 
 
 @blueprint.route('/')
@@ -26,7 +16,7 @@ def welcome():
 ## APIs for working with system.
 
 
-@blueprint.route('/system/get_interfaces')
+@blueprint.route('/system/interfaces')
 def get_interfaces():
     return 'OpenBSD ifconfig -a'
 
@@ -34,6 +24,6 @@ def get_interfaces():
 ## APIs for working with firewall.
 
 
-@blueprint.route('/firewall/get_rules')
+@blueprint.route('/firewall/rules')
 def get_rules():
     pass
