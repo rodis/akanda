@@ -2,6 +2,7 @@
 """
 
 import flask
+from flask import Response
 import json
 
 from akanda import utils
@@ -34,14 +35,20 @@ if_mgr = ifconfig.InterfaceManager()
 @blueprint.route('/system/interface/<ifname>')
 def get_interface(ifname):
     result = if_mgr.get_interface(ifname)
-    return json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer)
+    js = json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer)
+    resp = Response(js, status=200, mimetype='application/json')
+    return resp
 
 
 @blueprint.route('/system/interfaces')
 def get_interfaces():
     results = if_mgr.get_interfaces()
     interfaces = [x.to_dict() for x in results]
-    return json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
+    #Write a separate decorator for all returning better jsonify to work with
+    #Akanda and Flask
+    js = json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
+    resp = Response(js, status=200, mimetype='application/json')
+    return resp
 
 
 ## APIs for working with the Firewall.
