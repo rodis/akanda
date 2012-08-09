@@ -11,7 +11,7 @@ class DeleteFirewallRule(tables.DeleteAction):
 class CreateFirewallRule(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Rule")
-    url = "createfirewallrule"
+    url = "horizon:nova:networking:firewall:create_rule"
     classes = ("ajax-modal", "btn-create")
 
 
@@ -27,7 +27,8 @@ class FirewallTable(tables.DataTable):
     source_ip = tables.Column('', verbose_name=_("Source IP"))
     source_ports = tables.Column('', verbose_name=_("Source Ports"))
     destination_ip = tables.Column('', verbose_name=_("Destionation Ip"))
-    destination_ports = tables.Column('', verbose_name=_("Destionation Ports"))
+    destination_ports = tables.Column(
+        '', verbose_name=_("Destionation Ports"))
 
     class Meta:
         name = "firewall"

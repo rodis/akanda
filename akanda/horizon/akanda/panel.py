@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 import horizon
+
 from horizon.dashboards.nova.dashboard import Nova
 
 
