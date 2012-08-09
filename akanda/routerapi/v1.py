@@ -27,6 +27,10 @@ def welcome():
     return 'Welcome to the Akanda appliance'
 
 
+#Write a separate decorator for all returning better jsonify to work with
+#Akanda and Flask
+
+
 ## APIs for working with OpenBSD System.
 
 if_mgr = ifconfig.InterfaceManager()
@@ -44,8 +48,6 @@ def get_interface(ifname):
 def get_interfaces():
     results = if_mgr.get_interfaces()
     interfaces = [x.to_dict() for x in results]
-    #Write a separate decorator for all returning better jsonify to work with
-    #Akanda and Flask
     js = json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
     resp = Response(js, status=200, mimetype='application/json')
     return resp
