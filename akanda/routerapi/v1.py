@@ -6,7 +6,6 @@ import json
 
 from akanda import utils
 
-from akanda.routerapi.drivers import base
 from akanda.routerapi.drivers import ifconfig
 from akanda.routerapi.drivers import pf
 
@@ -24,7 +23,7 @@ def attach_config():
 
 @blueprint.route('/')
 def welcome():
-    return 'Welcome to Akanda'
+    return 'Welcome to the Akanda appliance'
 
 
 ## APIs for working with OpenBSD System.
