@@ -206,7 +206,11 @@ The Horizon Plugin
 Installing Akanda Support in Horizon
 ------------------------------------
 
-TBD
+Be sure to have Akanda installed on the system that will be running Akanda::
+
+  $ make install
+
+[more info soon on deploying the Akanda Horizon plugin]
 
 Viewing Akanda in Horizon
 -------------------------
