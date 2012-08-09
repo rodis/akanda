@@ -6,8 +6,12 @@ import json
 import unittest
 import logging
 import flask
+import mock
+
 
 from akanda.routerapi import v1
+from akanda import models
+
 
 LOG = logging.getLogger(__name__)
 
@@ -19,6 +23,7 @@ class TestRouterAPI(unittest.TestCase):
         self.app = flask.Flask('test')
         self.app.register_blueprint(v1.blueprint)
         self.test_app = self.app.test_client()
+
 
         @self.app.before_request
         def attach_config():
@@ -50,14 +55,16 @@ class TestRouterAPI(unittest.TestCase):
         return data
 
     def test_system_interface(self):
-        rv = self.test_app.get('/v1/system/interface/ge1')
-        try:
-            #data = json.loads(rv.data)
-            data = rv.data
-        except ValueError:
-            print 'RAW DATA:', rv
-            raise
-        return data
+        with mock.patch('akanda.routerapi.drivers.ifconfig.InterfaceManager') as if_mock:
+            if_mock.get_interface.return_value = models.Interface(ifname='ge1')
+            rv = self.test_app.get('/v1/system/interface/ge1')
+            try:
+                data = json.loads(rv.data)
+                #data = rv.data
+            except ValueError:
+                print 'RAW DATA:', rv
+                raise
+            return data
 
     def test_firewall_rules(self):
         rv = self.test_app.get('/v1/firewall/rules')
