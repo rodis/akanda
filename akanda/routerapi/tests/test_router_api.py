@@ -42,7 +42,8 @@ class TestRouterAPI(unittest.TestCase):
     def test_system_interfaces(self):
         rv = self.test_app.get('/v1/system/interfaces')
         try:
-            data = json.loads(rv.data)
+            #data = json.loads(rv.data)
+            data = rv.data
         except ValueError:
             print 'RAW DATA:', rv
             raise
@@ -51,7 +52,7 @@ class TestRouterAPI(unittest.TestCase):
     def test_system_interface(self):
         rv = self.test_app.get('/v1/system/interface/ge1')
         try:
-            data = json.loads(rv.data)
+            #data = json.loads(rv.data)
             data = rv.data
         except ValueError:
             print 'RAW DATA:', rv
@@ -61,7 +62,78 @@ class TestRouterAPI(unittest.TestCase):
     def test_firewall_rules(self):
         rv = self.test_app.get('/v1/firewall/rules')
         try:
-            #data = json.loads(rv.data)
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_states(self):
+        rv = self.test_app.get('/v1/firewall/states')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_anchors(self):
+        rv = self.test_app.get('/v1/firewall/anchors')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_sources(self):
+        rv = self.test_app.get('/v1/firewall/sources')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_info(self):
+        rv = self.test_app.get('/v1/firewall/info')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_tables(self):
+        rv = self.test_app.get('/v1/firewall/tables')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_labels(self):
+        rv = self.test_app.get('/v1/firewall/labels')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_timeouts(self):
+        rv = self.test_app.get('/v1/firewall/timeouts')
+        try:
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
+
+    def test_firewall_memory(self):
+        rv = self.test_app.get('/v1/firewall/memory')
+        try:
             data = rv.data
         except ValueError:
             print 'RAW DATA:', rv
