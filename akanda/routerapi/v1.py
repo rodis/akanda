@@ -12,6 +12,15 @@ from akanda.routerapi.drivers import pf
 
 blueprint = flask.Blueprint('v1', __name__)
 
+app = flask.Flask('routerapi')
+app.register_blueprint(blueprint, url_prefix='/v1')
+
+
+@blueprint.before_request
+def attach_config():
+    #Use for attaching config prior to starting
+    pass
+
 
 @blueprint.route('/')
 def welcome():
@@ -93,4 +102,3 @@ def get_timeouts():
 def get_memory():
     results = pf_mgr.get_memory()
     return results
-
