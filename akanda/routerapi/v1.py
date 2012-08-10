@@ -1,9 +1,10 @@
 """Blueprint for version 1 of API.
 """
+import json
 
 import flask
 from flask import Response
-import json
+
 
 from akanda import utils
 

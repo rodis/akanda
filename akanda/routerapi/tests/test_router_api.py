@@ -6,11 +6,12 @@ import json
 import unittest
 import logging
 import flask
+
 import mock
 
-
-from akanda.routerapi import v1
 from akanda import models
+from akanda.routerapi import v1
+
 
 
 LOG = logging.getLogger(__name__)

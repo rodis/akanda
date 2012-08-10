@@ -1,4 +1,5 @@
 import flask
+
 from akanda.routerapi import v1
 
 api = flask.Flask(__name__)
