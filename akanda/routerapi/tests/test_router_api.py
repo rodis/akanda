@@ -16,10 +16,10 @@ from akanda.routerapi import v1
 LOG = logging.getLogger(__name__)
 
 
-class RouterAPIPayloadTestCase(unittest.TestCase):
+class ClientTestCase(unittest.TestCase):
     """
     This test case contains the unit tests for the REST API specification. In
-    particular, it tests example payloads.
+    particular, it tests example payloads made via client requests.
     """
     def test_root(self):
         pass
@@ -31,10 +31,11 @@ class RouterAPIPayloadTestCase(unittest.TestCase):
         pass
 
 
-class RouterAPIImplementationTestCase(unittest.TestCase):
+class ServerTestCase(unittest.TestCase):
     """
-    This test case contains the unit tests for the Python implementation of the
-    Router API.
+    This test case contains the unit tests for the Python server implementation 
+    of the Router API. The focus of these tests is to ensure that the server is 
+    behaving appropriately.
     """
     def setUp(self):
         self.if_mock_patch = mock.patch(
