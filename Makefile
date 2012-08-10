@@ -15,7 +15,10 @@ PIP = pip-2.7
 GIT = git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
-NOSE = nosetests-2.7
+# XXX To work around a bug in nosetests -- which DOESN't point to python2.7,
+# only to /usr/bin/python -- we need to use a full path here and call Python
+# explicitly.
+NOSE = $(PYTHON) $(shell which nosetests-2.7)
 VENV = .venv
 
 clean:
@@ -123,3 +126,6 @@ iso:
 
 run-dev:
 	$(PYTHON) akanda/routerapi/devserver.py
+
+install: python-deps
+	sudo $(PIP) install .
