@@ -3,8 +3,10 @@
 """
 
 import json
+
 import unittest
 import logging
+
 import flask
 
 import mock
