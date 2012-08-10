@@ -42,7 +42,7 @@ class ServerTestCase(unittest.TestCase):
             'akanda.routerapi.drivers.ifconfig.InterfaceManager')
         self.if_mock = self.if_mock_patch.start()
         self.app = flask.Flask('test')
-        self.app.register_blueprint(v1.blueprint)
+        self.app.register_blueprint(v1.blueprint, url_prefix="/v1")
         self.test_app = self.app.test_client()
 
     def tearDown(self):
@@ -50,12 +50,8 @@ class ServerTestCase(unittest.TestCase):
 
     def test_root(self):
         rv = self.test_app.get('/v1/')
-        try:
-            data = rv.data
-        except ValueError:
-            print 'RAW DATA:', rv
-            raise
-        return data
+        expected = "Welcome to the Akanda appliance"
+        self.assertEqual(rv.data, expected)
 
     def test_system_interface(self):
             self.if_mock.get_interface.return_value = models.Interface(
