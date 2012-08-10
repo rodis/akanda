@@ -16,8 +16,26 @@ from akanda.routerapi import v1
 LOG = logging.getLogger(__name__)
 
 
-class TestRouterAPI(unittest.TestCase):
+class RouterAPIPayloadTestCase(unittest.TestCase):
+    """
+    This test case contains the unit tests for the REST API specification. In
+    particular, it tests example payloads.
+    """
+    def test_root(self):
+        pass
 
+    def test_system_interface(self):
+        pass
+
+    def test_system_interfaces(self):
+        pass
+
+
+class RouterAPIImplementationTestCase(unittest.TestCase):
+    """
+    This test case contains the unit tests for the Python implementation of the
+    Router API.
+    """
     def setUp(self):
         self.if_mock_patch = mock.patch(
             'akanda.routerapi.drivers.ifconfig.InterfaceManager')
@@ -38,16 +56,6 @@ class TestRouterAPI(unittest.TestCase):
             raise
         return data
 
-    def test_system_interfaces(self):
-        rv = self.test_app.get('/v1/system/interfaces')
-        try:
-            #data = json.loads(rv.data)
-            data = rv.data
-        except ValueError:
-            print 'RAW DATA:', rv
-            raise
-        return data
-
     def test_system_interface(self):
             self.if_mock.get_interface.return_value = models.Interface(
                 ifname='ge1')
@@ -59,6 +67,16 @@ class TestRouterAPI(unittest.TestCase):
                 print 'RAW DATA:', rv
                 raise
             return data
+
+    def test_system_interfaces(self):
+        rv = self.test_app.get('/v1/system/interfaces')
+        try:
+            #data = json.loads(rv.data)
+            data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
 
     def test_firewall_rules(self):
         rv = self.test_app.get('/v1/firewall/rules')
