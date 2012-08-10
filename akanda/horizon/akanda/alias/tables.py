@@ -4,8 +4,13 @@ from horizon import tables
 
 
 class DeletePort(tables.DeleteAction):
-    data_type_singular = _("Port")
-    data_type_plural = _("Ports")
+    name = 'delete'
+    data_type_singular = _("Port Alias")
+    data_type_plural = _("Port Aliases")
+
+    def delete(self, request, obj_id):
+        from akanda.horizon.akanda.fake import PortAliasManager
+        PortAliasManager.delete(request, obj_id)
 
 
 class CreatePort(tables.LinkAction):
@@ -16,22 +21,25 @@ class CreatePort(tables.LinkAction):
 
 
 class EditPort(tables.LinkAction):
-    name = "edit_alias"
+    name = "edit_port"
     verbose_name = _("Edit Alias")
-    url = "horizon:"
+    url = "horizon:nova:networking:port:delete_port_alias"
     classes = ("ajax-modal", "btn-edit")
 
 
 class PortTable(tables.DataTable):
-    alias_name = tables.Column('', verbose_name=_("Alias Name"))
-    Protocol = tables.Column('', verbose_name=_("Protocol"))
-    ports = tables.Column('', verbose_name=_("Ports"))
+    alias_name = tables.Column('alias_name', verbose_name=_("Alias Name"))
+    protocol = tables.Column('protocol', verbose_name=_("Protocol"))
+    ports = tables.Column('ports', verbose_name=_("Ports"))
 
     class Meta:
         name = "port"
         verbose_name = _("Port Aliases")
         table_actions = (CreatePort, DeletePort,)
         row_actions = (EditPort,)
+
+    def get_object_display(self, datum):
+        return datum.alias_name
 
 
 class DeleteHost(tables.DeleteAction):
@@ -47,7 +55,7 @@ class CreateHost(tables.LinkAction):
 
 
 class EditHost(tables.LinkAction):
-    name = "edit_alias"
+    name = "edit_host"
     verbose_name = _("Edit Alias")
     url = "horizon:"
     classes = ("ajax-modal", "btn-edit")
@@ -77,7 +85,7 @@ class CreateNetwork(tables.LinkAction):
 
 
 class EditNetwork(tables.LinkAction):
-    name = "edit_alias"
+    name = "edit_network"
     verbose_name = _("Edit Alias")
     url = "horizon:"
     classes = ("ajax-modal", "btn-edit")
