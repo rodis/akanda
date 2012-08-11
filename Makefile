@@ -11,6 +11,7 @@ AKANDA_URL = git@github.com:dreamhost/akanda.git
 USER ?= oubiwann
 REQUIREMENTS = requirements.txt
 PYTHON = python2.7
+EASYINSTALL = easy_install-2.7
 PIP = pip-2.7
 GIT = git
 #PF_HOST ?= 10.0.4.186
@@ -58,7 +59,10 @@ $(DEV_DIR):
 $(REQUIREMENTS):
 	$(PYTHON) -c "from akanda import meta;meta.generate_requirements('$(REQUIREMENTS)');"
 
-python-deps: $(REQUIREMENTS)
+easy_install:
+	sudo $(EASYINSTALL) pip
+
+python-deps: $(REQUIREMENTS) easy_install
 	sudo $(PIP) install -r $(REQUIREMENTS)
 
 install-dev: $(PYTHON) $(GIT) python-deps
@@ -112,7 +116,7 @@ check-dev:
 	-pep8 $(LIB)
 	-pyflakes $(LIB)
 
-setup-venv:
+venv: easy_install
 	virtualenv -p $(shell which $(PYTHON)) $(VENV)
 
 check-venv: setup-venv
