@@ -14,7 +14,8 @@ class AliasTab(tabs.TableTab):
     # preload = False
 
     def get_port_data(self):
-        return {}
+        from akanda.horizon.akanda.fake import PortAliasManager
+        return PortAliasManager.list_all(self.request)
 
     def get_host_data(self):
         return {}
