@@ -12,6 +12,7 @@ setup(
     url=meta.url,
     license=meta.license,
     install_requires=meta.requires,
+    packages=find_packages(),
     zip_safe=False,
     entry_points={
         'console_scripts': [
