@@ -10,3 +10,6 @@ INSTANCES_FAKE_DATA = [(k, v['name']) for k, v in \
 
 HOST_ALIAS_DB = DictKvs(fake_data.host_aliases_fake_data)
 HostAliasManager = fake_backend.HostAliasManager(HOST_ALIAS_DB)
+
+NETWORK_ALIASES_DB = DictKvs(fake_data.network_aliases_fake_data)
+NetworkAliasManager = fake_backend.NetworkAliasManager(NETWORK_ALIASES_DB)

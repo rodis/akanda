@@ -1,9 +1,8 @@
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 
-from django.core.urlresolvers import reverse_lazy
-
-from horizon import forms
 from horizon import exceptions
+from horizon import forms
 
 from akanda.horizon.akanda.alias.forms import (
     CreatePortAliasForm, EditPortAliasForm)
@@ -36,7 +35,7 @@ class EditPortAliasView(forms.ModalFormView):
                 self._object = PortAliasManager.get(
                     self.request, self.kwargs['port_alias_id'])
             except:
-                msg = _('Unable to port alias.')
+                msg = _('Unable to retrieve port alias.')
                 redirect = self.get_success_url()
                 exceptions.handle(self.request, msg, redirect=redirect)
         return self._object

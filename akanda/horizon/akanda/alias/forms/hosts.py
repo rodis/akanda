@@ -1,14 +1,12 @@
-from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
+from horizon import exceptions
 from horizon import forms
 from horizon import messages
-from horizon import exceptions
-
-# from akanda.horizon.akanda import common
-from akanda.horizon.akanda.tabs import alias_tab_redirect
 
 from akanda.horizon.akanda.fake import INSTANCES_FAKE_DATA
+from akanda.horizon.akanda.tabs import alias_tab_redirect
 
 
 class BaseHostAliasForm(forms.SelfHandlingForm):

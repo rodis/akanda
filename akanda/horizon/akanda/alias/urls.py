@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 from akanda.horizon.akanda.alias.views import (
     CreatePortAliasView, CreateHostAliasView, CreateNetworkView,
-    EditPortAliasView, EditHostAliasView)
+    EditPortAliasView, EditHostAliasView, EditNetworkAliasView)
 
 
 urlpatterns = patterns('',
@@ -16,4 +16,6 @@ urlpatterns = patterns('',
         name='edit_port_alias'),
     url(r'^host/(?P<host_alias_id>[^/]+)/edit/$', EditHostAliasView.as_view(),
         name='edit_host_alias'),
+    url(r'^network/(?P<network_alias_id>[^/]+)/edit/$',
+        EditNetworkAliasView.as_view(), name='edit_network_alias'),
 )

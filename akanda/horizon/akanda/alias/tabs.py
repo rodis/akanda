@@ -3,13 +3,13 @@ from django.utils.translation import ugettext as _
 from horizon import tabs
 
 from akanda.horizon.akanda.alias.tables import (
-    PortAliasTable, HostTable, NetworkTable)
+    PortAliasTable, HostAliasTable, NetworkTable)
 
 
 class AliasTab(tabs.TableTab):
     name = _("Alias")
     slug = "alias_tab"
-    table_classes = (PortAliasTable, HostTable, NetworkTable)
+    table_classes = (PortAliasTable, HostAliasTable, NetworkTable)
     template_name = "akanda/alias/index.html"
     # preload = False
 
@@ -22,4 +22,5 @@ class AliasTab(tabs.TableTab):
         return HostAliasManager.list_all(self.request)
 
     def get_networks_data(self):
-        return {}
+        from akanda.horizon.akanda.fake import NetworkAliasManager
+        return NetworkAliasManager.list_all(self.request)

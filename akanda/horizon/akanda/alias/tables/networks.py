@@ -4,8 +4,13 @@ from horizon import tables
 
 
 class Delete(tables.DeleteAction):
+    name = 'delete'
     data_type_singular = _("Network")
     data_type_plural = _("Networks")
+
+    def delete(self, request, obj_id):
+        from akanda.horizon.akanda.fake import NetworkAliasManager
+        NetworkAliasManager.delete(request, obj_id)
 
 
 class Create(tables.LinkAction):
@@ -18,16 +23,19 @@ class Create(tables.LinkAction):
 class Edit(tables.LinkAction):
     name = "edit"
     verbose_name = _("Edit Alias")
-    url = "horizon:"
+    url = "horizon:nova:networking:port:edit_network_alias"
     classes = ("ajax-modal", "btn-edit")
 
 
 class NetworkTable(tables.DataTable):
-    tenant = tables.Column('', verbose_name=_("Alias Name"))
-    cidr = tables.Column('', verbose_name=_("CIDR"))
+    alias_name = tables.Column('alias_name', verbose_name=_("Alias Name"))
+    cidr = tables.Column('cidr', verbose_name=_("CIDR"))
 
     class Meta:
         name = "networks"
         verbose_name = _("Network Aliases")
         table_actions = (Create, Delete,)
         row_actions = (Edit,)
+
+    def get_object_display(self, datum):
+        return datum.alias_name

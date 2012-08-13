@@ -27,7 +27,7 @@ class Edit(tables.LinkAction):
     classes = ("ajax-modal", "btn-edit")
 
 
-class HostTable(tables.DataTable):
+class HostAliasTable(tables.DataTable):
     alias_name = tables.Column('alias_name', verbose_name=_("Alias Name"))
     instances = tables.Column('instances', verbose_name=_("Instances"))
 

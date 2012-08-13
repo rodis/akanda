@@ -7,7 +7,6 @@ PROTOCOL_CHOICES = dict(protocol_choices)
 
 
 class Port(object):
-
     def __init__(self, alias_name, protocol, ports, id=None):
         self.alias_name = alias_name
         self.protocol = protocol
@@ -47,7 +46,6 @@ class Port(object):
 
 
 class Host(object):
-
     def __init__(self, alias_name, instances, id=None):
         self.alias_name = alias_name
         self._instances = instances
@@ -70,3 +68,13 @@ class Host(object):
 
     def get_instances_list(self):
         return self._instances
+
+
+class Network(object):
+    def __init__(self, alias_name, cidr, id=None):
+        self.alias_name = alias_name
+        self.cidr = cidr
+        self.id = id or uuid.uuid4().hex
+
+    def raw(self):
+        return self.__dict__

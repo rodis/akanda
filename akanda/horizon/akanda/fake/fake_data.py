@@ -66,7 +66,6 @@ instances_fake_data = {
     }
 }
 
-
 host_aliases_fake_data = {
 #  Fake data for Host Aliases
 # .. attribute:: id
@@ -86,5 +85,13 @@ host_aliases_fake_data = {
         'instances': ['015eff2961d8430ba0c7c483fcb2da7a',
                       '7f256428dbfe4bec91e643fac513778e',
                       '7f96521d5e8345878f6924f6d75c2884']
+    },
+}
+
+network_aliases_fake_data = {
+    'cefa80f7f3aa451ba48a3a8b10347a27': {
+        'id': 'cefa80f7f3aa451ba48a3a8b10347a27',
+        'alias_name': 'All Networks',
+        'cidr': '0.0.0.0/0'
     },
 }

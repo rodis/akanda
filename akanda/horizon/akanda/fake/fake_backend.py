@@ -1,4 +1,4 @@
-from akanda.horizon.akanda.fake.fake_models import Port, Host
+from akanda.horizon.akanda.fake.fake_models import Port, Host, Network
 
 
 class DictKvs(dict):
@@ -60,4 +60,20 @@ class HostAliasManager(Manager):
 
     def update(self, request, obj):
         obj = Host(**obj)
+        self.db[obj.id] = obj.raw()
+
+
+class NetworkAliasManager(Manager):
+    def list_all(self, request):
+        return [Network(**v) for v in self.db.values()]
+
+    def get(self, request, obj_id):
+        return Network(**self.db[obj_id])
+
+    def create(self, request, obj):
+        obj = Network(**obj)
+        self.db[obj.id] = obj.raw()
+
+    def update(self, request, obj):
+        obj = Network(**obj)
         self.db[obj.id] = obj.raw()
