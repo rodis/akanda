@@ -1,6 +1,7 @@
 """Blueprint for version 1 of API.
 """
 import json
+import logging
 
 import flask
 from flask import Response
@@ -11,10 +12,12 @@ from akanda import utils
 from akanda.routerapi.drivers import ifconfig
 from akanda.routerapi.drivers import pf
 
+LOG = logging.getLogger(__name__)
+
 blueprint = flask.Blueprint('v1', __name__)
 
-app = flask.Flask('routerapi')
-app.register_blueprint(blueprint, url_prefix='/v1')
+#app = flask.Flask('akanda.routerapi')
+#app.register_blueprint(blueprint, url_prefix='/v1')
 
 
 @blueprint.before_request
