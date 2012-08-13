@@ -1,5 +1,25 @@
-# Fake data for Port Aliases
 port_aliases_fake_data = {
+# Fake data for Port Aliases
+# .. attribute:: id
+#         Fake implementation detail
+#
+# .. attribute:: alias_name
+#         type: free text??
+#
+# .. attribute:: protocol
+#         type: integer??
+#
+#         PROTOCOL_CHOICES = (
+#             (0, 'TCP'),
+#             (1, 'UDP'),
+#             (2, 'TCP+UDP'),
+#        )
+#
+# .. attribute:: ports
+#         type: list of integers??
+#
+# Note(rods): we need to define data types in order to write forms' validation
+
     'df698e967f554e4284583c10ba326c5b': {
         'id': 'df698e967f554e4284583c10ba326c5b',
         'alias_name': 'FTP',
