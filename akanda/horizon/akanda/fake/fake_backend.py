@@ -1,4 +1,4 @@
-from akanda.horizon.akanda.fake.fake_models import Port
+from akanda.horizon.akanda.fake.fake_models import Port, Host
 
 
 class DictKvs(dict):
@@ -26,8 +26,16 @@ class Manager(object):
         del self.db[obj_id]
 
     def get(self, request, obj_id):
-        # user = self.request.user
-        # tenant_id = self.request.user.tenant_id
+        return obj_id
+
+
+class PortAliasManager(Manager):
+    def list_all(self, request):
+        return [Port(**v) for v in self.db.values()]
+
+    def get(self, request, obj_id):
+        # user = request.user
+        # tenant_id = request.user.tenant_id
         return Port(**self.db[obj_id])
 
     def create(self, request, obj):
@@ -39,6 +47,17 @@ class Manager(object):
         self.db[obj.id] = obj.raw()
 
 
-class PortAliasManager(Manager):
+class HostAliasManager(Manager):
     def list_all(self, request):
-        return [Port(**v) for v in self.db.values()]
+        return [Host(**v) for v in self.db.values()]
+
+    def get(self, request, obj_id):
+        return Host(**self.db[obj_id])
+
+    def create(self, request, obj):
+        obj = Host(**obj)
+        self.db[obj.id] = obj.raw()
+
+    def update(self, request, obj):
+        obj = Host(**obj)
+        self.db[obj.id] = obj.raw()

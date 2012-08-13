@@ -33,7 +33,7 @@ class CreatePortAliasForm(BasePortAliasForm):
 
     def _create_port_alias(self, request, data):
         from akanda.horizon.akanda.fake import PortAliasManager
-        PortAliasManager.create(self.request, data)
+        PortAliasManager.create(request, data)
 
 
 class EditPortAliasForm(BasePortAliasForm):

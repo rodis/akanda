@@ -18,7 +18,8 @@ class AliasTab(tabs.TableTab):
         return PortAliasManager.list_all(self.request)
 
     def get_hosts_data(self):
-        return {}
+        from akanda.horizon.akanda.fake import HostAliasManager
+        return HostAliasManager.list_all(self.request)
 
     def get_networks_data(self):
         return {}
