@@ -12,6 +12,7 @@ import mock
 from akanda import models
 from akanda.routerapi import v1
 
+from akanda.routerapi.tests import payloads
 
 LOG = logging.getLogger(__name__)
 
@@ -22,7 +23,8 @@ class ClientTestCase(unittest.TestCase):
     particular, it tests example payloads made via client requests.
     """
     def test_root(self):
-        pass
+        def get_page(url):
+            pass
 
     def test_system_interface(self):
         pass
@@ -33,8 +35,8 @@ class ClientTestCase(unittest.TestCase):
 
 class ServerTestCase(unittest.TestCase):
     """
-    This test case contains the unit tests for the Python server implementation 
-    of the Router API. The focus of these tests is to ensure that the server is 
+    This test case contains the unit tests for the Python server implementation
+    of the Router API. The focus of these tests is to ensure that the server is
     behaving appropriately.
     """
     def setUp(self):
