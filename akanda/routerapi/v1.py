@@ -16,9 +16,6 @@ LOG = logging.getLogger(__name__)
 
 blueprint = flask.Blueprint('v1', __name__)
 
-#app = flask.Flask('akanda.routerapi')
-#app.register_blueprint(blueprint, url_prefix='/v1')
-
 
 @blueprint.before_request
 def attach_config():
