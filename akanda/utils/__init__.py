@@ -4,6 +4,8 @@ import shlex
 import subprocess
 import tempfile
 
+import flask
+
 
 def execute(args, root_helper=None):
     if root_helper:
@@ -42,3 +44,10 @@ class ModelSerializer(JSONEncoder):
         if isinstance(obj, netaddr.IPNetwork):
             return str(obj)
         return super(ModelSerializer, self).default(obj)
+
+
+def blueprint_factory(name):
+    name_parts = name.split(".")[-2:]
+    blueprint_name = "_".join(name_parts)
+    url_prefix = "/" + "/".join(name_parts)
+    return flask.Blueprint(blueprint_name, name, url_prefix=url_prefix)
