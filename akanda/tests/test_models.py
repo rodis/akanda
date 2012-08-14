@@ -45,20 +45,36 @@ class InterfaceModelTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             iface.description = 'the description'
 
-    def test_is_up(self):
+    def test_is_up_extra_params(self):
         self.assertFalse(models.Interface().is_up)
+        iface = models.Interface(state='up')
+        self.assertTrue(iface.is_up)
 
+    def test_is_up_flags(self):
+        self.assertFalse(models.Interface().is_up)
         iface = models.Interface(flags=['UP'])
         self.assertTrue(iface.is_up)
 
     def test_from_dict(self):
+        d = {'ifname': 'ge0',
+             'addresses': ['192.168.1.1/24'],
+             'state': 'up',
+             'flags': ['UP', 'BROADCAST'],
+             'lladdr': 'aa:bb:cc:dd:ee:ff'}
+        iface = models.Interface.from_dict(d)
+        self.assertEqual(iface.ifname, 'ge0')
+        self.assertEqual(iface.addresses,
+                         [netaddr.IPNetwork('192.168.1.1/24')])
+        self.assertEqual(iface.extra_params["state"], 'up')
+        self.assertEqual(iface.flags, ['UP', 'BROADCAST'])
+        self.assertEqual(iface.lladdr, 'aa:bb:cc:dd:ee:ff')
+
+    def test_from_dict_function(self):
         d = dict(ifname='ge0',
                  addresses=['192.168.1.1/24'],
                  flags=['UP', 'BROADCAST'],
                  lladdr='aa:bb:cc:dd:ee:ff')
-
         iface = models.Interface.from_dict(d)
-
         self.assertEqual(iface.ifname, 'ge0')
         self.assertEqual(iface.addresses,
                          [netaddr.IPNetwork('192.168.1.1/24')])
