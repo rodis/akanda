@@ -5,6 +5,8 @@ import netaddr
 
 
 class Interface(object):
+    """
+    """
     def __init__(self, ifname=None, addresses=[], groups=None, flags=None,
                  lladdr=None, mtu=1500, media=None, description=None,
                  **extra_params):
@@ -45,6 +47,9 @@ class Interface(object):
 
     @property
     def is_up(self):
+        if ('state' in self.extra_params
+            and self.extra_params['state'].lower() == 'up'):
+            return 'UP'
         return 'UP' in self.flags
 
     @classmethod
@@ -55,17 +60,17 @@ class Interface(object):
         include = ['ifname', 'groups', 'mtu', 'lladdr', 'media']
         if extended:
             include.extend(['flags', 'extra_params'])
-
         retval = dict(
             [(k, v) for k, v in vars(self).iteritems() if k in include])
         retval['description'] = self.description
         retval['addresses'] = self.addresses
         retval['state'] = (self.is_up and 'up') or 'down'
-
         return retval
 
 
 class FilterRule(object):
+    """
+    """
     def __init__(self, action=None, interface=None, family=None,
                  protocol=None, source=None, source_port=None,
                  destination_interface=None,
