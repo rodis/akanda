@@ -16,7 +16,7 @@ from akanda.routerapi.tests import payloads
 
 def fake_get_interface(self, ifname):
     iface_data = json.loads(payloads.sample_system_interface)
-    return models.Interface.from_dict(iface_data)
+    return models.Interface.from_dict(iface_data["interface"])
 
 
 def fake_get_interfaces(self):
@@ -56,7 +56,6 @@ class SystemTestCase(unittest.TestCase):
     @patch.object(InterfaceManager, 'get_interface', fake_get_interface)
     def test_get_interface(self):
         rv = self.test_app.get('/v1/system/interface/ge1')
-        import pdb;pdb.set_trace()
         expected = payloads.sample_system_interface
         self.assertEqual(rv.data, expected)
 
