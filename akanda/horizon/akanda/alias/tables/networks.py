@@ -27,7 +27,7 @@ class Edit(tables.LinkAction):
     classes = ("ajax-modal", "btn-edit")
 
 
-class NetworkTable(tables.DataTable):
+class NetworkAliasTable(tables.DataTable):
     alias_name = tables.Column('alias_name', verbose_name=_("Alias Name"))
     cidr = tables.Column('cidr', verbose_name=_("CIDR"))
 

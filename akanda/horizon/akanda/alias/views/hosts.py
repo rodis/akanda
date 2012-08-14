@@ -11,7 +11,7 @@ from akanda.horizon.akanda.tabs import alias_tab_redirect
 
 class CreateHostAliasView(forms.ModalFormView):
     form_class = CreateHostAliasForm
-    template_name = 'akanda/alias/host/create.html'
+    template_name = 'akanda/alias/hosts/create.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
     def get_success_url(self):
@@ -21,7 +21,7 @@ class CreateHostAliasView(forms.ModalFormView):
 
 class EditHostAliasView(forms.ModalFormView):
     form_class = EditHostAliasForm
-    template_name = 'akanda/alias/host/edit_rules.html'
+    template_name = 'akanda/alias/hosts/edit_rules.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
     def get_success_url(self):

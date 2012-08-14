@@ -3,13 +3,13 @@ from django.utils.translation import ugettext as _
 from horizon import tabs
 
 from akanda.horizon.akanda.alias.tables import (
-    PortAliasTable, HostAliasTable, NetworkTable)
+    PortAliasTable, HostAliasTable, NetworkAliasTable)
 
 
 class AliasTab(tabs.TableTab):
     name = _("Alias")
     slug = "alias_tab"
-    table_classes = (PortAliasTable, HostAliasTable, NetworkTable)
+    table_classes = (PortAliasTable, HostAliasTable, NetworkAliasTable)
     template_name = "akanda/alias/index.html"
     # preload = False
 
