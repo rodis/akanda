@@ -22,15 +22,29 @@ class ClientTestCase(unittest.TestCase):
     This test case contains the unit tests for the REST API specification. In
     particular, it tests example payloads made via client requests.
     """
+    def setUp(self):
+        self.app = flask.Flask('client_test')
+        self.app.register_blueprint(v1.blueprint, url_prefix="/v1")
+        self.test_app = self.app.test_client()
+
+    def tearDown(self):
+        pass
+
     def test_root(self):
-        def get_page(url):
-            pass
+        rv = self.test_app.get('/v1/')
+        expected = payloads.sample_root_payload
+        self.assertEqual(rv.data, expected)
 
     def test_system_interface(self):
-        pass
+        #import pdb; pdb.set_trace()
+        rv = self.test_app.get('/v1/system/interface/ge1')
+        expected = payloads.sample_system_interface_payload
+        self.assertEqual(rv.data, expected)
 
     def test_system_interfaces(self):
-        pass
+        rv = self.test_app.get('/v1/system/interfaces')
+        expected = payloads.sample_system_interfaces_payload
+        self.assertEqual(rv.data, expected)
 
 
 class ServerTestCase(unittest.TestCase):
@@ -43,7 +57,7 @@ class ServerTestCase(unittest.TestCase):
         self.if_mock_patch = mock.patch(
             'akanda.routerapi.drivers.ifconfig.InterfaceManager')
         self.if_mock = self.if_mock_patch.start()
-        self.app = flask.Flask('test')
+        self.app = flask.Flask('server_test')
         self.app.register_blueprint(v1.blueprint, url_prefix="/v1")
         self.test_app = self.app.test_client()
 
@@ -56,22 +70,22 @@ class ServerTestCase(unittest.TestCase):
         self.assertEqual(rv.data, expected)
 
     def test_system_interface(self):
-            self.if_mock.get_interface.return_value = models.Interface(
-                ifname='ge1')
-            rv = self.test_app.get('/v1/system/interface/ge1')
-            try:
-                data = json.loads(rv.data)
-                #data = rv.data
-            except ValueError:
-                print 'RAW DATA:', rv
-                raise
-            return data
+        self.if_mock.get_interface.return_value = models.Interface(
+            ifname='ge1')
+        rv = self.test_app.get('/v1/system/interface/ge1')
+        try:
+            data = json.loads(rv.data)
+            #data = rv.data
+        except ValueError:
+            print 'RAW DATA:', rv
+            raise
+        return data
 
     def test_system_interfaces(self):
         rv = self.test_app.get('/v1/system/interfaces')
         try:
-            #data = json.loads(rv.data)
-            data = rv.data
+            data = json.loads(rv.data)
+            #data = rv.data
         except ValueError:
             print 'RAW DATA:', rv
             raise
