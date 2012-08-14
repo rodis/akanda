@@ -16,14 +16,14 @@ class Delete(tables.DeleteAction):
 class Create(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Alias")
-    url = "horizon:nova:networking:port:create_port_alias"
+    url = "horizon:nova:networking:alias:ports:create"
     classes = ("ajax-modal", "btn-create")
 
 
 class Edit(tables.LinkAction):
     name = "edit"
     verbose_name = _("Edit Alias")
-    url = "horizon:nova:networking:port:edit_port_alias"
+    url = "horizon:nova:networking:alias:ports:edit"
     classes = ("ajax-modal", "btn-edit")
 
 
