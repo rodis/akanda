@@ -7,6 +7,34 @@ from akanda.routerapi import v1
 from akanda.testing.testcase import UnitTestCase
 
 
+
+class FakePfManager(object):
+    """
+    The methods implemented here in the fake PF manager should not be
+    built using the payloads, since that's what we're using to verify the data.
+    Instead, each method should create akanda objects as needed that will
+    serialize to the appropriate data to return the proper payload.
+    """
+    @classmethod
+    def fake_get_rules(self):
+        return models.FilterRule(
+            action = "pass"
+            interface = interface
+            family = family
+            protocol = protocol
+            source = source
+            source_port = source_port
+            destination_interface = destination_interface
+            destination = destination
+            destination_port = destination_port
+            redirect = redirect
+            redirect_port = redirect_port)
+
+
+
+
+
+
 class FirewallAPITestCase(UnitTestCase):
     """
     """
