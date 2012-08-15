@@ -3,9 +3,9 @@ class Error(Exception):
     A base class for exceptions.
     """
     def __init__(self, msg=None, add=""):
-        if msg == None:
+        if msg is None:
             msg = self.__doc__ or ""
-        if add:
+        if add != "":
             add = " " + add
         super(Error, self).__init__(msg.strip() + add)
 

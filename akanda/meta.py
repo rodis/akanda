@@ -30,7 +30,7 @@ def generate_requirements(full_path):
     with open(full_path, "w") as file:
         # until the next verion of nosetests is released, we need master for
         # coverage support
-        deps = requires +[
+        deps = requires + [
             "https://github.com/nose-devs/nose/zipball/master",
             # XXX once we have horizon unit tests in place, we'll need the
             # following:

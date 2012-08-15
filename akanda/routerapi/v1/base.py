@@ -10,6 +10,8 @@ from akanda.routerapi.drivers import pf
 
 
 base = utils.blueprint_factory(__name__)
+
+
 @base.before_request
 def attach_config():
     #Use for attaching config prior to starting

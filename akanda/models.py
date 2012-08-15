@@ -145,14 +145,15 @@ class FilterRule(object):
                 retval.append(str(self.redirect))
             if self.redirect_port:
                 retval.append('port %s' % self.redirect_port)
-        return  ' '.join(retval)
+        return ' '.join(retval)
 
     @classmethod
     def from_dict(cls, d):
         return FilterRule(**d)
-    
+
     def to_dict(self):
         return vars(self)
+
 
 class Anchor(object):
     def __init__(self, name, rules=[]):
