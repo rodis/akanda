@@ -19,9 +19,9 @@ class FakePfManager(object):
     def fake_get_rules(self):
         return models.FilterRule(
             action = "pass"
-            interface = interface
-            family = family
-            protocol = protocol
+            interface = "lo0"
+            family = "ipv4"
+            protocol = "tcp"
             source = source
             source_port = source_port
             destination_interface = destination_interface
