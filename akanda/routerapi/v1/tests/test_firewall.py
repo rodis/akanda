@@ -7,7 +7,6 @@ from akanda.routerapi import v1
 from akanda.testing.testcase import UnitTestCase
 
 
-
 class FakePfManager(object):
     """
     The methods implemented here in the fake PF manager should not be
@@ -29,10 +28,6 @@ class FakePfManager(object):
             destination_port = destination_port
             redirect = redirect
             redirect_port = redirect_port)
-
-
-
-
 
 
 class FirewallAPITestCase(UnitTestCase):
