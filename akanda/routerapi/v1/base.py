@@ -1,12 +1,7 @@
 """
 Blueprint for the "base" portion of the version 1 of the API.
 """
-import json
-import logging
-
 from akanda import utils
-from akanda.routerapi.drivers import ifconfig
-from akanda.routerapi.drivers import pf
 
 
 base = utils.blueprint_factory(__name__)

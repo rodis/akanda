@@ -1,9 +1,6 @@
 """
 Base classes for System Router API tests.
 """
-import json
-import logging
-
 import flask
 from mock import patch
 

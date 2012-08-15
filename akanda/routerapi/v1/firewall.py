@@ -1,13 +1,7 @@
 """
 Blueprint for version 1 of the firewall API.
 """
-import json
-import logging
-
-from flask import Response
-
 from akanda import utils
-from akanda.routerapi.drivers import ifconfig
 from akanda.routerapi.drivers import pf
 
 

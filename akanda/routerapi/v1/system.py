@@ -2,13 +2,11 @@
 Blueprint for the "system" portion of the version 1 of the API.
 """
 import json
-import logging
 
 from flask import Response
 
 from akanda import utils
 from akanda.routerapi.drivers import ifconfig
-from akanda.routerapi.drivers import pf
 
 
 system = utils.blueprint_factory(__name__)
