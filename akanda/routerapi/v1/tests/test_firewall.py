@@ -42,55 +42,55 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_info(self):
-        return(
-            """
-            Status: Enabled for 0 days 01:57:48              Debug: err\n
-
-            State Table                          Total             Rate\n
-              current entries                        4
-              searches                            5638            0.8/s\n
-              inserts                               86            0.0/s\n
-              removals                              82            0.0/s\n
-            Counters\n
-              match                                 86            0.0/s\n
-              bad-offset                             0            0.0/s\n
-              fragment                               0            0.0/s\n
-              short                                  0            0.0/s\n
-              normalize                              0            0.0/s\n
-              memory                                 0            0.0/s\n
-              bad-timestamp                          0            0.0/s\n
-              congestion                             0            0.0/s\n
-              ip-option                              0            0.0/s\n
-              proto-cksum                            0            0.0/s\n
-              state-mismatch                         0            0.0/s\n
-              state-insert                           0            0.0/s\n
-              state-limit                            0            0.0/s\n
-              src-limit                              0            0.0/s\n
-              synproxy                               0            0.0/s
-            """)
+        return("""
+Status: Enabled for 0 days 01:57:48              Debug: err
+State Table                          Total             Rate
+current entries                        4
+searches                            5638            0.8/s
+inserts                               86            0.0/s
+removals                              82            0.0/s
+Counters
+match                                 86            0.0/s
+bad-offset                             0            0.0/s
+fragment                               0            0.0/s
+short                                  0            0.0/s
+normalize                              0            0.0/s
+memory                                 0            0.0/s
+bad-timestamp                          0            0.0/s
+congestion                             0            0.0/s
+ip-option                              0            0.0/s
+proto-cksum                            0            0.0/s
+state-mismatch                         0            0.0/s
+state-insert                           0            0.0/s
+state-limit                            0            0.0/s
+src-limit                              0            0.0/s
+synproxy                               0            0.0/s
+""")
 
     @classmethod
     def fake_get_tables(self):
-        return ('tcp.first                   120s\n'
-                'tcp.opening                  30s\n'
-                'tcp.established           86400s\n'
-                'tcp.closing                 900s\n'
-                'tcp.finwait                  45s\n'
-                'tcp.closed                   90s\n'
-                'tcp.tsdiff                   30s\n'
-                'udp.first                    60s\n'
-                'udp.single                   30s\n'
-                'udp.multiple                 60s\n'
-                'icmp.first                   20s\n'
-                'icmp.error                   10s\n'
-                'other.first                  60s\n'
-                'other.single                 30s\n'
-                'other.multiple               60s\n'
-                'frag                         30s\n'
-                'interval                     10s\n'
-                'adaptive.start             6000 states\n'
-                'adaptive.end              12000 states\n'
-                'src.track                     0s')
+        return ("""
+tcp.first                   120s
+tcp.opening                  30s
+tcp.established           86400s
+tcp.closing                 900s
+tcp.finwait                  45s
+tcp.closed                   90s
+tcp.tsdiff                   30s
+udp.first                    60s
+udp.single                   30s
+udp.multiple                 60s
+icmp.first                   20s
+icmp.error                   10s
+other.first                  60s
+other.single                 30s
+other.multiple               60s
+frag                         30s
+interval                     10s
+adaptive.start             6000 states
+adaptive.end              12000 states
+src.track                     0s
+""")
 
     @classmethod
     def fake_get_labels(self):
@@ -127,7 +127,7 @@ class FirewallAPITestCase(UnitTestCase):
     @patch.object(PfManager, 'get_states', FakePfManager.fake_get_states)
     def test_get_states(self):
         result = self.test_app.get('/v1/firewall/states')
-        expected = payloads.sample_pfctl_ss.strip('\n')
+        expected = payloads.sample_pfctl_ss.strip()
         self.assertEqual(result.data, expected)
 
     # XXX decorate with patch.object
