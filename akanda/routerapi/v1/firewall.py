@@ -12,6 +12,8 @@ from akanda.routerapi.drivers import pf
 
 
 firewall = utils.blueprint_factory(__name__)
+
+
 @firewall.route('/rules')
 def get_rules():
     '''

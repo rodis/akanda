@@ -41,11 +41,11 @@ class PortforwardResource(_authzbase.ResourceDelegate):
         return res
 
     def create(self, tenant_id, resource_dict):
-        import pdb;pdb.set_trace()
+        #import pdb;pdb.set_trace()
         return {}
 
     def update(self, tenant_id, resource, resource_dict):
-        import pdb;pdb.set_trace()
+        #import pdb;pdb.set_trace()
         return {}
 
 

@@ -38,7 +38,7 @@ class InterfaceManager(base.Manager):
 
             # change ifname to generic version
             i.ifname = self.host_mapping[i.ifname]
-        self.generic_mapping = dict((v,k) for k, v in
+        self.generic_mapping = dict((v, k) for k, v in
                                     self.host_mapping.iteritems())
 
         return interfaces

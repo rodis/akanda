@@ -14,10 +14,12 @@ class ResourcePlugin(object):
     """
     """
     JOINS = ()
+
     def __init__(self, delegate):
         # synthesize the hooks because Quantum's base class uses the
         # resource name as part of the method name
-        setattr(self, 'get_%s' % delegate.collection_name, self._get_collection)
+        setattr(self, 'get_%s' % delegate.collection_name,
+                self._get_collection)
         setattr(self, 'get_%s' % delegate.resource_name, self._get_item)
         setattr(self, 'update_%s' % delegate.resource_name, self._update_item)
         setattr(self, 'create_%s' % delegate.resource_name, self._create_item)
