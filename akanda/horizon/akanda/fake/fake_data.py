@@ -1,5 +1,25 @@
-# Fake data for Port Aliases
 port_aliases_fake_data = {
+# Fake data for Port Aliases
+# .. attribute:: id
+#         Fake implementation detail
+#
+# .. attribute:: alias_name
+#         type: free text??
+#
+# .. attribute:: protocol
+#         type: integer??
+#
+#         PROTOCOL_CHOICES = (
+#             (0, 'TCP'),
+#             (1, 'UDP'),
+#             (2, 'TCP+UDP'),
+#        )
+#
+# .. attribute:: ports
+#         type: list of integers??
+#
+# Note(rods): we need to define data types in order to write forms' validation
+
     'df698e967f554e4284583c10ba326c5b': {
         'id': 'df698e967f554e4284583c10ba326c5b',
         'alias_name': 'FTP',
@@ -24,4 +44,54 @@ port_aliases_fake_data = {
         'protocol': 2,
         'ports': [3306],
     }
+}
+
+instances_fake_data = {
+# Fake instances
+    '015eff2961d8430ba0c7c483fcb2da7a': {
+        'id': '015eff2961d8430ba0c7c483fcb2da7a',
+        'name': 'Instance 1',
+    },
+    '7f256428dbfe4bec91e643fac513778e': {
+        'id': '7f256428dbfe4bec91e643fac513778e',
+        'name': 'Instance 2',
+    },
+    '7f96521d5e8345878f6924f6d75c2884': {
+        'id': '7f96521d5e8345878f6924f6d75c2884',
+        'name': 'Instance 3',
+    },
+    'a5456395a9e3476d96af4aafb6880a3d': {
+        'id': 'a5456395a9e3476d96af4aafb6880a3d',
+        'name': 'Instance 4',
+    }
+}
+
+host_aliases_fake_data = {
+#  Fake data for Host Aliases
+# .. attribute:: id
+#         Fake implementation detail
+#
+# .. attribute:: alias_name
+#         type: free text??
+#
+# .. attribute:: instances
+#         type: list of instances id??
+#
+# Note(rods): we need to define data types in order to write forms' validation
+
+    '8b26e7e8cedd4bdf86e2a8f433bbc0f8': {
+        'id': '8b26e7e8cedd4bdf86e2a8f433bbc0f8',
+        'alias_name': 'New Host Alias',
+        'instances': ['015eff2961d8430ba0c7c483fcb2da7a',
+                      '7f256428dbfe4bec91e643fac513778e',
+                      '7f96521d5e8345878f6924f6d75c2884']
+    },
+}
+
+network_aliases_fake_data = {
+    'cefa80f7f3aa451ba48a3a8b10347a27': {
+        'id': 'cefa80f7f3aa451ba48a3a8b10347a27',
+        'alias_name': 'All Networks',
+        'cidr': '0.0.0.0/0'
+    },
 }
