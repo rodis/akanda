@@ -23,6 +23,44 @@ class FakePfManager(object):
                 'block drop in on ! lo0 proto tcp from '
                 'any to any port 6000:6010')
 
+    @classmethod
+    def fake_get_states(self):
+        return ('all tcp 192.168.229.129:22 '
+                '<- 192.168.229.1:52130       ESTABLISHED:ESTABLISHED\n'
+                'all udp 192.168.229.255:17500 '
+                '<- 192.168.229.1:17500       NO_TRAFFIC:SINGLE\n'
+                'all udp 172.16.5.255:17500 '
+                '<- 172.16.5.1:17500       NO_TRAFFIC:SINGLE')
+
+    @classmethod
+    def fake_get_anchors(self):
+        pass
+
+    @classmethod
+    def fake_get_sources(self):
+        pass
+
+    @classmethod
+    def fake_get_info(self):
+        pass
+
+    @classmethod
+    def fake_get_tables(self):
+        pass
+
+    @classmethod
+    def fake_get_labels(self):
+        pass
+
+    @classmethod
+    def fake_get_timeouts(self):
+        pass
+
+    @classmethod
+    def fake_get_memory(self):
+        pass
+
+
 
 class FirewallAPITestCase(UnitTestCase):
     """
@@ -38,15 +76,11 @@ class FirewallAPITestCase(UnitTestCase):
         expected = payloads.sample_pfctl_sr.strip()
         self.assertEqual(result.data, expected)
 
-    # XXX decorate with patch.object
-    def test_states(self):
+    @patch.object(PfManager, 'get_states', FakePfManager.fake_get_states)
+    def test_get_states(self):
         result = self.test_app.get('/v1/firewall/states')
-        try:
-            data = result.data
-        except ValueError:
-            print 'RAW DATA:', result
-            raise
-        return data
+        expected = payloads.sample_pfctl_ss.strip()
+        self.assertEqual(result.data, expected)
 
     # XXX decorate with patch.object
     def test_anchors(self):
