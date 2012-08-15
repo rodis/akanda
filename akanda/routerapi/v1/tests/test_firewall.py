@@ -16,7 +16,8 @@ class FakePfManager(object):
     """
     @classmethod
     def fake_get_rules(self):
-        return "pass all flags S/SA block drop in on ! lo0 proto tcp from any to any port 6000:6010"
+        return ('pass all flags S/SA block drop in on ! lo0 proto tcp from '
+                'any to any port 6000:6010')
 
 class FirewallAPITestCase(UnitTestCase):
     """
