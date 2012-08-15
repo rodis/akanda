@@ -1,5 +1,19 @@
-User-facing API
-===============
+Akanda User-facing API implemented as a Quantum Extension
+==========================================================
+
+Portforward
+-----------
+
+portfoward.py implemented under quantum/extensions allows... 
+
+Firewall
+----------
+
+firewall.py implemented under quantum/extensions allows...
+
+Alias
+---------
+alias.py implemented under quantum/extensions allows...
 
 Info
 ----
@@ -29,4 +43,6 @@ If you want to use quotas:
 add to the QUOTAS section of quantum.conf
 
 quota_portforward = 10
+
+=======
 
