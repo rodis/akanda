@@ -16,6 +16,10 @@ class FakePfManager(object):
     built using the payloads, since that's what we're using to verify the data.
     Instead, each method should create akanda objects as needed that will
     serialize to the appropriate data to return the proper payload.
+
+    However, since for version 1 we are simply presenting the actual textual
+    results of the commands and not converting them to models, we just do
+    straight-up text here.
     """
     @classmethod
     def fake_get_rules(self):
@@ -133,23 +137,11 @@ class FirewallAPITestCase(UnitTestCase):
 
     # XXX decorate with patch.object
     def test_anchors(self):
-        result = self.test_app.get('/v1/firewall/anchors')
-        try:
-            data = result.data
-        except ValueError:
-            print 'RAW DATA:', result
-            raise
-        return data
+        result = self.test_app.get('/v1/firewall/anchors').data.strip()
 
     # XXX decorate with patch.object
     def test_sources(self):
-        result = self.test_app.get('/v1/firewall/sources')
-        try:
-            data = result.data
-        except ValueError:
-            print 'RAW DATA:', result
-            raise
-        return data
+        result = self.test_app.get('/v1/firewall/sources').data.strip()
 
     @patch.object(PfManager, 'get_info', FakePfManager.fake_get_info)
     def test_get_info(self):
@@ -165,23 +157,11 @@ class FirewallAPITestCase(UnitTestCase):
 
     # XXX decorate with patch.object
     def test_labels(self):
-        result = self.test_app.get('/v1/firewall/labels')
-        try:
-            data = result.data
-        except ValueError:
-            print 'RAW DATA:', result
-            raise
-        return data
+        result = self.test_app.get('/v1/firewall/labels').data.strip()
 
     # XXX decorate with patch.object
     def test_timeouts(self):
-        result = self.test_app.get('/v1/firewall/timeouts')
-        try:
-            data = result.data
-        except ValueError:
-            print 'RAW DATA:', result
-            raise
-        return data
+        result = self.test_app.get('/v1/firewall/timeouts').data.strip()
 
     @patch.object(PfManager, 'get_memory', FakePfManager.fake_get_memory)
     def test_get_memory(self):
