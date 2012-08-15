@@ -35,10 +35,10 @@ class ModelSerializer(JSONEncoder):
     """
     """
     def default(self, obj):
+        # import here to avoid circualar imports... ugh; we may need to move
+        # this serializer as part of a long-term fix
         import netaddr
 
-        # import here to avoid circual imports... ugh; we may need to move this
-        # serialized now...
         if isinstance(obj, set):
             return list(obj)
         if isinstance(obj, netaddr.IPNetwork):
