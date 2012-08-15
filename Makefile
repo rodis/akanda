@@ -106,7 +106,7 @@ scp-push-dev:
 	"cd $(AKANDA_DIR) && python setup.py install"
 
 check: python-deps
-	$(NOSE) -v $(LIB)
+	$(PYTHON) $(LIB)/testing/runner.py
 
 check-cover: python-deps
 	$(NOSE) -v --with-coverage --cover-package=$(LIB) --cover-branches
