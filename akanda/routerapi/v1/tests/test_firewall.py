@@ -2,8 +2,11 @@
 Base classes for Router API tests.
 """
 import flask
+from mock import patch
 
 from akanda.routerapi import v1
+from akanda.routerapi.drivers.pf import PfManager
+from akanda.routerapi.tests import payloads
 from akanda.testing.testcase import UnitTestCase
 
 
@@ -16,8 +19,10 @@ class FakePfManager(object):
     """
     @classmethod
     def fake_get_rules(self):
-        return ('pass all flags S/SA block drop in on ! lo0 proto tcp from '
+        return ('pass all flags S/SA\n'
+                'block drop in on ! lo0 proto tcp from '
                 'any to any port 6000:6010')
+
 
 class FirewallAPITestCase(UnitTestCase):
     """
@@ -27,92 +32,88 @@ class FirewallAPITestCase(UnitTestCase):
         self.app.register_blueprint(v1.firewall.firewall)
         self.test_app = self.app.test_client()
 
-    # XXX decorate with patch.object
-    def test_rules(self):
-        rv = self.test_app.get('/v1/firewall/rules')
-        try:
-            data = rv.data
-        except ValueError:
-            print 'RAW DATA:', rv
-            raise
-        return data
+    @patch.object(PfManager, 'get_rules', FakePfManager.fake_get_rules)
+    def test_get_rules(self):
+        result = self.test_app.get('/v1/firewall/rules')
+        expected = payloads.sample_pfctl_sr.strip()
+        self.assertEqual(result.data, expected)
 
     # XXX decorate with patch.object
     def test_states(self):
-        rv = self.test_app.get('/v1/firewall/states')
+        result = self.test_app.get('/v1/firewall/states')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_anchors(self):
-        rv = self.test_app.get('/v1/firewall/anchors')
+        result = self.test_app.get('/v1/firewall/anchors')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_sources(self):
-        rv = self.test_app.get('/v1/firewall/sources')
+        result = self.test_app.get('/v1/firewall/sources')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_info(self):
-        rv = self.test_app.get('/v1/firewall/info')
+        result = self.test_app.get('/v1/firewall/info')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_tables(self):
-        rv = self.test_app.get('/v1/firewall/tables')
+        result = self.test_app.get('/v1/firewall/tables')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_labels(self):
-        rv = self.test_app.get('/v1/firewall/labels')
+        result = self.test_app.get('/v1/firewall/labels')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_timeouts(self):
-        rv = self.test_app.get('/v1/firewall/timeouts')
+        result = self.test_app.get('/v1/firewall/timeouts')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
 
     # XXX decorate with patch.object
     def test_memory(self):
-        rv = self.test_app.get('/v1/firewall/memory')
+        result = self.test_app.get('/v1/firewall/memory')
         try:
-            data = rv.data
+            data = result.data
         except ValueError:
-            print 'RAW DATA:', rv
+            print 'RAW DATA:', result
             raise
         return data
