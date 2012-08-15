@@ -31,8 +31,8 @@ class FakeIFManager(object):
     @classmethod
     def fake_get_interfaces(cls):
         # XXX this needs to be updated to return a list of interface objects.
-        interfaces = [models.Interface(media= "null", state="down", ifname="ge0",
-                                       groups="enc", lladdr= "null", addresses=[]),
+        interfaces = [models.Interface(media="null", state="down", ifname="ge0",
+                                       groups="enc", lladdr="null", addresses=[]),
 
                       models.Interface(media="Ethernet autoselect (1000baseT full-duplex,master)",
                                        state="up", ifname="ge1", groups="egress",
