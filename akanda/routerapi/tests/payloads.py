@@ -86,10 +86,6 @@ sample_pfctl_sl = """
 """
 
 
-sample_pfctl_st = """
-"""
-
-
 sample_pfctl_sA = """
 """
 
