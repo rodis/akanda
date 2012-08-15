@@ -1,11 +1,10 @@
-import unittest
-
 import netaddr
 
 from akanda import models
+from akanda.testing.testcase import UnitTestCase
 
 
-class InterfaceModelTestCase(unittest.TestCase):
+class InterfaceModelTestCase(UnitTestCase):
     """
     """
     def test_ifname(self):
@@ -82,7 +81,7 @@ class InterfaceModelTestCase(unittest.TestCase):
         self.assertEqual(iface.lladdr, 'aa:bb:cc:dd:ee:ff')
 
 
-class FilterRuleModelTestCase(unittest.TestCase):
+class FilterRuleModelTestCase(UnitTestCase):
     def test_filter_rule(self):
         fr = models.FilterRule(action='pass', family='inet',
                                destination='192.168.1.1/32')
@@ -229,7 +228,7 @@ class FilterRuleModelTestCase(unittest.TestCase):
         self.assertEqual(pr.redirect, netaddr.IPAddress('192.168.1.2'))
 
 
-class AnchorTestCase(unittest.TestCase):
+class AnchorTestCase(UnitTestCase):
     def test_anchor(self):
         a = models.Anchor('foo', [])
         self.assertEqual(a.name, 'foo')
@@ -250,7 +249,7 @@ class AnchorTestCase(unittest.TestCase):
         self.assertEqual(a.pf_rule, 'anchor foo {\nblock on ge0\n}\n')
 
 
-class AddressBookTestCase(unittest.TestCase):
+class AddressBookTestCase(UnitTestCase):
     def test_entry(self):
         ab = models.AddressBookEntry('foo', ['192.168.1.0/24'])
         self.assertEqual(ab.name, 'foo')
@@ -272,7 +271,7 @@ class AddressBookTestCase(unittest.TestCase):
                          '192.168.1.0/24\n172.16.16.0/16')
 
 
-class AllocationTestCase(unittest.TestCase):
+class AllocationTestCase(UnitTestCase):
     def test_allocation(self):
         a = models.Allocation('aa:bb:cc:dd:ee:ff', 'hosta.com', '192.168.1.1')
         self.assertEqual(a.lladdr, 'aa:bb:cc:dd:ee:ff')
@@ -280,7 +279,7 @@ class AllocationTestCase(unittest.TestCase):
         self.assertEqual(a.ip_address, '192.168.1.1')
 
 
-class StaticRouteTestCase(unittest.TestCase):
+class StaticRouteTestCase(UnitTestCase):
     def test_static_route(self):
         sr = models.StaticRoute('0.0.0.0/0', '192.168.1.1')
         self.assertEqual(sr.destination, netaddr.IPNetwork('0.0.0.0/0'))

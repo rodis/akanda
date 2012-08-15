@@ -1,9 +1,8 @@
-import unittest
-
 import mock
 import netaddr
 
 from akanda.routerapi.drivers import ifconfig
+from akanda.testing.testcase import UnitTestCase
 
 
 SAMPLE_OUTPUT = """lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 33152
@@ -52,7 +51,7 @@ SAMPLE_SINGLE_OUTPUT = (
 """)
 
 
-class IfconfigTestCase(unittest.TestCase):
+class IfconfigTestCase(UnitTestCase):
     def setUp(self):
         self.execute_patch = mock.patch('akanda.utils.execute')
         self.mock_execute = self.execute_patch.start()
@@ -263,7 +262,7 @@ class IfconfigTestCase(unittest.TestCase):
         self.assertEqual(self.mock_execute.call_count, 0)
 
 
-class ParseTestCase(unittest.TestCase):
+class ParseTestCase(UnitTestCase):
     def test_parse_interfaces(self):
         with mock.patch.object(ifconfig, '_parse_interface') as parse:
             parse.side_effect = lambda x: x
