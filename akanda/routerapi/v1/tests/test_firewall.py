@@ -25,12 +25,12 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_states(self):
-        return ('all tcp 192.168.229.129:22 '
-                '<- 192.168.229.1:52130       ESTABLISHED:ESTABLISHED\n'
-                'all udp 192.168.229.255:17500 '
-                '<- 192.168.229.1:17500       NO_TRAFFIC:SINGLE\n'
-                'all udp 172.16.5.255:17500 '
-                '<- 172.16.5.1:17500       NO_TRAFFIC:SINGLE')
+        return ('all tcp 192.168.229.129:22 <- 192.168.229.1:52130'
+                '       ESTABLISHED:ESTABLISHED\n'
+                'all udp 192.168.229.255:17500 <- 192.168.229.1:17500'
+                '       NO_TRAFFIC:SINGLE\n'
+                'all udp 172.16.5.255:17500 <- 172.16.5.1:17500'
+                '       NO_TRAFFIC:SINGLE')
 
     @classmethod
     def fake_get_anchors(self):
