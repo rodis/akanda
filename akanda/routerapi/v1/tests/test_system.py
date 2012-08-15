@@ -59,12 +59,12 @@ class SystemAPITestCase(UnitTestCase):
 
     @patch.object(IFManager, 'get_interface', FakeIFManager.fake_get_interface)
     def test_get_interface(self):
-        rv = self.test_app.get('/v1/system/interface/ge1')
+        result = self.test_app.get('/v1/system/interface/ge1')
         expected = payloads.sample_system_interface
-        self.assertEqual(rv.data, expected)
+        self.assertEqual(result.data, expected)
 
     @patch.object(IFManager, 'get_interfaces', FakeIFManager.fake_get_interfaces)
     def test_get_interfaces(self):
-        rv = self.test_app.get('/v1/system/interfaces')
+        result = self.test_app.get('/v1/system/interfaces')
         expected = payloads.sample_system_interfaces
-        self.assertEqual(rv.data, expected)
+        self.assertEqual(result.data, expected)
