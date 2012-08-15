@@ -4,7 +4,7 @@ Base classes for Router API tests.
 import flask
 
 from akanda.routerapi import v1
-from akanda.routerapi.tests import payloads
+from akanda.testing.payloads import routerapi_system as payload
 from akanda.testing.testcase import UnitTestCase
 
 
@@ -21,5 +21,5 @@ class BaseAPITestCase(UnitTestCase):
 
     def test_root(self):
         rv = self.test_app.get('/v1/base', follow_redirects=True)
-        expected = payloads.sample_root
+        expected = payload.sample_root
         self.assertEqual(rv.data, expected)

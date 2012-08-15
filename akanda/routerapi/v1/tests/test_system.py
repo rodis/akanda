@@ -7,7 +7,7 @@ from mock import patch
 from akanda import models
 from akanda.routerapi import v1
 from akanda.routerapi.drivers.ifconfig import InterfaceManager as IFManager
-from akanda.routerapi.tests import payloads
+from akanda.testing.payloads import routerapi_system as payload
 from akanda.testing.testcase import UnitTestCase
 
 
@@ -60,11 +60,11 @@ class SystemAPITestCase(UnitTestCase):
     @patch.object(IFManager, 'get_interface', FakeIFManager.fake_get_interface)
     def test_get_interface(self):
         result = self.test_app.get('/v1/system/interface/ge1')
-        expected = payloads.sample_system_interface
+        expected = payload.sample_system_interface
         self.assertEqual(result.data, expected)
 
     @patch.object(IFManager, 'get_interfaces', FakeIFManager.fake_get_interfaces)
     def test_get_interfaces(self):
         result = self.test_app.get('/v1/system/interfaces')
-        expected = payloads.sample_system_interfaces
+        expected = payload.sample_system_interfaces
         self.assertEqual(result.data, expected)
