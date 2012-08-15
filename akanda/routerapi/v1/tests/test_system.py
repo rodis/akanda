@@ -1,9 +1,8 @@
 """
-Base classes for Router API tests.
+Base classes for System Router API tests.
 """
 import json
 import logging
-import unittest
 
 import flask
 from mock import patch
@@ -12,6 +11,7 @@ from akanda import models
 from akanda.routerapi import v1
 from akanda.routerapi.drivers.ifconfig import InterfaceManager as IFManager
 from akanda.routerapi.tests import payloads
+from akanda.testing.testcase import UnitTestCase
 
 
 class FakeIFManager(object):
@@ -37,7 +37,7 @@ class FakeIFManager(object):
         return payloads.sample_system_interfaces
 
 
-class SystemTestCase(unittest.TestCase):
+class SystemAPITestCase(UnitTestCase):
     """
     This test case contains the unit tests for the Python server implementation
     of the Router API. The focus of these tests is to ensure that the server is
