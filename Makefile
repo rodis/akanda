@@ -28,6 +28,7 @@ clean:
 	find ./ -name "*~" -exec rm -v {} \;
 	sudo find ./ -name "*.py[co]" -exec rm -v {} \;
 	find . -name "*.sw[op]" -exec rm -v {} \;
+	rm $(REQUIREMENTS)
 
 system-setup:
 	pw user mod $(USER) -G wheel
