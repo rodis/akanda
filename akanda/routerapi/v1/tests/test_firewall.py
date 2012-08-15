@@ -44,27 +44,28 @@ class FakePfManager(object):
     def fake_get_info(self):
         return("""
 Status: Enabled for 0 days 01:57:48              Debug: err
+
 State Table                          Total             Rate
-current entries                        4
-searches                            5638            0.8/s
-inserts                               86            0.0/s
-removals                              82            0.0/s
+  current entries                        4
+  searches                            5638            0.8/s
+  inserts                               86            0.0/s
+  removals                              82            0.0/s
 Counters
-match                                 86            0.0/s
-bad-offset                             0            0.0/s
-fragment                               0            0.0/s
-short                                  0            0.0/s
-normalize                              0            0.0/s
-memory                                 0            0.0/s
-bad-timestamp                          0            0.0/s
-congestion                             0            0.0/s
-ip-option                              0            0.0/s
-proto-cksum                            0            0.0/s
-state-mismatch                         0            0.0/s
-state-insert                           0            0.0/s
-state-limit                            0            0.0/s
-src-limit                              0            0.0/s
-synproxy                               0            0.0/s
+  match                                 86            0.0/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
 """)
 
     @classmethod
@@ -120,15 +121,15 @@ class FirewallAPITestCase(UnitTestCase):
 
     @patch.object(PfManager, 'get_rules', FakePfManager.fake_get_rules)
     def test_get_rules(self):
-        result = self.test_app.get('/v1/firewall/rules')
+        result = self.test_app.get('/v1/firewall/rules').data.strip()
         expected = payloads.sample_pfctl_sr.strip()
-        self.assertEqual(result.data, expected)
+        self.assertEqual(result, expected)
 
     @patch.object(PfManager, 'get_states', FakePfManager.fake_get_states)
     def test_get_states(self):
-        result = self.test_app.get('/v1/firewall/states')
+        result = self.test_app.get('/v1/firewall/states').data.strip()
         expected = payloads.sample_pfctl_ss.strip()
-        self.assertEqual(result.data, expected)
+        self.assertEqual(result, expected)
 
     # XXX decorate with patch.object
     def test_anchors(self):
@@ -152,15 +153,15 @@ class FirewallAPITestCase(UnitTestCase):
 
     @patch.object(PfManager, 'get_info', FakePfManager.fake_get_info)
     def test_get_info(self):
-        result = self.test_app.get('/v1/firewall/info')
+        result = self.test_app.get('/v1/firewall/info').data.strip()
         expected = payloads.sample_pfctl_si.strip()
-        self.assertEqual(result.data, expected)
+        self.assertEqual(result, expected)
 
     @patch.object(PfManager, 'get_tables', FakePfManager.fake_get_tables)
     def test_get_tables(self):
-        result = self.test_app.get('/v1/firewall/tables')
+        result = self.test_app.get('/v1/firewall/tables').data.strip()
         expected = payloads.sample_pfctl_st.strip()
-        self.assertEqual(result.data, expected)
+        self.assertEqual(result, expected)
 
     # XXX decorate with patch.object
     def test_labels(self):
@@ -184,6 +185,6 @@ class FirewallAPITestCase(UnitTestCase):
 
     @patch.object(PfManager, 'get_memory', FakePfManager.fake_get_memory)
     def test_get_memory(self):
-        result = self.test_app.get('/v1/firewall/memory')
+        result = self.test_app.get('/v1/firewall/memory').data.strip()
         expected = payloads.sample_pfctl_sm.strip()
-        self.assertEqual(result.data, expected)
+        self.assertEqual(result, expected)
