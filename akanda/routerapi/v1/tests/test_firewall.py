@@ -16,19 +16,7 @@ class FakePfManager(object):
     """
     @classmethod
     def fake_get_rules(self):
-        return models.FilterRule(
-            action = "pass"
-            interface = "lo0"
-            family = "ipv4"
-            protocol = "tcp"
-            source = source
-            source_port = source_port
-            destination_interface = destination_interface
-            destination = destination
-            destination_port = destination_port
-            redirect = redirect
-            redirect_port = redirect_port)
-
+        return "pass all flags S/SA block drop in on ! lo0 proto tcp from any to any port 6000:6010"
 
 class FirewallAPITestCase(UnitTestCase):
     """
