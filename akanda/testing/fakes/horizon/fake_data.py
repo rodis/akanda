@@ -46,6 +46,7 @@ port_aliases_fake_data = {
     }
 }
 
+
 instances_fake_data = {
 # Fake instances
     '015eff2961d8430ba0c7c483fcb2da7a': {
@@ -65,6 +66,7 @@ instances_fake_data = {
         'name': 'Instance 4',
     }
 }
+
 
 host_aliases_fake_data = {
 #  Fake data for Host Aliases
@@ -87,6 +89,7 @@ host_aliases_fake_data = {
                       '7f96521d5e8345878f6924f6d75c2884']
     },
 }
+
 
 network_aliases_fake_data = {
     'cefa80f7f3aa451ba48a3a8b10347a27': {

@@ -5,8 +5,8 @@ from horizon import exceptions
 from horizon import forms
 from horizon import messages
 
-from akanda.horizon.akanda.fake import INSTANCES_FAKE_DATA
 from akanda.horizon.akanda.tabs import alias_tab_redirect
+from akanda.testing.akanda.fake import INSTANCES_FAKE_DATA
 
 
 class BaseHostAliasForm(forms.SelfHandlingForm):
@@ -31,7 +31,7 @@ class CreateHostAliasForm(BaseHostAliasForm):
                               redirect=redirect)
 
     def _create_host_alias(self, request, data):
-        from akanda.horizon.akanda.fake import HostAliasManager
+        from akanda.testing.fakes.horizon import HostAliasManager
         HostAliasManager.create(request, data)
 
 
@@ -49,5 +49,5 @@ class EditHostAliasForm(BaseHostAliasForm):
                               redirect=redirect)
 
     def _update_host_alias(self, request, data):
-        from akanda.horizon.akanda.fake import HostAliasManager
+        from akanda.testing.fakes.horizon import HostAliasManager
         HostAliasManager.update(self.request, data)

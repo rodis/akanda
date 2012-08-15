@@ -10,6 +10,8 @@ from akanda.horizon.akanda.tabs import alias_tab_redirect
 
 
 class BasePortAliasForm(forms.SelfHandlingForm):
+    """
+    """
     id = forms.CharField(
         label=_("Id"), widget=forms.HiddenInput, required=False)
     alias_name = forms.CharField(label=_("Name"),)
@@ -19,6 +21,8 @@ class BasePortAliasForm(forms.SelfHandlingForm):
 
 
 class CreatePortAliasForm(BasePortAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._create_port_alias(request, data)
@@ -32,11 +36,13 @@ class CreatePortAliasForm(BasePortAliasForm):
                               redirect=redirect)
 
     def _create_port_alias(self, request, data):
-        from akanda.horizon.akanda.fake import PortAliasManager
+        from akanda.testing.fakes.horizon import PortAliasManager
         PortAliasManager.create(request, data)
 
 
 class EditPortAliasForm(BasePortAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._update_port_alias(request, data)
@@ -50,5 +56,5 @@ class EditPortAliasForm(BasePortAliasForm):
                               redirect=redirect)
 
     def _update_port_alias(self, request, data):
-        from akanda.horizon.akanda.fake import PortAliasManager
+        from akanda.testing.fakes.horizon import PortAliasManager
         PortAliasManager.update(self.request, data)
