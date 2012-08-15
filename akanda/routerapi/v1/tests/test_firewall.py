@@ -1,16 +1,9 @@
 """
 Base classes for Router API tests.
 """
-import json
-import logging
-
 import flask
-from mock import patch
 
-from akanda import models
 from akanda.routerapi import v1
-from akanda.routerapi.drivers.ifconfig import InterfaceManager as IFManager
-from akanda.routerapi.tests import payloads
 from akanda.testing.testcase import UnitTestCase
 
 

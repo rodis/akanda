@@ -25,6 +25,8 @@ class DnsManager(base.Manager):
         self.interfaces = interfaces
         self.allocations = allocations
         self.domain = domain
+        # XXX self.tags is referenced in a couple places but never explicitly
+        # set; this should probably be done here; please fix
         self._make_tags()
 
         cmd = [
@@ -76,6 +78,7 @@ class DnsManager(base.Manager):
         i = 0
         for interface in self.interfaces:
             for address in self.addresses:
+                # XXX tags is not defined anywhere... please fix
                 if address in tags:
                     raise ValueError('Duplicate network')
                 self.tags[address] = 'tag%d' % i
@@ -104,6 +107,7 @@ class DnsManager(base.Manager):
                             'router',
                             interface.ip))
 
+        # XXX name is never used; please fix (remove it or use it)
         name = self.get_conf_file_name('opts')
         replace_file(OPTS_FILE,
                      '\n'.join(['tag:%s,%s:%s,%s' % o for o in options]))

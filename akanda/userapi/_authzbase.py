@@ -3,7 +3,7 @@ import abc
 from sqlalchemy.orm import exc as sa_exc
 
 from quantum import quota
-from quantum.api.v2 import attributes
+#from quantum.api.v2 import attributes
 from quantum.api.v2 import base
 from quantum.api.v2 import resource as api_resource
 from quantum.common import exceptions as q_exc
@@ -63,9 +63,11 @@ class ResourcePlugin(object):
             query = self._model_query(context)
             if verbose:
                 if verbose and isinstance(verbose, list):
+                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins if join in verbose]
                 else:
+                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins]
                 query = query.options(*options)
@@ -80,6 +82,8 @@ class ResourcePlugin(object):
     def _update_item(self, id, **kwargs):
         key = self.delegate.resource_name
         resource_dict = kwargs[key][key]
+        # XXX context and verbase are not defined here, probably missing in the
+        # method signature; please fix
         obj = self._get_by_id(context, id, verbose=verbose)
         return self.delegate.update(obj, resource_dict)
 
@@ -90,6 +94,8 @@ class ResourcePlugin(object):
         return self.delegate.create(tenant_id, resource_dict)
 
     def _delete_item(self, context, id):
+        # XXX verbose is missing a definition, probably missing from the method
+        # signature; please fix
         obj = self._get_by_id(context, id, verbose=verbose)
         with context.session.begin():
             self.delegate.before_delete(obj)
