@@ -1,7 +1,6 @@
 import sqlalchemy as sa
 from sqlalchemy import orm
 
-from quantum.common import utils
 from quantum.db import model_base
 from quantum.db import models_v2 as models
 from quantum.openstack.common import timeutils

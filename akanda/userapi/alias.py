@@ -73,6 +73,7 @@ class Portforward(object):
     def get_resources(self):
         return [extensions.ResourceExtension(
             'dhportforward',
+            # XXX PortforwardResource is undefined; please fix
             _authzbase.create_extension(PortforwardResource()))]
             #_authzbase.ResourceController(PortforwardResource()))]
 
