@@ -10,6 +10,8 @@ from akanda.testing.akanda.fake import INSTANCES_FAKE_DATA
 
 
 class BaseHostAliasForm(forms.SelfHandlingForm):
+    """
+    """
     id = forms.CharField(
         label=_("Id"), widget=forms.HiddenInput, required=False)
     alias_name = forms.CharField(label=_("Name"),)
@@ -18,10 +20,13 @@ class BaseHostAliasForm(forms.SelfHandlingForm):
 
 
 class CreateHostAliasForm(BaseHostAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._create_host_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully created host alias: %s') % data['alias_name'])
             return data
         except:
@@ -36,10 +41,13 @@ class CreateHostAliasForm(BaseHostAliasForm):
 
 
 class EditHostAliasForm(BaseHostAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._update_host_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully updated host alias: %s') % data['alias_name'])
             return data
         except:

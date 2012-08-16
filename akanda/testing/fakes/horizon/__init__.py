@@ -7,7 +7,7 @@ PORT_ALIASES_DB = DictKvs(fake_data.port_aliases_fake_data)
 PortAliasManager = fake_backend.PortAliasManager(PORT_ALIASES_DB)
 
 
-INSTANCES_FAKE_DATA = [(k, v['name']) for k, v in \
+INSTANCES_FAKE_DATA = [(k, v['name']) for k, v in
                        fake_data.instances_fake_data.items()]
 
 

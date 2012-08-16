@@ -19,7 +19,7 @@ requires = [
     "wsgiref==0.1.2",
     "netaddr>=0.7.7",
     "flask>=0.9",
-    ]
+]
 
 
 def generate_requirements(full_path):
@@ -37,6 +37,6 @@ def generate_requirements(full_path):
             #"https://github.com/openstack/horizon/zipball/master",
             # XXX once we convert to using PyPF, we'll need the following:
             #"https://github.com/dreamhost/pypf/zipball/master",
-            ]
+        ]
         for dep in deps:
             file.write(dep + "\n")

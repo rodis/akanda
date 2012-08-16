@@ -22,7 +22,7 @@ def configure_ssh():
             listen_ip = '%s%%%s' % (address.ip, primary.ifname)
     else:
         sys.stderr.write('Unable to bring up first interface (%s)!\n' %
-                          primary.ifname)
+                         primary.ifname)
         sys.exit(1)
 
     config = open('/etc/ssh/sshd_config', 'r').read()

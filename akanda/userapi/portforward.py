@@ -21,8 +21,8 @@ class PortforwardResource(_authzbase.ResourceDelegate):
 
     ATTRIBUTE_MAP = {
         'id': {'allow_post': False, 'allow_put': False,
-            'validate': {'type:regex': attributes.UUID_PATTERN},
-            'is_visible': True},
+               'validate': {'type:regex': attributes.UUID_PATTERN},
+               'is_visible': True},
         'name': {'allow_post': True, 'allow_put': True,
                  'default': '', 'is_visible': True},
         'tenant_id': {'allow_post': True, 'allow_put': False,
@@ -32,12 +32,12 @@ class PortforwardResource(_authzbase.ResourceDelegate):
 
     def make_dict(self, network):
         res = {'id': network['id'],
-                'name': network['name'],
-                'tenant_id': network['tenant_id'],
-                'admin_state_up': network['admin_state_up'],
-                'status': network['status'],
-                'subnets': [subnet['id']
-                            for subnet in network['subnets']]}
+               'name': network['name'],
+               'tenant_id': network['tenant_id'],
+               'admin_state_up': network['admin_state_up'],
+               'status': network['status'],
+               'subnets': [subnet['id']
+                           for subnet in network['subnets']]}
         return res
 
     def create(self, tenant_id, resource_dict):
@@ -72,9 +72,9 @@ class Portforward(object):
 
     def get_resources(self):
         return [extensions.ResourceExtension(
-                    'dhportforward',
-                    _authzbase.create_extension(PortforwardResource()))]
-                    #_authzbase.ResourceController(PortforwardResource()))]
+            'dhportforward',
+            _authzbase.create_extension(PortforwardResource()))]
+            #_authzbase.ResourceController(PortforwardResource()))]
 
     def get_actions(self):
         return []

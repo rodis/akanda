@@ -54,7 +54,7 @@ class Host(object):
 
     @property
     def instances(self):
-        instances = [instances_fake_data[instance]['name'] for instance in \
+        instances = [instances_fake_data[instance]['name'] for instance in
                      self._instances]
         instances.sort()
         return ', '.join(instances)

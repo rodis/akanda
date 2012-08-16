@@ -52,6 +52,8 @@ SAMPLE_SINGLE_OUTPUT = (
 
 
 class IfconfigTestCase(UnitTestCase):
+    """
+    """
     def setUp(self):
         self.execute_patch = mock.patch('akanda.utils.execute')
         self.mock_execute = self.execute_patch.start()
@@ -69,8 +71,8 @@ class IfconfigTestCase(UnitTestCase):
 
         iface_b = mock.Mock()
         iface_b.ifname = 'em1'
-        with mock.patch(
-            'akanda.routerapi.drivers.ifconfig._parse_interfaces') as parse:
+        ifaces = 'akanda.routerapi.drivers.ifconfig._parse_interfaces'
+        with mock.patch(ifaces) as parse:
             parse.return_value = [iface_a, iface_b]
             mgr = ifconfig.InterfaceManager()
             interfaces = mgr.get_interfaces()
@@ -82,11 +84,10 @@ class IfconfigTestCase(UnitTestCase):
     def test_get_interface(self):
         iface_a = mock.Mock()
         iface_a.ifname = 'em0'
-
-        with mock.patch(
-            'akanda.routerapi.drivers.ifconfig._parse_interface') as parse:
-            with mock.patch(
-                'akanda.routerapi.drivers.ifconfig._parse_interfaces') as pi:
+        iface = 'akanda.routerapi.drivers.ifconfig._parse_interface'
+        ifaces = 'akanda.routerapi.drivers.ifconfig._parse_interfaces'
+        with mock.patch(iface) as parse:
+            with mock.patch(ifaces) as pi:
                 pi.return_value = [iface_a]
                 parse.return_value = iface_a
                 mgr = ifconfig.InterfaceManager()

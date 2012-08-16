@@ -9,7 +9,7 @@ legal_rest_files = [
     'README',
     'TODO',
     'DEPENDENCIES',
-    ]
+]
 
 
 def has_docutils():

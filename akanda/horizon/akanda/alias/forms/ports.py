@@ -26,7 +26,8 @@ class CreatePortAliasForm(BasePortAliasForm):
     def handle(self, request, data):
         try:
             self._create_port_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully created port alias: %s') % data['alias_name'])
             return data
         except:
@@ -46,7 +47,8 @@ class EditPortAliasForm(BasePortAliasForm):
     def handle(self, request, data):
         try:
             self._update_port_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully updated port alias: %s') % data['alias_name'])
             return data
         except:

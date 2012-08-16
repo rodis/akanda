@@ -23,9 +23,10 @@ class CreateNetworkAliasForm(BaseNetworkAliasForm):
     def handle(self, request, data):
         try:
             self._create_network_alias(request, data)
-            messages.success(request,
-                _('Successfully created network alias: %s') % \
-                data['alias_name'])
+            messages.success(
+                request,
+                _('Successfully created network alias: %s') % (
+                    data['alias_name'],))
             return data
         except:
             redirect = "%s?tab=%s" % (
@@ -45,7 +46,8 @@ class EditNetworkAliasForm(BaseNetworkAliasForm):
     def handle(self, request, data):
         try:
             self._update_network_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully updated '
                   'network alias: %s') % data['alias_name'])
             return data
