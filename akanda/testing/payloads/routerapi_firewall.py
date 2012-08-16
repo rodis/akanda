@@ -79,16 +79,26 @@ table-entries hard limit   200000
 
 
 sample_pfctl_sl = """
+No ALTQ support in kernel
+ALTQ related functions disabled
 """
 
 
 sample_pfctl_sA = """
+dh
+dh-ssh
+dh-www
+goodguys
 """
 
 
 sample_pfctl_sS = """
+No ALTQ support in kernel
+ALTQ related functions disabled
 """
 
 
 sample_pfctl_sT = """
+table <block_hosts> persist
+table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
 """

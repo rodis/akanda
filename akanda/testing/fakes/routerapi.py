@@ -1,15 +1,39 @@
-"""
-Base classes for Router API tests.
-"""
-import flask
-from mock import patch
+from akanda import models
 
-from akanda.routerapi import v1
-from akanda.routerapi.drivers.pf import PfManager
-from akanda.testing.fakes.routerapi import FakePfManager
-from akanda.testing.payloads import routerapi_firewall as payload
-from akanda.testing.testcase import UnitTestCase
 
+class FakeIFManager(object):
+    """
+    The methods implemented here in the fake interface manager should not be
+    built using the payloads, since that's what we're using to verify the data.
+    Instead, each method should create akanda objects as needed that will
+    serialize to the appropriate data to return the proper payload.
+    """
+    @classmethod
+    def fake_get_interface(cls, ifname):
+        return models.Interface(
+            media="Ethernet autoselect (1000baseT full-duplex,master)",
+            state="up",
+            ifname="ge1",
+            groups="egress",
+            lladdr="00:0c:29:e8:f9:2e",
+            addresses=["fe80::20c:29ff:fee8:f92e/64", "192.168.229.129/24"])
+
+    @classmethod
+    def fake_get_interfaces(cls):
+        iface1 = models.Interface(
+            media="null", state="down", ifname="ge0", groups="enc",
+            lladdr="null", addresses=[])
+        iface2 = models.Interface(
+            media="Ethernet autoselect (1000baseT full-duplex,master)",
+            state="up", ifname="ge1", groups="egress",
+            lladdr="00:0c:29:e8:f9:2e", 
+            addresses=["fe80::20c:29ff:fee8:f92e/64", "192.168.229.129/24"])
+        iface3 = models.Interface(
+            media="Ethernet autoselect (1000baseT full-duplex,master)",
+            state="up", ifname="ge2", groups= [],
+            lladdr="00:0c:29:e8:f9:38",
+            addresses=["192.168.57.101/24", "fe80::20c:29ff:fee8:f938/64"])
+        return [iface1, iface2, iface3]
 
 
 class FakePfManager(object):
@@ -40,19 +64,17 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_anchors(self):
-        return("""
-dh
-dh-ssh
-dh-www
-goodguys
-""")
+        return ('dh\n'
+                'dh-ssh\n'
+                'dh-www\n'
+                'goodguys')
 
     @classmethod
     def fake_get_sources(self):
-        return("""
+        return ("""
 No ALTQ support in kernel
 ALTQ related functions disabled
-""")
+            """)
 
     @classmethod
     def fake_get_info(self):
@@ -83,22 +105,8 @@ Counters
 """)
 
     @classmethod
-    def fake_get_tables(self):
-        return ("""
-table <block_hosts> persist
-table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
-""")
-
-    @classmethod
-    def fake_get_labels(self):
-        return("""
-No ALTQ support in kernel
-ALTQ related functions disabled
-""")
-
-    @classmethod
     def fake_get_timeouts(self):
-        return("""
+        return ("""
 tcp.first                   120s
 tcp.opening                  30s
 tcp.established           86400s
@@ -122,6 +130,13 @@ src.track                     0s
 """)
 
     @classmethod
+    def fake_get_labels(self):
+        return ("""
+No ALTQ support in kernel
+ALTQ related functions disabled
+            """)
+
+    @classmethod
     def fake_get_memory(self):
         return ('states        hard limit    10000\n'
                 'src-nodes     hard limit    10000\n'
@@ -129,65 +144,9 @@ src.track                     0s
                 'tables        hard limit     1000\n'
                 'table-entries hard limit   200000')
 
-
-class FirewallAPITestCase(UnitTestCase):
-    """
-    """
-    def setUp(self):
-        self.app = flask.Flask('firewall_test')
-        self.app.register_blueprint(v1.firewall.firewall)
-        self.test_app = self.app.test_client()
-
-    @patch.object(PfManager, 'get_rules', FakePfManager.fake_get_rules)
-    def test_get_rules(self):
-        result = self.test_app.get('/v1/firewall/rules').data.strip()
-        expected = payload.sample_pfctl_sr.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_states', FakePfManager.fake_get_states)
-    def test_get_states(self):
-        result = self.test_app.get('/v1/firewall/states').data.strip()
-        expected = payload.sample_pfctl_ss.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_anchors', FakePfManager.fake_get_anchors)
-    def test_get_anchors(self):
-        result = self.test_app.get('/v1/firewall/anchors').data.strip()
-        expected = payload.sample_pfctl_sA.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_sources', FakePfManager.fake_get_sources)
-    def test_get_sources(self):
-        result = self.test_app.get('/v1/firewall/sources').data.strip()
-        expected = payload.sample_pfctl_sS.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_info', FakePfManager.fake_get_info)
-    def test_get_info(self):
-        result = self.test_app.get('/v1/firewall/info').data.strip()
-        expected = payload.sample_pfctl_si.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_timeouts', FakePfManager.fake_get_timeouts)
-    def test_get_timeouts(self):
-        result = self.test_app.get('/v1/firewall/timeouts').data.strip()
-        expected = payload.sample_pfctl_st.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_labels', FakePfManager.fake_get_labels)
-    def test_get_labels(self):
-        result = self.test_app.get('/v1/firewall/labels').data.strip()
-        expected = payload.sample_pfctl_sl.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_tables', FakePfManager.fake_get_tables)
-    def test_get_tables(self):
-        result = self.test_app.get('/v1/firewall/tables').data.strip()
-        expected = payload.sample_pfctl_sT.strip()
-        self.assertEqual(result, expected)
-
-    @patch.object(PfManager, 'get_memory', FakePfManager.fake_get_memory)
-    def test_get_memory(self):
-        result = self.test_app.get('/v1/firewall/memory').data.strip()
-        expected = payload.sample_pfctl_sm.strip()
-        self.assertEqual(result, expected)
+    @classmethod
+    def fake_get_tables(self):
+        return ("""
+table <block_hosts> persist
+table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
+""")
