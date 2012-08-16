@@ -31,7 +31,7 @@ class EditHostAliasView(forms.ModalFormView):
     def _get_object(self):
         if not hasattr(self, "_object"):
             try:
-                from akanda.horizon.akanda.fake import HostAliasManager
+                from akanda.testing.fakes.horizon import HostAliasManager
                 self._object = HostAliasManager.get(
                     self.request, self.kwargs['host_alias_id'])
             except:

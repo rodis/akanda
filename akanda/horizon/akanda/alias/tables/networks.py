@@ -9,7 +9,7 @@ class Delete(tables.DeleteAction):
     data_type_plural = _("Networks")
 
     def delete(self, request, obj_id):
-        from akanda.horizon.akanda.fake import NetworkAliasManager
+        from akanda.testing.fakes.horizon import NetworkAliasManager
         NetworkAliasManager.delete(request, obj_id)
 
 

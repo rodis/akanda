@@ -6,7 +6,7 @@ from horizon import forms
 from horizon import messages
 
 from akanda.horizon.akanda.tabs import alias_tab_redirect
-from akanda.testing.akanda.fake import INSTANCES_FAKE_DATA
+from akanda.testing.fakes.horizon import INSTANCES_FAKE_DATA
 
 
 class BaseHostAliasForm(forms.SelfHandlingForm):

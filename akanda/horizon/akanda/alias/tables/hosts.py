@@ -9,7 +9,7 @@ class Delete(tables.DeleteAction):
     data_type_plural = _("Hosts")
 
     def delete(self, request, obj_id):
-        from akanda.horizon.akanda.fake import HostAliasManager
+        from akanda.testing.fakes.horizon import HostAliasManager
         HostAliasManager.delete(request, obj_id)
 
 
