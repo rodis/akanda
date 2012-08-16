@@ -12,6 +12,7 @@ from akanda.testing.testcase import UnitTestCase
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class FakeIFManager(object):
     """
     The methods implemented here in the fake interface manager should not be
@@ -49,6 +50,8 @@ class FakeIFManager(object):
 
 =======
 >>>>>>> 12fe07e... Moved fake routerapi classes into testing.
+=======
+>>>>>>> ee95201270515cdb954593ee7239c8dae7d66b7d
 class SystemAPITestCase(UnitTestCase):
     """
     This test case contains the unit tests for the Python server implementation

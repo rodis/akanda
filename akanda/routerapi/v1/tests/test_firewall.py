@@ -12,6 +12,7 @@ from akanda.testing.testcase import UnitTestCase
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class FakePfManager(object):
     """
     The methods implemented here in the fake PF manager should not be
@@ -118,6 +119,8 @@ src.track                     0s
 
 =======
 >>>>>>> 12fe07e... Moved fake routerapi classes into testing.
+=======
+>>>>>>> ee95201270515cdb954593ee7239c8dae7d66b7d
 class FirewallAPITestCase(UnitTestCase):
     """
     """
