@@ -82,6 +82,10 @@ sample_pfctl_sl = """
 
 
 sample_pfctl_sA = """
+dh
+dh-ssh
+dh-www
+goodguys
 """
 
 

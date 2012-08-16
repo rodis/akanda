@@ -31,9 +31,11 @@ class FirewallAPITestCase(UnitTestCase):
         expected = payload.sample_pfctl_ss.strip()
         self.assertEqual(result, expected)
 
-    # XXX decorate with patch.object
-    def test_anchors(self):
+    @patch.object(PfManager, 'get_anchors', FakePfManager.fake_get_anchors)
+    def test_get_anchors(self):
         result = self.test_app.get('/v1/firewall/anchors').data.strip()
+        expected = payload.sample_pfctl_sA.strip()
+        self.assertEqual(result, expected)
 
     # XXX decorate with patch.object
     def test_sources(self):
