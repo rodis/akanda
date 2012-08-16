@@ -155,7 +155,7 @@ class FirewallAPITestCase(UnitTestCase):
         self.assertEqual(result, expected)
 
     @patch.object(PfManager, 'get_tables', FakePfManager.fake_get_tables)
-    def test_get_tables(self):
+    def test_get_timeouts(self):
         result = self.test_app.get('/v1/firewall/tables').data.strip()
         expected = payload.sample_pfctl_st.strip()
         self.assertEqual(result, expected)
@@ -165,7 +165,7 @@ class FirewallAPITestCase(UnitTestCase):
         result = self.test_app.get('/v1/firewall/labels').data.strip()
 
     # XXX decorate with patch.object
-    def test_timeouts(self):
+    def test_tables(self):
         result = self.test_app.get('/v1/firewall/timeouts').data.strip()
 
     @patch.object(PfManager, 'get_memory', FakePfManager.fake_get_memory)
