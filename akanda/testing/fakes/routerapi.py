@@ -127,7 +127,7 @@ interval                     10s
 adaptive.start             6000 states
 adaptive.end              12000 states
 src.track                     0s
-            """)
+""")
 
     @classmethod
     def fake_get_labels(self):
@@ -135,10 +135,6 @@ src.track                     0s
 No ALTQ support in kernel
 ALTQ related functions disabled
             """)
-
-    @classmethod
-    def fake_get_timeouts(self):
-        pass
 
     @classmethod
     def fake_get_memory(self):
