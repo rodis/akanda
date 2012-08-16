@@ -71,7 +71,10 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_sources(self):
-        pass
+        return ("""
+No ALTQ support in kernel
+ALTQ related functions disabled
+            """)
 
     @classmethod
     def fake_get_info(self):
@@ -102,7 +105,7 @@ Counters
 """)
 
     @classmethod
-    def fake_get_tables(self):
+    def fake_get_timeouts(self):
         return ("""
 tcp.first                   120s
 tcp.opening                  30s
@@ -124,7 +127,7 @@ interval                     10s
 adaptive.start             6000 states
 adaptive.end              12000 states
 src.track                     0s
-""")
+            """)
 
     @classmethod
     def fake_get_labels(self):

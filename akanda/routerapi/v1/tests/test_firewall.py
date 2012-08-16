@@ -37,9 +37,11 @@ class FirewallAPITestCase(UnitTestCase):
         expected = payload.sample_pfctl_sA.strip()
         self.assertEqual(result, expected)
 
-    # XXX decorate with patch.object
-    def test_sources(self):
+    @patch.object(PfManager, 'get_sources', FakePfManager.fake_get_sources)
+    def test_get_sources(self):
         result = self.test_app.get('/v1/firewall/sources').data.strip()
+        expected = payload.sample_pfctl_sS.strip()
+        self.assertEqual(result, expected)
 
     @patch.object(PfManager, 'get_info', FakePfManager.fake_get_info)
     def test_get_info(self):
@@ -47,19 +49,19 @@ class FirewallAPITestCase(UnitTestCase):
         expected = payload.sample_pfctl_si.strip()
         self.assertEqual(result, expected)
 
-    @patch.object(PfManager, 'get_tables', FakePfManager.fake_get_tables)
+    @patch.object(PfManager, 'get_timeouts', FakePfManager.fake_get_timeouts)
     def test_get_timeouts(self):
-        result = self.test_app.get('/v1/firewall/tables').data.strip()
+        result = self.test_app.get('/v1/firewall/timeouts').data.strip()
         expected = payload.sample_pfctl_st.strip()
         self.assertEqual(result, expected)
 
     # XXX decorate with patch.object
-    def test_labels(self):
+    def test_get_labels(self):
         result = self.test_app.get('/v1/firewall/labels').data.strip()
 
     # XXX decorate with patch.object
-    def test_tables(self):
-        result = self.test_app.get('/v1/firewall/timeouts').data.strip()
+    def test_get_tables(self):
+        result = self.test_app.get('/v1/firewall/tables').data.strip()
 
     @patch.object(PfManager, 'get_memory', FakePfManager.fake_get_memory)
     def test_get_memory(self):
