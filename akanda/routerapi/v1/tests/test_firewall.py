@@ -55,9 +55,11 @@ class FirewallAPITestCase(UnitTestCase):
         expected = payload.sample_pfctl_st.strip()
         self.assertEqual(result, expected)
 
-    # XXX decorate with patch.object
+    @patch.object(PfManager, 'get_labels', FakePfManager.fake_get_labels)
     def test_get_labels(self):
         result = self.test_app.get('/v1/firewall/labels').data.strip()
+        expected = payload.sample_pfctl_sl.strip()
+        self.assertEqual(result, expected)
 
     # XXX decorate with patch.object
     def test_get_tables(self):
