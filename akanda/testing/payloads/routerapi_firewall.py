@@ -98,4 +98,6 @@ ALTQ related functions disabled
 
 
 sample_pfctl_sT = """
+table <block_hosts> persist
+table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
 """
