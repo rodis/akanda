@@ -31,7 +31,7 @@ class EditPortAliasView(forms.ModalFormView):
     def _get_object(self):
         if not hasattr(self, "_object"):
             try:
-                from akanda.horizon.akanda.fake import PortAliasManager
+                from akanda.testing.fakes.horizon import PortAliasManager
                 self._object = PortAliasManager.get(
                     self.request, self.kwargs['port_alias_id'])
             except:

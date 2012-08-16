@@ -9,7 +9,7 @@ class Delete(tables.DeleteAction):
     data_type_plural = _("Port Aliases")
 
     def delete(self, request, obj_id):
-        from akanda.horizon.akanda.fake import PortAliasManager
+        from akanda.testing.fakes.horizon import PortAliasManager
         PortAliasManager.delete(request, obj_id)
 
 
