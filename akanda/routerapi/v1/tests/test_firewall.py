@@ -40,11 +40,19 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_anchors(self):
-        pass
+        return("""
+dh
+dh-ssh
+dh-www
+goodguys
+""")
 
     @classmethod
     def fake_get_sources(self):
-        pass
+        return("""
+No ALTQ support in kernel
+ALTQ related functions disabled
+""")
 
     @classmethod
     def fake_get_info(self):
@@ -77,6 +85,20 @@ Counters
     @classmethod
     def fake_get_tables(self):
         return ("""
+table <block_hosts> persist
+table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
+""")
+
+    @classmethod
+    def fake_get_labels(self):
+        return("""
+No ALTQ support in kernel
+ALTQ related functions disabled
+""")
+
+    @classmethod
+    def fake_get_timeouts(self):
+        return("""
 tcp.first                   120s
 tcp.opening                  30s
 tcp.established           86400s
@@ -98,14 +120,6 @@ adaptive.start             6000 states
 adaptive.end              12000 states
 src.track                     0s
 """)
-
-    @classmethod
-    def fake_get_labels(self):
-        pass
-
-    @classmethod
-    def fake_get_timeouts(self):
-        pass
 
     @classmethod
     def fake_get_memory(self):
