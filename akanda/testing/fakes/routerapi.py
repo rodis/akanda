@@ -64,7 +64,10 @@ class FakePfManager(object):
 
     @classmethod
     def fake_get_anchors(self):
-        pass
+        return ('dh\n'
+                'dh-ssh\n'
+                'dh-www\n'
+                'goodguys')
 
     @classmethod
     def fake_get_sources(self):
