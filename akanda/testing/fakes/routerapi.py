@@ -147,3 +147,10 @@ ALTQ related functions disabled
                 'frags         hard limit     5000\n'
                 'tables        hard limit     1000\n'
                 'table-entries hard limit   200000')
+
+    @classmethod
+    def fake_get_tables(self):
+        return ("""
+table <block_hosts> persist
+table <private> const { 10/8, 172.16/12, 192.168/16, 224/8 }
+""")
