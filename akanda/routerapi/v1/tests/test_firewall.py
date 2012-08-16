@@ -11,8 +11,7 @@ from akanda.testing.payloads import routerapi_firewall as payload
 from akanda.testing.testcase import UnitTestCase
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 class FakePfManager(object):
     """
     The methods implemented here in the fake PF manager should not be
@@ -117,10 +116,6 @@ src.track                     0s
                 'table-entries hard limit   200000')
 
 
-=======
->>>>>>> 12fe07e... Moved fake routerapi classes into testing.
-=======
->>>>>>> ee95201270515cdb954593ee7239c8dae7d66b7d
 class FirewallAPITestCase(UnitTestCase):
     """
     """
