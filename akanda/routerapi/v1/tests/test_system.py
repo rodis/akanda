@@ -4,13 +4,14 @@ Base classes for System Router API tests.
 import flask
 from mock import patch
 
-from akanda import models
 from akanda.routerapi import v1
 from akanda.routerapi.drivers.ifconfig import InterfaceManager as IFManager
+from akanda.testing.fakes.routerapi import FakeIFManager
 from akanda.testing.payloads import routerapi_system as payload
 from akanda.testing.testcase import UnitTestCase
 
 
+<<<<<<< HEAD
 class FakeIFManager(object):
     """
     The methods implemented here in the fake interface manager should not be
@@ -46,6 +47,8 @@ class FakeIFManager(object):
         return [iface1, iface2, iface3]
 
 
+=======
+>>>>>>> 12fe07e... Moved fake routerapi classes into testing.
 class SystemAPITestCase(UnitTestCase):
     """
     This test case contains the unit tests for the Python server implementation
