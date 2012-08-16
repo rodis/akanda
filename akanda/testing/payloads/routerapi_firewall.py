@@ -79,6 +79,8 @@ table-entries hard limit   200000
 
 
 sample_pfctl_sl = """
+No ALTQ support in kernel
+ALTQ related functions disabled
 """
 
 

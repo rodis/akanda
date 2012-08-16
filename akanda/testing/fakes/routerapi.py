@@ -131,7 +131,10 @@ src.track                     0s
 
     @classmethod
     def fake_get_labels(self):
-        pass
+        return ("""
+No ALTQ support in kernel
+ALTQ related functions disabled
+            """)
 
     @classmethod
     def fake_get_timeouts(self):
