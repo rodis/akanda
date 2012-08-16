@@ -91,6 +91,8 @@ goodguys
 
 
 sample_pfctl_sS = """
+No ALTQ support in kernel
+ALTQ related functions disabled
 """
 
 
