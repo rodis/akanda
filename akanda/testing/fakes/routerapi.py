@@ -36,7 +36,7 @@ class FakeIFManager(object):
         return [iface1, iface2, iface3]
 
 
-class FakePfManager(object):
+class FakePFManager(object):
     """
     The methods implemented here in the fake PF manager should not be
     built using the payloads, since that's what we're using to verify the data.

@@ -3,7 +3,7 @@ from akanda.utils import execute, replace_file
 from akanda import models
 
 
-class PfManager(base.Manager):
+class PFManager(base.Manager):
     """
     """
     EXECUTABLE = '/sbin/pfctl'
@@ -83,4 +83,4 @@ def _parse_pf_rule(line):
     Parser for pfctl -sr
     '''
     retval = {}
-    return models.PfManager.from_dict(retval)
+    return models.PFManager.from_dict(retval)

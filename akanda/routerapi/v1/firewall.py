@@ -13,7 +13,7 @@ def get_rules():
     '''
     Show loaded firewall rules by pfctl
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_rules()
     return results
 
@@ -23,7 +23,7 @@ def get_states():
     '''
     Show firewall state table
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_states()
     return results
 
@@ -33,7 +33,7 @@ def get_anchors():
     '''
     Show loaded firewall anchors by pfctl
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_anchors()
     return results
 
@@ -43,7 +43,7 @@ def get_sources():
     '''
     Show loaded firewall sources by pfctl
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_sources()
     return results
 
@@ -53,7 +53,7 @@ def get_info():
     '''
     Show verbose running firewall information
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_info()
     return results
 
@@ -63,7 +63,7 @@ def get_tables():
     '''
     Show loaded firewall tables by pfctl
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_tables()
     return results
 
@@ -73,7 +73,7 @@ def get_labels():
     '''
     Show loaded firewall labels by pfctl
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_labels()
     return results
 
@@ -83,7 +83,7 @@ def get_timeouts():
     '''
     Show firewall connection timeouts
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_timeouts()
     return results
 
@@ -93,6 +93,6 @@ def get_memory():
     '''
     Show firewall memory
     '''
-    pf_mgr = pf.PfManager()
+    pf_mgr = pf.PFManager()
     results = pf_mgr.get_memory()
     return results
