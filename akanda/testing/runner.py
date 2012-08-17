@@ -1,4 +1,5 @@
 import argparse
+import sys
 import unittest
 
 from akanda.testing import result, testcase, util
@@ -72,7 +73,9 @@ def get_suite(args):
 def run_tests(args):
     runner = unittest.TextTestRunner(
         verbosity=2, resultclass=result.CustomTestResult)
-    runner.run(get_suite(args))
+    test_result = runner.run(get_suite(args))
+    if not test_result.wasSuccessful():
+        sys.exit(1)
 
 
 if __name__ == "__main__":
