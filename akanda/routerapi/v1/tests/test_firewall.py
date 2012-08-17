@@ -11,7 +11,6 @@ from akanda.testing.payloads import routerapi_firewall as payload
 from akanda.testing.testcase import UnitTestCase
 
 
-
 class FakePfManager(object):
     """
     The methods implemented here in the fake PF manager should not be

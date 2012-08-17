@@ -11,7 +11,6 @@ from akanda.testing.payloads import routerapi_system as payload
 from akanda.testing.testcase import UnitTestCase
 
 
-
 class SystemAPITestCase(UnitTestCase):
     """
     This test case contains the unit tests for the Python server implementation
