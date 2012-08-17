@@ -14,22 +14,25 @@ POLICY_CHOICES = (
     (1, 'Deny'),
 )
 
+TEST = (
+    ('', ''),
+    ('Custom', 'Custom'),
+)
+
 
 class CreateFirewallRule(forms.SelfHandlingForm):
     source_network_alias = forms.ChoiceField(
         label=_("Network Alias"), choices=common.TEST_CHOICE)
-    source_cidr = forms.CharField(label=_("CIDR"),)
     source_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=common.TEST_CHOICE)
+        label=_("Port Alias"), choices=TEST)
     source_protocol = forms.ChoiceField(
         label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
     source_public_ports = forms.CharField(label=_("Public Ports"),)
 
     destination_network_alias = forms.ChoiceField(
         label=_("Network Alias"), choices=common.TEST_CHOICE)
-    destination_cidr = forms.CharField(label=_("CIDR"),)
     destination_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=common.TEST_CHOICE)
+        label=_("Port Alias"), choices=TEST)
     destination_protocol = forms.ChoiceField(
         label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
     destination_public_ports = forms.CharField(label=_("Public Ports"),)

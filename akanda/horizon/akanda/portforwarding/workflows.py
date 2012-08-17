@@ -8,6 +8,12 @@ from akanda.horizon.akanda import common
 from akanda.horizon.akanda.tabs import portforwarding_tab_redirect
 
 
+TEST = (
+    ('', ''),
+    ('Custom', 'Custom'),
+)
+
+
 class DetailsAction(workflows.Action):
     rule_name = forms.CharField(label=_("Name"))
     instance = forms.ChoiceField(
@@ -30,13 +36,13 @@ class Details(workflows.Step):
 class PortsAction(workflows.Action):
     public_ip = forms.CharField(label=_("Public Ip"))
     public_ip_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=common.TEST_CHOICE)
+        label=_("Port Alias"), choices=TEST)
     public_ip_protocol = forms.ChoiceField(
         label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
     public_ip_ports = forms.CharField(label=_("Public Ports"))
     private_ip = forms.CharField(label=_("Private Ip"))
     private_ip_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=common.TEST_CHOICE)
+        label=_("Port Alias"), choices=TEST)
     private_ip_protocol = forms.ChoiceField(
         label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
     private_ip_ports = forms.CharField(label=_("Public Ports"))
