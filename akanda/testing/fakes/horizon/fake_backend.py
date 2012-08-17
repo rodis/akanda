@@ -1,4 +1,5 @@
-from akanda.testing.fakes.horizon.fake_models import Port, Host, Network
+from akanda.testing.fakes.horizon.fake_models import (
+    Port, Host, Network, FirewallRule)
 
 
 class DictKvs(dict):
@@ -77,3 +78,8 @@ class NetworkAliasManager(Manager):
     def update(self, request, obj):
         obj = Network(**obj)
         self.db[obj.id] = obj.raw()
+
+
+class FirewallRuleManager(Manager):
+    def list_all(self, request):
+        return [FirewallRule(**v) for v in self.db.values()]

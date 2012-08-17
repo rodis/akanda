@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 
 from horizon import tabs
 
-from akanda.horizon.akanda.firewall.tabs import FirewallTab
+from akanda.horizon.akanda.firewall.tabs import FirewallRuleTab
 from akanda.horizon.akanda.alias.tabs import AliasTab
 from akanda.horizon.akanda.portforwarding.tabs import PortForwardingTab
 
@@ -36,7 +36,7 @@ class VPNTab(tabs.Tab):
 
 class NetworkingTabs(tabs.TabGroup):
     slug = "networkingtabs"
-    tabs = (AliasTab, ConfigurationTab, FirewallTab,
+    tabs = (AliasTab, ConfigurationTab, FirewallRuleTab,
             NatTab, PortForwardingTab, VPNTab)
 
 
@@ -48,7 +48,7 @@ def alias_tab_redirect():
 
 def firewall_tab_redirect():
     tab_group_slug = NetworkingTabs.slug
-    tab_slug = FirewallTab.slug
+    tab_slug = FirewallRuleTab.slug
     return "%s__%s" % (tab_group_slug, tab_slug)
 
 

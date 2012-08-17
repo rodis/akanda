@@ -1,10 +1,13 @@
 import uuid
 
 from akanda.horizon.akanda.common import PROTOCOL_CHOICES as protocol_choices
+from akanda.horizon.akanda.firewall.forms import (
+    POLICY_CHOICES as policy_choices)
 from akanda.testing.fakes.horizon.fake_data import instances_fake_data
 
 
 PROTOCOL_CHOICES = dict(protocol_choices)
+POLICY_CHOICES = dict(policy_choices)
 
 
 class Port(object):
@@ -79,3 +82,50 @@ class Network(object):
 
     def raw(self):
         return self.__dict__
+
+
+class FirewallRule(object):
+    """
+    """
+
+    def __init__(self, policy, source_network_alias, source_protocol,
+                 source_public_ports, destination_network_alias,
+                 destination_protocol, destination_public_ports, id=None):
+        self._policy = policy
+        self.source_network_alias = source_network_alias
+        self.source_protocol = source_protocol
+        self.source_public_ports = source_public_ports
+        self.destination_network_alias = destination_network_alias
+        self.destination_protocol = destination_protocol
+        self.destination_public_ports = destination_public_ports
+        self.id = id or uuid.uuid4().hex
+
+        # avoid circular import
+        from akanda.testing.fakes.horizon import NetworkAliasManager
+        self.network_manager = NetworkAliasManager
+
+    @property
+    def policy(self, ):
+        return POLICY_CHOICES[self._policy]
+
+    @property
+    def source_ip(self):
+        network = self.network_manager.get(
+            None, self.source_network_alias)
+        return network.cidr
+
+    @property
+    def destination_ip(self):
+        network = self.network_manager.get(
+            None, self.destination_network_alias)
+        return network.cidr
+
+    @property
+    def source_ports(self):
+        return "%s %s" % (self.source_protocol,
+                          '-'.join(map(str, self.source_public_ports)))
+
+    @property
+    def destination_ports(self, ):
+        return "%s %s" % (self.destination_protocol,
+                          '-'.join(map(str, self.destination_public_ports)))
