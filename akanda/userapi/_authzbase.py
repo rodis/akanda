@@ -12,6 +12,12 @@ from quantum.openstack.common import cfg
 
 class ResourcePlugin(object):
     """
+    This is a class does some of what the Quantum plugin does, managing
+    resources in a way very similar to what Quantum does. It differ from
+    Quantum is that this provides a base plugin infrastructure, and doesn't
+    manage any resources.
+
+    Quantum doesn't split infrastructure and implementation.
     """
     JOINS = ()
 
