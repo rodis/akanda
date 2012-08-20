@@ -1,4 +1,4 @@
-from akanda.horizon.akanda.fake.fake_models import Port, Host, Network
+from akanda.testing.fakes.horizon.fake_models import Port, Host, Network
 
 
 class DictKvs(dict):

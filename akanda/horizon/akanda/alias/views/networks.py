@@ -31,7 +31,7 @@ class EditNetworkAliasView(forms.ModalFormView):
     def _get_object(self):
         if not hasattr(self, "_object"):
             try:
-                from akanda.horizon.akanda.fake import NetworkAliasManager
+                from akanda.testing.fakes.horizon import NetworkAliasManager
                 self._object = NetworkAliasManager.get(
                     self.request, self.kwargs['network_alias_id'])
             except:

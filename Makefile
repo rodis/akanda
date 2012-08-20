@@ -12,18 +12,22 @@ USER ?= oubiwann
 REQUIREMENTS = requirements.txt
 PYTHON = python2.7
 EASYINSTALL = easy_install-2.7
+WHICH_PIP = $(shell which pip)
 PIP = pip-2.7
 GIT = git
 #PF_HOST ?= 10.0.4.186
 PF_HOST_UNAME ?= OpenBSD
-NOSE = nosetests-2.7
+# XXX To work around a bug in nosetests -- which DOESN't point to python2.7,
+# only to /usr/bin/python -- we need to use a full path here and call Python
+# explicitly.
+NOSE = $(PYTHON) $(shell which nosetests-2.7)
 VENV = .venv
 
 clean:
-	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
+	rm -rfv dist/ build/ MANIFEST *.egg-info $(REQUIREMENTS)
 	rm -rfv _trial_temp/ CHECK_THIS_BEFORE_UPLOAD.txt twistd.log
 	find ./ -name "*~" -exec rm -v {} \;
-	sudo find ./ -name "*.py[co]" -exec rm -v {} \;
+	find ./ -name "*.py[co]" -exec rm -v {} \;
 	find . -name "*.sw[op]" -exec rm -v {} \;
 
 system-setup:
@@ -59,11 +63,11 @@ $(DEV_DIR):
 $(REQUIREMENTS):
 	$(PYTHON) -c "from akanda import meta;meta.generate_requirements('$(REQUIREMENTS)');"
 
-easy_install:
-	sudo $(EASYINSTALL) pip
+$(WHICH_PIP):
+	$(EASYINSTALL) pip
 
-python-deps: $(REQUIREMENTS) easy_install
-	sudo $(PIP) install -r $(REQUIREMENTS)
+python-deps: $(REQUIREMENTS) $(WHICH_PIP)
+	$(PIP) install -r $(REQUIREMENTS)
 
 install-dev: $(PYTHON) $(GIT) python-deps
 ifeq ($(UNAME), FreeBSD)
@@ -129,4 +133,4 @@ run-dev:
 	$(PYTHON) akanda/routerapi/devserver.py
 
 install: python-deps
-	sudo $(PIP) install .
+	$(PIP) install .

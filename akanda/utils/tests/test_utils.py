@@ -22,7 +22,7 @@ class ModelSerializerTestCase(UnitTestCase):
             "l": (4, 5, 6),
             "m": 12345671238792347L,
             "n": netaddr.IPNetwork('192.168.1.1/24'),
-            }
+        }
         expected = (
             '{"a": [1, 2, 3], "b": {"c": 4}, "d": "e", "f": "g", '
             '"i": 3.0, "h": 42, "k": null, "j": false, '

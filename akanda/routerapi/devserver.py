@@ -1,9 +1,10 @@
-from akanda.routerapi.routes import app
+"""Set up Development instance
+"""
+from akanda.routerapi.app import app
 
 
 def __main__():
     app.debug = True
-    app.logger.debug('api_debug')
     app.run(host='0.0.0.0', port=5000)
 
 

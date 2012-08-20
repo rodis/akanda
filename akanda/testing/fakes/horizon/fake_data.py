@@ -1,4 +1,3 @@
-port_aliases_fake_data = {
 # Fake data for Port Aliases
 # .. attribute:: id
 #         Fake implementation detail
@@ -19,7 +18,7 @@ port_aliases_fake_data = {
 #         type: list of integers??
 #
 # Note(rods): we need to define data types in order to write forms' validation
-
+port_aliases_fake_data = {
     'df698e967f554e4284583c10ba326c5b': {
         'id': 'df698e967f554e4284583c10ba326c5b',
         'alias_name': 'FTP',
@@ -46,8 +45,9 @@ port_aliases_fake_data = {
     }
 }
 
-instances_fake_data = {
+
 # Fake instances
+instances_fake_data = {
     '015eff2961d8430ba0c7c483fcb2da7a': {
         'id': '015eff2961d8430ba0c7c483fcb2da7a',
         'name': 'Instance 1',
@@ -66,7 +66,7 @@ instances_fake_data = {
     }
 }
 
-host_aliases_fake_data = {
+
 #  Fake data for Host Aliases
 # .. attribute:: id
 #         Fake implementation detail
@@ -78,7 +78,7 @@ host_aliases_fake_data = {
 #         type: list of instances id??
 #
 # Note(rods): we need to define data types in order to write forms' validation
-
+host_aliases_fake_data = {
     '8b26e7e8cedd4bdf86e2a8f433bbc0f8': {
         'id': '8b26e7e8cedd4bdf86e2a8f433bbc0f8',
         'alias_name': 'New Host Alias',
@@ -87,6 +87,7 @@ host_aliases_fake_data = {
                       '7f96521d5e8345878f6924f6d75c2884']
     },
 }
+
 
 network_aliases_fake_data = {
     'cefa80f7f3aa451ba48a3a8b10347a27': {

@@ -1,4 +1,5 @@
 from quantum.api.v2 import attributes
+from quantum.db import models_v2
 from quantum.extensions import extensions
 
 from akanda.userapi import _authzbase
@@ -12,12 +13,10 @@ from akanda.userapi.db import models
 # can be updated to use it.
 
 
-class PortforwardResource(_authzbase.ResourceDelegate):
+class AliasResource(_authzbase.ResourceDelegate):
     """
-    This class is responsible for receiving REST requests and operating on the
-    defined data model to create, update, or delete portforward-related data.
     """
-    model = models.PortForward
+    model = models_v2.Network
     resource_name = 'portforward'
     collection_name = 'portforwards'
 
@@ -32,12 +31,12 @@ class PortforwardResource(_authzbase.ResourceDelegate):
                       'is_visible': True},
     }
 
-    def make_dict(self, portforward):
+    def make_dict(self, alias):
         """
-        Convert a portforward model object to a dictionary.
+        Convert a alias model object to a dictionary.
         """
         # XXX here's an example that is used for converting a network model to
-        # a dictionary (delete this when the portforward conversion has been
+        # a dictionary (delete this when the alias conversion has been
         # implemented):
         #res = {'id': network['id'],
         #       'name': network['name'],
@@ -77,6 +76,7 @@ class Portforward(object):
     def get_resources(self):
         return [extensions.ResourceExtension(
             'dhportforward',
+            # XXX PortforwardResource is undefined; please fix
             _authzbase.create_extension(PortforwardResource()))]
             #_authzbase.ResourceController(PortforwardResource()))]
 

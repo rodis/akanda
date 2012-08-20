@@ -14,13 +14,13 @@ class AliasTab(tabs.TableTab):
     # preload = False
 
     def get_ports_data(self):
-        from akanda.horizon.akanda.fake import PortAliasManager
+        from akanda.testing.fakes.horizon import PortAliasManager
         return PortAliasManager.list_all(self.request)
 
     def get_hosts_data(self):
-        from akanda.horizon.akanda.fake import HostAliasManager
+        from akanda.testing.fakes.horizon import HostAliasManager
         return HostAliasManager.list_all(self.request)
 
     def get_networks_data(self):
-        from akanda.horizon.akanda.fake import NetworkAliasManager
+        from akanda.testing.fakes.horizon import NetworkAliasManager
         return NetworkAliasManager.list_all(self.request)

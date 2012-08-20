@@ -4,7 +4,8 @@ from akanda.horizon.demopanel.views import (
     IndexView, CreateView, UpdateView, DetailView)
 
 
-urlpatterns = patterns('akanda.horizon.demopanel.views',
+urlpatterns = patterns(
+    'akanda.horizon.demopanel.views',
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^create/$', CreateView.as_view(), name='create'),
     url(r'^images/$', IndexView.as_view(), name='index'),

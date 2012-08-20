@@ -1,7 +1,8 @@
 import uuid
 
 from akanda.horizon.akanda.common import PROTOCOL_CHOICES as protocol_choices
-from akanda.horizon.akanda.fake.fake_data import instances_fake_data
+from akanda.testing.fakes.horizon.fake_data import instances_fake_data
+
 
 PROTOCOL_CHOICES = dict(protocol_choices)
 
@@ -53,7 +54,7 @@ class Host(object):
 
     @property
     def instances(self):
-        instances = [instances_fake_data[instance]['name'] for instance in \
+        instances = [instances_fake_data[instance]['name'] for instance in
                      self._instances]
         instances.sort()
         return ', '.join(instances)

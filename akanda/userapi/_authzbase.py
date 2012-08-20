@@ -3,7 +3,7 @@ import abc
 from sqlalchemy.orm import exc as sa_exc
 
 from quantum import quota
-from quantum.api.v2 import attributes
+#from quantum.api.v2 import attributes
 from quantum.api.v2 import base
 from quantum.api.v2 import resource as api_resource
 from quantum.common import exceptions as q_exc
@@ -12,12 +12,20 @@ from quantum.openstack.common import cfg
 
 class ResourcePlugin(object):
     """
+    This is a class does some of what the Quantum plugin does, managing
+    resources in a way very similar to what Quantum does. It differ from
+    Quantum is that this provides a base plugin infrastructure, and doesn't
+    manage any resources.
+
+    Quantum doesn't split infrastructure and implementation.
     """
     JOINS = ()
+
     def __init__(self, delegate):
         # synthesize the hooks because Quantum's base class uses the
         # resource name as part of the method name
-        setattr(self, 'get_%s' % delegate.collection_name, self._get_collection)
+        setattr(self, 'get_%s' % delegate.collection_name,
+                self._get_collection)
         setattr(self, 'get_%s' % delegate.resource_name, self._get_item)
         setattr(self, 'update_%s' % delegate.resource_name, self._update_item)
         setattr(self, 'create_%s' % delegate.resource_name, self._create_item)
@@ -61,9 +69,11 @@ class ResourcePlugin(object):
             query = self._model_query(context)
             if verbose:
                 if verbose and isinstance(verbose, list):
+                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins if join in verbose]
                 else:
+                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins]
                 query = query.options(*options)
@@ -78,6 +88,8 @@ class ResourcePlugin(object):
     def _update_item(self, id, **kwargs):
         key = self.delegate.resource_name
         resource_dict = kwargs[key][key]
+        # XXX context and verbase are not defined here, probably missing in the
+        # method signature; please fix
         obj = self._get_by_id(context, id, verbose=verbose)
         return self.delegate.update(obj, resource_dict)
 
@@ -88,6 +100,8 @@ class ResourcePlugin(object):
         return self.delegate.create(tenant_id, resource_dict)
 
     def _delete_item(self, context, id):
+        # XXX verbose is missing a definition, probably missing from the method
+        # signature; please fix
         obj = self._get_by_id(context, id, verbose=verbose)
         with context.session.begin():
             self.delegate.before_delete(obj)
@@ -100,8 +114,9 @@ class ResourcePlugin(object):
         return resource
 
 
-class ResourceDelegate(object):
+class ResourceDelegateInterface(object):
     """
+    An abstract marker class defines the interface of RESTful resources.
     """
     __metaclass__ = abc.ABCMeta
 
@@ -135,6 +150,18 @@ class ResourceDelegate(object):
     @abc.abstractmethod
     def make_dict(self, obj):
         pass
+
+
+class ResourceDelegate(ResourceDelegateInterface):
+    """
+    This class partially implemnts the ResourceDelegateInterface, providing
+    common code for use by child classes that inherit from it.
+    """
+    def create(self, tenant_id, body):
+        with context.session.begin(subtransactions=True):
+            item = self.model(**body)
+            context.session.add(item)
+        return self.make_dict(item)
 
 
 def create_extension(delegate):

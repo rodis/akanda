@@ -7,7 +7,8 @@ from akanda.horizon.akanda.firewall import urls as firewall_urls
 from akanda.horizon.akanda.portforwarding import urls as forwarding_rules
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'alias/', include(alias_urls, namespace='alias'),),
     url(r'firewall/', include(firewall_urls, namespace='firewall'),),

@@ -9,6 +9,8 @@ from akanda.horizon.akanda.tabs import alias_tab_redirect
 
 
 class BaseNetworkAliasForm(forms.SelfHandlingForm):
+    """
+    """
     id = forms.CharField(
         label=_("Id"), widget=forms.HiddenInput, required=False)
     alias_name = forms.CharField(label=_("Name"),)
@@ -16,12 +18,15 @@ class BaseNetworkAliasForm(forms.SelfHandlingForm):
 
 
 class CreateNetworkAliasForm(BaseNetworkAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._create_network_alias(request, data)
-            messages.success(request,
-                _('Successfully created network alias: %s') % \
-                data['alias_name'])
+            messages.success(
+                request,
+                _('Successfully created network alias: %s') % (
+                    data['alias_name'],))
             return data
         except:
             redirect = "%s?tab=%s" % (
@@ -31,15 +36,18 @@ class CreateNetworkAliasForm(BaseNetworkAliasForm):
                               redirect=redirect)
 
     def _create_network_alias(self, request, data):
-        from akanda.horizon.akanda.fake import NetworkAliasManager
+        from akanda.testing.fakes.horizon import NetworkAliasManager
         NetworkAliasManager.create(request, data)
 
 
 class EditNetworkAliasForm(BaseNetworkAliasForm):
+    """
+    """
     def handle(self, request, data):
         try:
             self._update_network_alias(request, data)
-            messages.success(request,
+            messages.success(
+                request,
                 _('Successfully updated '
                   'network alias: %s') % data['alias_name'])
             return data
@@ -50,5 +58,5 @@ class EditNetworkAliasForm(BaseNetworkAliasForm):
                               redirect=redirect)
 
     def _update_network_alias(self, request, data):
-        from akanda.horizon.akanda.fake import NetworkAliasManager
+        from akanda.testing.fakes.horizon import NetworkAliasManager
         NetworkAliasManager.update(self.request, data)

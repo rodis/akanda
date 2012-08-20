@@ -1,7 +1,6 @@
 import sqlalchemy as sa
 from sqlalchemy import orm
 
-from quantum.common import utils
 from quantum.db import model_base
 from quantum.db import models_v2 as models
 from quantum.openstack.common import timeutils
@@ -12,9 +11,13 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
     public_port = sa.Column(sa.Integer, nullable=False)
     instance_id = sa.Column(sa.String(36), nullable=False)
     private_port = sa.Column(sa.Integer, nullable=True)
-    fixed_id = sa.Column(sa.String(36), sa.ForeignKey('ipallocation.id',
-                                                      ondelete="CASCADE"),
-                         nullable=True)
+    # Quantum port address are stored in ipallocation which are internally
+    # referred to as fixed_id, thus the name below.
+    # XXX can we add a docsting to this model that explains how fixed_id is
+    # used?
+    fixed_id = sa.Column(
+        sa.String(36), sa.ForeignKey('ipallocation.id', ondelete="CASCADE"),
+        nullable=True)
 
 
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):

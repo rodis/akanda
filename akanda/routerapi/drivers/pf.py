@@ -1,19 +1,19 @@
-from akanda.drivers import base
+from akanda.routerapi.drivers import base
 from akanda.utils import execute, replace_file
 from akanda import models
 
 
-class PfManager(base.Manager):
+class PFManager(base.Manager):
     """
     """
     EXECUTABLE = '/sbin/pfctl'
 
     def _show(self, flag):
-        return self._sudo('-s' + flag)
+        return self.sudo('-s' + flag)
 
     def get_rules(self):
         # -sr
-        return self._show('r')       
+        return self._show('r')
 
     def get_states(self):
         # -ss
@@ -75,7 +75,6 @@ def _parse_pf_rules(data, filters=None):
     Parser for pfctl -sr
     '''
     retval = []
-
     return retval
 
 
@@ -84,9 +83,4 @@ def _parse_pf_rule(line):
     Parser for pfctl -sr
     '''
     retval = {}
-        
-
-    return models.PfManager.from_dict(retval)
-
-
-
+    return models.PFManager.from_dict(retval)
