@@ -11,9 +11,9 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
     public_port = sa.Column(sa.Integer, nullable=False)
     instance_id = sa.Column(sa.String(36), nullable=False)
     private_port = sa.Column(sa.Integer, nullable=True)
-    fixed_id = sa.Column(sa.String(36), sa.ForeignKey('ipallocation.id',
-                                                      ondelete="CASCADE"),
-                         nullable=True)
+    fixed_id = sa.Column(
+        sa.String(36), sa.ForeignKey('ipallocation.id', ondelete="CASCADE"),
+        nullable=True)
 
 
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
