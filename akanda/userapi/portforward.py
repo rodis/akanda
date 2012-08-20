@@ -1,5 +1,4 @@
 from quantum.api.v2 import attributes
-from quantum.db import models_v2
 from quantum.extensions import extensions
 
 from akanda.userapi import _authzbase
