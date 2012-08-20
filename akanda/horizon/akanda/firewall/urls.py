@@ -4,6 +4,5 @@ from akanda.horizon.akanda.firewall.views import CreateFirewallRuleView
 
 urlpatterns = patterns(
     '',
-    url(r'^rule/create/$', CreateFirewallRuleView.as_view(),
-        name='create_rule'),
+    url(r'create/$', CreateFirewallRuleView.as_view(), name='create'),
 )

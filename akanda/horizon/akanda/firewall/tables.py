@@ -16,7 +16,7 @@ class Delete(tables.DeleteAction):
 class Create(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Rule")
-    url = "horizon:nova:networking:firewall:create_rule"
+    url = "horizon:nova:networking:firewall:create"
     classes = ("ajax-modal", "btn-create")
 
 

@@ -1,5 +1,5 @@
-from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 
 from horizon import forms
 from horizon import messages
@@ -7,44 +7,62 @@ from horizon import exceptions
 
 from akanda.horizon.akanda import common
 from akanda.horizon.akanda.tabs import firewall_tab_redirect
+from akanda.testing.fakes.horizon import (
+    NetworkAliasManager, PortAliasManager)
 
 
-POLICY_CHOICES = (
-    (0, 'Allow'),
-    (1, 'Deny'),
-)
-
-TEST = (
-    ('', ''),
-    ('Custom', 'Custom'),
-)
+def get_port_aliases():
+    port_aliases = [(port.id, port.alias_name) for port in
+                    PortAliasManager.list_all()]
+    port_aliases.insert(0, ('Custom', 'Custom'))
+    port_aliases.insert(0, ('', ''))
+    return port_aliases
 
 
-class CreateFirewallRule(forms.SelfHandlingForm):
+def get_networks_alias_choices():
+    return [(network.id, network.alias_name) for network in
+            NetworkAliasManager.list_all()]
+
+
+class CreateFirewallRuleForm(forms.SelfHandlingForm):
     source_network_alias = forms.ChoiceField(
-        label=_("Network Alias"), choices=common.TEST_CHOICE)
+        label=_("Network Alias"), choices=())
     source_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=TEST)
+        label=_("Port Alias"), choices=())
     source_protocol = forms.ChoiceField(
-        label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
-    source_public_ports = forms.CharField(label=_("Public Ports"),)
+        label=_("Protocol"), choices=common.PROTOCOL_CHOICES, required=False)
+    source_public_ports = forms.CharField(
+        label=_("Public Ports"), required=False)
 
     destination_network_alias = forms.ChoiceField(
-        label=_("Network Alias"), choices=common.TEST_CHOICE)
+        label=_("Network Alias"), choices=())
     destination_port_alias = forms.ChoiceField(
-        label=_("Port Alias"), choices=TEST)
+        label=_("Port Alias"), choices=())
     destination_protocol = forms.ChoiceField(
-        label=_("Protocol"), choices=common.PROTOCOL_CHOICES)
-    destination_public_ports = forms.CharField(label=_("Public Ports"),)
+        label=_("Protocol"), choices=common.PROTOCOL_CHOICES, required=False)
+    destination_public_ports = forms.CharField(
+        label=_("Public Ports"), required=False)
 
     policy = forms.ChoiceField(
-        label=_("Policy"), choices=POLICY_CHOICES)
+        label=_("Policy"), choices=common.POLICY_CHOICES)
+
+    def __init__(self, *args, **kwargs):
+        super(CreateFirewallRuleForm, self).__init__(*args, **kwargs)
+        port_alias_choices = get_port_aliases()
+        self.fields['source_port_alias'] = forms.ChoiceField(
+            choices=port_alias_choices)
+        self.fields['destination_port_alias'] = forms.ChoiceField(
+            choices=port_alias_choices)
+        network_alias_choices = get_networks_alias_choices()
+        self.fields['source_network_alias'] = forms.ChoiceField(
+            choices=network_alias_choices)
+        self.fields['destination_network_alias'] = forms.ChoiceField(
+            choices=network_alias_choices)
 
     def handle(self, request, data):
         try:
-            # firewall rule  creation goes here
+            self._create_firewall_rule(request, data)
             messages.success(request, _('Successfully created firewall rule'))
-                # _('Successfully created port alias: %s') % data['name'])
             return data
         except:
             redirect = "%s?tab=%s" % (
@@ -52,3 +70,22 @@ class CreateFirewallRule(forms.SelfHandlingForm):
                 firewall_tab_redirect())
             exceptions.handle(request, _('Unable to create firewall rule.'),
                               redirect=redirect)
+
+    def _create_firewall_rule(self, request, data):
+        from akanda.testing.fakes.horizon import FirewallRuleManager
+        from akanda.testing.fakes.horizon import PortAliasManager
+        if data['source_port_alias'] != 'Custom':
+            source_port_alias = PortAliasManager.get(
+                request, data['source_port_alias'])
+            data['source_protocol'] = source_port_alias._protocol
+            data['source_public_ports'] = source_port_alias._ports
+        data.pop('source_port_alias')
+
+        if data['destination_port_alias'] != 'Custom':
+            destination_port_alias = PortAliasManager.get(
+                request, data['destination_port_alias'])
+            data['destination_protocol'] = destination_port_alias._protocol
+            data['destination_public_ports'] = destination_port_alias._ports
+        data.pop('destination_port_alias')
+
+        FirewallRuleManager.create(request, data)

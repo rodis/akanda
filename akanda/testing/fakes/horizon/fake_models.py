@@ -1,8 +1,7 @@
 import uuid
 
 from akanda.horizon.akanda.common import PROTOCOL_CHOICES as protocol_choices
-from akanda.horizon.akanda.firewall.forms import (
-    POLICY_CHOICES as policy_choices)
+from akanda.horizon.akanda.common import (POLICY_CHOICES as policy_choices)
 from akanda.testing.fakes.horizon.fake_data import instances_fake_data
 
 
@@ -81,7 +80,7 @@ class Network(object):
         self.id = id or uuid.uuid4().hex
 
     def raw(self):
-        return self.__dict__
+        return self.__dict__.copy()
 
 
 class FirewallRule(object):
@@ -91,7 +90,7 @@ class FirewallRule(object):
     def __init__(self, policy, source_network_alias, source_protocol,
                  source_public_ports, destination_network_alias,
                  destination_protocol, destination_public_ports, id=None):
-        self._policy = policy
+        self.policy = policy
         self.source_network_alias = source_network_alias
         self.source_protocol = source_protocol
         self.source_public_ports = source_public_ports
@@ -105,8 +104,15 @@ class FirewallRule(object):
         self.network_manager = NetworkAliasManager
 
     @property
-    def policy(self, ):
+    def policy(self):
         return POLICY_CHOICES[self._policy]
+
+    @policy.setter
+    def policy(self, value):
+        if isinstance(value, basestring):
+            self._policy = int(value)
+        else:
+            self._policy = value
 
     @property
     def source_ip(self):
@@ -121,11 +127,66 @@ class FirewallRule(object):
         return network.cidr
 
     @property
+    def source_public_ports(self):
+        return self._source_public_ports
+
+    @source_public_ports.setter
+    def source_public_ports(self, value):
+        if isinstance(value, basestring):
+            self._source_public_ports = map(int, value.split('-'))
+            self._source_public_ports.sort()
+        else:
+            self._source_public_ports = value
+
+    @property
     def source_ports(self):
         return "%s %s" % (self.source_protocol,
                           '-'.join(map(str, self.source_public_ports)))
 
     @property
+    def source_protocol(self, ):
+        return PROTOCOL_CHOICES[self._source_protocol]
+
+    @source_protocol.setter
+    def source_protocol(self, value):
+        if isinstance(value, basestring):
+            self._source_protocol = int(value)
+        else:
+            self._source_protocol = value
+
+    @property
+    def destination_public_ports(self):
+        return self._destination_public_ports
+
+    @destination_public_ports.setter
+    def destination_public_ports(self, value):
+        if isinstance(value, basestring):
+            self._destination_public_ports = map(int, value.split('-'))
+            self._destination_public_ports.sort()
+        else:
+            self._destination_public_ports = value
+
+    @property
     def destination_ports(self, ):
         return "%s %s" % (self.destination_protocol,
                           '-'.join(map(str, self.destination_public_ports)))
+
+    @property
+    def destination_protocol(self, ):
+        return PROTOCOL_CHOICES[self._source_protocol]
+
+    @destination_protocol.setter
+    def destination_protocol(self, value):
+        if isinstance(value, basestring):
+            self._destination_protocol = int(value)
+        else:
+            self._destination_protocol = value
+
+    def raw(self):
+        data = self.__dict__.copy()
+        for k, v in data.items():
+            if k.startswith('_'):
+                tmp = data.pop(k)
+                data[k[1:]] = tmp
+        data.pop('network_manager')
+        return data
