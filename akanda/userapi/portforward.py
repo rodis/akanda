@@ -49,8 +49,10 @@ class PortforwardResource(_authzbase.ResourceDelegate):
         return res
 
     def create(self, tenant_id, resource_dict):
-        #import pdb;pdb.set_trace()
-        return {}
+        with context.session.begin(subtransactions=True):
+            portforward = self.model(**resource_dict)
+            context.session.add(portforward)
+        return self.make_dict(portforward)
 
     def update(self, tenant_id, resource, resource_dict):
         #import pdb;pdb.set_trace()
