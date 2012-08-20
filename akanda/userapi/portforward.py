@@ -1,8 +1,9 @@
 from quantum.api.v2 import attributes
 from quantum.db import models_v2
 from quantum.extensions import extensions
-
 from quantum.extensions import _authzbase
+
+from akanda.userapi.db import models
 
 
 # XXX: I used Network as an existing model for testing.  Need to change to
@@ -14,8 +15,10 @@ from quantum.extensions import _authzbase
 
 class PortforwardResource(_authzbase.ResourceDelegate):
     """
+    This class is responsible for receiving REST requests and operating on the
+    defined data model to create, update, or delete portforward-related data.
     """
-    model = models_v2.Network
+    model = models.PortForward
     resource_name = 'portforward'
     collection_name = 'portforwards'
 
