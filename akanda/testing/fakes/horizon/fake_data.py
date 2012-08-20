@@ -3,7 +3,7 @@
 #         Fake implementation detail
 #
 # .. attribute:: alias_name
-#         type: free text??
+#         type: string(free text)??
 #
 # .. attribute:: protocol
 #         type: integer??
@@ -72,7 +72,7 @@ instances_fake_data = {
 #         Fake implementation detail
 #
 # .. attribute:: alias_name
-#         type: free text??
+#         type: string(free text)??
 #
 # .. attribute:: instances
 #         type: list of instances id??
@@ -89,10 +89,75 @@ host_aliases_fake_data = {
 }
 
 
+#  Fake data for Host Aliases
+# .. attribute:: id
+#         Fake implementation detail
+#
+# .. attribute:: alias_name
+#         type: string(free text)??
+#
+# .. attribute:: cidr
+#         type: string??
+#
+# Note(rods): we need to define data types in order to write forms' validation
 network_aliases_fake_data = {
     'cefa80f7f3aa451ba48a3a8b10347a27': {
         'id': 'cefa80f7f3aa451ba48a3a8b10347a27',
-        'alias_name': 'All Networks',
-        'cidr': '0.0.0.0/0'
+        'alias_name': 'Network 1',
+        'cidr': '192.168.0.1/12'
     },
+    '872bd2fa41df41679a38d01ca50bf754': {
+        'id': '872bd2fa41df41679a38d01ca50bf754',
+        'alias_name': 'Network 2',
+        'cidr': '2001:cdba:0000:0000:0000:0000:3257:9652'
+    },
+    '1c2b68b81e2c4586a6f091ac565659e1': {
+        'id': '1c2b68b81e2c4586a6f091ac565659e1',
+        'alias_name': 'Network 3',
+        'cidr': '111.120.0.0/14'
+    },
+    'c8fd91727f6148b28fd11eb54db2a3ad': {
+        'id': 'c8fd91727f6148b28fd11eb54db2a3ad',
+        'alias_name': 'Network 4',
+        'cidr': '122.255.64.0/21'
+    },
+    'f1f7a93c721f45eba42e8cff5ce7530e': {
+        'id': 'f1f7a93c721f45eba42e8cff5ce7530e',
+        'alias_name': 'Network 5',
+        'cidr': '2001:cdba::3257:9652'
+    },
+    '1d2c01d7285447cc893107e09c21d427': {
+        'id': '1d2c01d7285447cc893107e09c21d427',
+        'alias_name': 'Network 6',
+        'cidr': '122.198.0.0/28'
+    },
+    'd462717864fc42ea959ae9f73fb037e5': {
+        'id': 'd462717864fc42ea959ae9f73fb037e5',
+        'alias_name': 'Network 7',
+        'cidr': '69.197.56.16/28'
+    },
+}
+
+
+firewall_rules_fake_data = {
+    'b68292e067834ba48e17c2c827b99f31': {
+        'id': 'b68292e067834ba48e17c2c827b99f31',
+        'policy': 0,
+        'source_network_alias': 'cefa80f7f3aa451ba48a3a8b10347a27',
+        'source_protocol': 'TCP',
+        'source_public_ports': [24],
+        'destination_network_alias': 'cefa80f7f3aa451ba48a3a8b10347a27',
+        'destination_protocol': 'TCP',
+        'destination_public_ports': [80],
+    },
+    'a39255cfbb0e44c6b542a531a3e5528a': {
+        'id': 'a39255cfbb0e44c6b542a531a3e5528a',
+        'policy': 1,
+        'source_network_alias': '872bd2fa41df41679a38d01ca50bf754',
+        'source_protocol': 'TCP',
+        'source_public_ports': [125],
+        'destination_network_alias': '872bd2fa41df41679a38d01ca50bf754',
+        'destination_protocol': 'TCP',
+        'destination_public_ports': [2007],
+    }
 }
