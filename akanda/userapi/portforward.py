@@ -33,14 +33,20 @@ class PortforwardResource(_authzbase.ResourceDelegate):
                       'is_visible': True},
     }
 
-    def make_dict(self, network):
-        res = {'id': network['id'],
-               'name': network['name'],
-               'tenant_id': network['tenant_id'],
-               'admin_state_up': network['admin_state_up'],
-               'status': network['status'],
-               'subnets': [subnet['id']
-                           for subnet in network['subnets']]}
+    def make_dict(self, portforward):
+        """
+        Convert a portforward model object to a dictionary.
+        """
+        # XXX here's an example that is used for converting a network model to
+        # a dictionary (delete this when the portforard conversion has been
+        # implemented):
+        #res = {'id': network['id'],
+        #       'name': network['name'],
+        #       'tenant_id': network['tenant_id'],
+        #       'admin_state_up': network['admin_state_up'],
+        #       'status': network['status'],
+        #       'subnets': [subnet['id']
+        #                   for subnet in network['subnets']]}
         return res
 
     def create(self, tenant_id, resource_dict):
