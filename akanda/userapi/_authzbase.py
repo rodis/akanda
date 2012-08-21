@@ -163,6 +163,15 @@ class ResourceDelegate(ResourceDelegateInterface):
             context.session.add(item)
         return self.make_dict(item)
 
+    def update(self, tenant_id, resource, resource_dict):
+        with context.session.begin(subtransactions=True):
+            item = self.model(**body)
+            context.session.update(item)
+        return self.make_dict(item)
+
+
+    def delete(self, tenant_id, resource, resource_dict):
+		pass
 
 def create_extension(delegate):
     """
