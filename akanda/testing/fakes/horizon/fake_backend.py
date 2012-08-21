@@ -1,5 +1,5 @@
 from akanda.testing.fakes.horizon.fake_models import (
-    Port, Host, Network, FirewallRule)
+    Port, Host, Network, FirewallRule, PortForwardingRule)
 
 
 class DictKvs(dict):
@@ -94,3 +94,8 @@ class FirewallRuleManager(Manager):
     def update(self, request, obj):
         obj = FirewallRule(**obj)
         self.db[obj.id] = obj.raw()
+
+
+class PortForwardingRuleManager(Manager):
+    def list_all(self, request=None):
+        return [PortForwardingRule(**v) for v in self.db.values()]

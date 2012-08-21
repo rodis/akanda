@@ -17,3 +17,7 @@ NetworkAliasManager = fake_backend.NetworkAliasManager(NETWORK_ALIASES_DB)
 
 FIREWALL_RULES_DB = DictKvs(fake_data.firewall_rules_fake_data)
 FirewallRuleManager = fake_backend.FirewallRuleManager(FIREWALL_RULES_DB)
+
+PORTFORWARDING_RULE_DB = DictKvs(fake_data.portforwarding_rules_fake_data)
+PortForwardingRuleManager = fake_backend.PortForwardingRuleManager(
+    PORTFORWARDING_RULE_DB)

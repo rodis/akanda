@@ -9,6 +9,10 @@ PROTOCOL_CHOICES = dict(protocol_choices)
 POLICY_CHOICES = dict(policy_choices)
 
 
+def list_to_string(data):
+    return '-'.join(map(str, data))
+
+
 class Port(object):
     def __init__(self, alias_name, protocol, ports, id=None):
         self.alias_name = alias_name
@@ -175,7 +179,6 @@ class FirewallRule(object):
 
     @property
     def destination_protocol(self):
-        
         return PROTOCOL_CHOICES[self._destination_protocol]
 
     @destination_protocol.setter
@@ -193,3 +196,35 @@ class FirewallRule(object):
                 data[k[1:]] = tmp
         data.pop('network_manager')
         return data
+
+
+class PortForwardingRule(object):
+    def __init__(self, rule_name, instances, public_port_alias,
+                 public_protocol, public_ports, private_port_alias,
+                 private_protocol, private_ports, id):
+        self.rule_name = rule_name
+        self.instances = instances
+        self.public_port_alias = public_port_alias
+        self.public_protocol = public_protocol
+        self.public_ports = public_ports
+        self.private_port_alias = private_port_alias
+        self.private_protocol = private_protocol
+        self.private_ports = private_ports
+        self.id = id or uuid.uuid4().hex
+
+    @property
+    def t_instances(self):
+        instances = [instances_fake_data[instance]['name'] for instance in
+                     self.instances]
+        instances.sort()
+        return ', '.join(instances)
+
+    @property
+    def t_public_ports(self):
+        return "%s %s" % (PROTOCOL_CHOICES[self.public_protocol],
+                          list_to_string(self.public_ports))
+
+    @property
+    def t_private_ports(self):
+        return "%s %s" % (PROTOCOL_CHOICES[self.private_protocol],
+                          list_to_string(self.private_ports))

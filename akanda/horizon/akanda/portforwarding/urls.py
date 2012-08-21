@@ -5,6 +5,5 @@ from akanda.horizon.akanda.portforwarding.views import (
 
 urlpatterns = patterns(
     '',
-    url(r'^rule/create/$', CreatePortForwardingRuleView.as_view(),
-        name='create_rule'),
+    url(r'^create/$', CreatePortForwardingRuleView.as_view(), name='create'),
 )
