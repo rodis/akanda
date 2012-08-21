@@ -23,7 +23,7 @@ class Create(tables.LinkAction):
 class Edit(tables.LinkAction):
     name = "edit_rule"
     verbose_name = _("Edit Rule")
-    url = "horizon:"
+    url = "horizon:nova:networking:firewall:edit"
     classes = ("ajax-modal", "btn-edit")
 
 

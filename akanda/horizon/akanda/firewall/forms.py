@@ -24,7 +24,9 @@ def get_networks_alias_choices():
             NetworkAliasManager.list_all()]
 
 
-class CreateFirewallRuleForm(forms.SelfHandlingForm):
+class BaseFirewallRuleForm(forms.SelfHandlingForm):
+    id = forms.CharField(
+        label=_("Id"), widget=forms.HiddenInput, required=False)
     source_network_alias = forms.ChoiceField(
         label=_("Network Alias"), choices=())
     source_port_alias = forms.ChoiceField(
@@ -47,7 +49,7 @@ class CreateFirewallRuleForm(forms.SelfHandlingForm):
         label=_("Policy"), choices=common.POLICY_CHOICES)
 
     def __init__(self, *args, **kwargs):
-        super(CreateFirewallRuleForm, self).__init__(*args, **kwargs)
+        super(BaseFirewallRuleForm, self).__init__(*args, **kwargs)
         port_alias_choices = get_port_aliases()
         self.fields['source_port_alias'] = forms.ChoiceField(
             choices=port_alias_choices)
@@ -59,6 +61,8 @@ class CreateFirewallRuleForm(forms.SelfHandlingForm):
         self.fields['destination_network_alias'] = forms.ChoiceField(
             choices=network_alias_choices)
 
+
+class CreateFirewallRuleForm(BaseFirewallRuleForm):
     def handle(self, request, data):
         try:
             self._create_firewall_rule(request, data)
@@ -79,13 +83,43 @@ class CreateFirewallRuleForm(forms.SelfHandlingForm):
                 request, data['source_port_alias'])
             data['source_protocol'] = source_port_alias._protocol
             data['source_public_ports'] = source_port_alias._ports
-        data.pop('source_port_alias')
+        # data.pop('source_port_alias')
 
         if data['destination_port_alias'] != 'Custom':
             destination_port_alias = PortAliasManager.get(
                 request, data['destination_port_alias'])
             data['destination_protocol'] = destination_port_alias._protocol
             data['destination_public_ports'] = destination_port_alias._ports
-        data.pop('destination_port_alias')
+        # data.pop('destination_port_alias')
 
         FirewallRuleManager.create(request, data)
+
+
+class EditFirewallRuleForm(BaseFirewallRuleForm):
+    def handle(self, request, data):
+        try:
+            self._update_firewall_rule(request, data)
+            messages.success(request, _('Successfully edited firewall rule'))
+            return data
+        except:
+            redirect = "%s?tab=%s" % (
+                reverse("horizon:nova:networking:index"),
+                firewall_tab_redirect())
+            exceptions.handle(request, _('Unable to edit firewall rule.'),
+                              redirect=redirect)
+
+    def _update_firewall_rule(self, request, data):
+        from akanda.testing.fakes.horizon import FirewallRuleManager
+        if data['source_port_alias'] != 'Custom':
+            source_port_alias = PortAliasManager.get(
+                request, data['source_port_alias'])
+            data['source_protocol'] = source_port_alias._protocol
+            data['source_public_ports'] = source_port_alias._ports
+
+        if data['destination_port_alias'] != 'Custom':
+            destination_port_alias = PortAliasManager.get(
+                request, data['destination_port_alias'])
+            data['destination_protocol'] = destination_port_alias._protocol
+            data['destination_public_ports'] = destination_port_alias._ports
+
+        FirewallRuleManager.update(request, data)

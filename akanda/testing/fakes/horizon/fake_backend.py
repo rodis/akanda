@@ -87,4 +87,10 @@ class FirewallRuleManager(Manager):
     def create(self, request, obj):
         obj = FirewallRule(**obj)
         self.db[obj.id] = obj.raw()
-        # import pdb; pdb.set_trace()
+
+    def get(self, request, obj_id):
+        return FirewallRule(**self.db[obj_id])
+
+    def update(self, request, obj):
+        obj = FirewallRule(**obj)
+        self.db[obj.id] = obj.raw()

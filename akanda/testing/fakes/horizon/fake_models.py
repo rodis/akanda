@@ -87,14 +87,17 @@ class FirewallRule(object):
     """
     """
 
-    def __init__(self, policy, source_network_alias, source_protocol,
-                 source_public_ports, destination_network_alias,
+    def __init__(self, policy, source_network_alias, source_port_alias,
+                 source_protocol, source_public_ports,
+                 destination_network_alias, destination_port_alias,
                  destination_protocol, destination_public_ports, id=None):
         self.policy = policy
         self.source_network_alias = source_network_alias
+        self.source_port_alias = source_port_alias
         self.source_protocol = source_protocol
         self.source_public_ports = source_public_ports
         self.destination_network_alias = destination_network_alias
+        self.destination_port_alias = destination_port_alias
         self.destination_protocol = destination_protocol
         self.destination_public_ports = destination_public_ports
         self.id = id or uuid.uuid4().hex
@@ -128,7 +131,7 @@ class FirewallRule(object):
 
     @property
     def source_public_ports(self):
-        return self._source_public_ports
+        return '-'.join(map(str, self._source_public_ports))
 
     @source_public_ports.setter
     def source_public_ports(self, value):
@@ -140,8 +143,7 @@ class FirewallRule(object):
 
     @property
     def source_ports(self):
-        return "%s %s" % (self.source_protocol,
-                          '-'.join(map(str, self.source_public_ports)))
+        return "%s %s" % (self.source_protocol, self.source_public_ports)
 
     @property
     def source_protocol(self, ):
@@ -156,7 +158,7 @@ class FirewallRule(object):
 
     @property
     def destination_public_ports(self):
-        return self._destination_public_ports
+        return '-'.join(map(str, self._destination_public_ports))
 
     @destination_public_ports.setter
     def destination_public_ports(self, value):
@@ -167,13 +169,14 @@ class FirewallRule(object):
             self._destination_public_ports = value
 
     @property
-    def destination_ports(self, ):
+    def destination_ports(self):
         return "%s %s" % (self.destination_protocol,
-                          '-'.join(map(str, self.destination_public_ports)))
+                          self.destination_public_ports)
 
     @property
-    def destination_protocol(self, ):
-        return PROTOCOL_CHOICES[self._source_protocol]
+    def destination_protocol(self):
+        
+        return PROTOCOL_CHOICES[self._destination_protocol]
 
     @destination_protocol.setter
     def destination_protocol(self, value):
