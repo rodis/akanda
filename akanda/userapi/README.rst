@@ -11,9 +11,9 @@ Firewall
 
 firewall.py implemented under quantum/extensions allows...
 
-Alias
+AddressBook
 ---------
-alias.py implemented under quantum/extensions allows...
+addressbook.py implemented under quantum/extensions allows...
 
 Info
 ----
