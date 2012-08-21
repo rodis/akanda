@@ -165,7 +165,7 @@ class ResourceDelegate(ResourceDelegateInterface):
 
     def update(self, tenant_id, resource, resource_dict):
         with context.session.begin(subtransactions=True):
-            item = self.model(**body)
+            item = self.model(**resource)
             context.session.update(item)
         return self.make_dict(item)
 
