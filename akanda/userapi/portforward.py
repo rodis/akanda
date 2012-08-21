@@ -36,11 +36,11 @@ class PortforwardResource(_authzbase.ResourceDelegate):
         """
         Convert a portforward model object to a dictionary.
         """
-		res = {'id': portforward['id'],
-              'name': portforward['name'],
-              'instance_id': portforward['instance_id'],
-              'private_port': portforward['private_port'],
-              'fixed_id': portforward['fixed_id']}
+        res = {'id': portforward['id'],
+               'name': portforward['name'],
+               'instance_id': portforward['instance_id'],
+               'private_port': portforward['private_port'],
+               'fixed_id': portforward['fixed_id']}
         return res
 
 

@@ -16,11 +16,11 @@ class ResourcePlugin(object):
     resources in a way very similar to what Quantum does. It differ from
     Quantum is that this provides a base plugin infrastructure, and doesn't
     manage any resources.
-    
+
     Quantum doesn't split infrastructure and implementation.
     """
     JOINS = ()
-    
+
     def __init__(self, delegate):
         # synthesize the hooks because Quantum's base class uses the
         # resource name as part of the method name
@@ -31,7 +31,7 @@ class ResourcePlugin(object):
         setattr(self, 'create_%s' % delegate.resource_name, self._create_item)
         setattr(self, 'delete_%s' % delegate.resource_name, self._delete_item)
         self.delegate = delegate
-    
+
     def _get_tenant_id_for_create(self, context, resource):
         if context.is_admin and 'tenant_id' in resource:
             tenant_id = resource['tenant_id']
@@ -42,17 +42,16 @@ class ResourcePlugin(object):
         else:
             tenant_id = context.tenant_id
         return tenant_id
-    
+
     def _model_query(self, context):
         query = context.session.query(self.delegate.model)
-        
-        # NOTE(jkoelker) non-admin queries are scoped to their tenant_id
+
+    # NOTE(jkoelker) non-admin queries are scoped to their tenant_id
         if not context.is_admin and hasattr(self.delegate.model, 'tenant_id'):
             query = query.filter(
                 self.delegate.model.tenant_id == context.tenant_id)
-        
         return query
-    
+
     def _get_collection(self, context, filters=None, fields=None,
                         verbose=None):
         collection = self._model_query(context)
@@ -63,7 +62,7 @@ class ResourcePlugin(object):
                     collection = collection.filter(column.in_(value))
         return [self._fields(self.delegate.make_dict(c), fields) for c in
                 collection.all()]
-    
+
     def _get_by_id(self, context, id, verbose=None):
         try:
             query = self._model_query(context)
@@ -80,11 +79,11 @@ class ResourcePlugin(object):
             return query.filter_by(id=id).one()
         except sa_exc.NoResultFound:
             raise q_exc.NotFound()
-    
+
     def _get_item(self, context, id, fields=None, verbose=None):
         obj = self._get_by_id(context, id, verbose=verbose)
         return self._fields(self.delegate.make_dict(obj), fields)
-    
+
     def _update_item(self, id, **kwargs):
         key = self.delegate.resource_name
         resource_dict = kwargs[key][key]
@@ -92,13 +91,13 @@ class ResourcePlugin(object):
         # method signature; please fix
         obj = self._get_by_id(context, id, verbose=verbose)
         return self.delegate.update(obj, resource_dict)
-    
+
     def _create_item(self, context, **kwargs):
         key = self.delegate.resource_name
         resource_dict = kwargs[key][key]
         tenant_id = self._get_tenant_id_for_create(context, resource_dict)
         return self.delegate.create(tenant_id, resource_dict)
-    
+
     def _delete_item(self, context, id):
         # XXX verbose is missing a definition, probably missing from the method
         # signature; please fix
@@ -106,7 +105,7 @@ class ResourcePlugin(object):
         with context.session.begin():
             self.delegate.before_delete(obj)
             context.session.delete(obj)
-    
+
     def _fields(self, resource, fields):
         if fields:
             return dict([(key, item) for key, item in resource.iteritems()
@@ -119,34 +118,34 @@ class ResourceDelegateInterface(object):
     An abstract marker class defines the interface of RESTful resources.
     """
     __metaclass__ = abc.ABCMeta
-    
+
     def before_delete(self, resource):
         pass
-    
+
     @abc.abstractproperty
     def model(self):
         pass
-    
+
     @abc.abstractproperty
     def resource_name(self):
         pass
-    
+
     @abc.abstractproperty
     def collection_name(self):
         pass
-    
+
     @property
     def joins(self):
         return ()
-    
+
     @abc.abstractmethod
     def update(self, tenant_id, resource, body):
         pass
-    
+
     @abc.abstractmethod
     def create(self, tenant_id, body):
         pass
-    
+
     @abc.abstractmethod
     def make_dict(self, obj):
         pass
@@ -162,16 +161,16 @@ class ResourceDelegate(ResourceDelegateInterface):
             item = self.model(**body)
             context.session.add(item)
         return self.make_dict(item)
-    
+
     def update(self, tenant_id, resource, resource_dict):
         with context.session.begin(subtransactions=True):
             item = self.model(**resource)
             context.session.update(item)
         return self.make_dict(item)
 
-    
     def delete(self, tenant_id, resource, resource_dict):
-		pass
+        pass
+
 
 def create_extension(delegate):
     """
