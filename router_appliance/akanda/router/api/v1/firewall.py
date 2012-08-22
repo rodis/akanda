@@ -1,8 +1,8 @@
 """
 Blueprint for version 1 of the firewall API.
 """
-from akanda import utils
-from akanda.routerapi.drivers import pf
+from akanda.router import utils
+from akanda.router.drivers import pf
 
 
 firewall = utils.blueprint_factory(__name__)

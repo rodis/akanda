@@ -1,14 +1,15 @@
 """
 Base classes for Router API tests.
 """
+from unittest import TestCase
+
 import flask
 
-from akanda.routerapi import v1
-from akanda.testing.payloads import routerapi_system as payload
-from akanda.testing.testcase import UnitTestCase
+from akanda.router.api import v1
+from .payloads import routerapi_system as payload
 
 
-class BaseAPITestCase(UnitTestCase):
+class BaseAPITestCase(TestCase):
     """
     This test case contains the unit tests for the Python server implementation
     of the Router API. The focus of these tests is to ensure that the server is
@@ -16,7 +17,7 @@ class BaseAPITestCase(UnitTestCase):
     """
     def setUp(self):
         self.app = flask.Flask('base_test')
-        self.app.register_blueprint(v1.base.base)
+        self.app.register_blueprint(v1.base)
         self.test_app = self.app.test_client()
 
     def test_root(self):

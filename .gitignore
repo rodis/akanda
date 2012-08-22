@@ -5,7 +5,7 @@
 *.egg-info
 .venv
 dropin.cache
-_trial_temp
+.tox
 build
 dist
 requirements.txt

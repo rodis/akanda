@@ -1,6 +1,6 @@
-from akanda.routerapi.drivers import base
-from akanda.utils import execute, replace_file
-from akanda import models
+from akanda.router.drivers import base
+from akanda.router.utils import execute, replace_file
+from akanda.router import models
 
 
 class PFManager(base.Manager):
