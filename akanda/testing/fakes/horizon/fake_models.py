@@ -213,6 +213,54 @@ class PortForwardingRule(object):
         self.id = id or uuid.uuid4().hex
 
     @property
+    def public_protocol(self, ):
+        return self._public_protocol
+
+    @public_protocol.setter
+    def public_protocol(self, value):
+        if isinstance(value, basestring):
+            self._public_protocol = int(value)
+        else:
+            self._public_protocol = value
+
+    @property
+    def public_ports(self):
+        # return '-'.join(map(str, self._public_ports))
+        return self._public_ports
+
+    @public_ports.setter
+    def public_ports(self, value):
+        if isinstance(value, basestring):
+            self._public_ports = map(int, value.split('-'))
+            self._public_ports.sort()
+        else:
+            self._public_ports = value
+
+    @property
+    def private_protocol(self, ):
+        return self._private_protocol
+
+    @private_protocol.setter
+    def private_protocol(self, value):
+        if isinstance(value, basestring):
+            self._private_protocol = int(value)
+        else:
+            self._private_protocol = value
+
+    @property
+    def private_ports(self):
+        # return '-'.join(map(str, self._private_ports))
+        return self._private_ports
+
+    @private_ports.setter
+    def private_ports(self, value):
+        if isinstance(value, basestring):
+            self._private_ports = map(int, value.split('-'))
+            self._private_ports.sort()
+        else:
+            self._private_ports = value
+
+    @property
     def t_instance(self):
         return instances_fake_data[self.instance]['name']
 
@@ -225,3 +273,11 @@ class PortForwardingRule(object):
     def t_private_ports(self):
         return "%s %s" % (PROTOCOL_CHOICES[self.private_protocol],
                           list_to_string(self.private_ports))
+
+    def raw(self):
+        data = self.__dict__.copy()
+        for k, v in data.items():
+            if k.startswith('_'):
+                tmp = data.pop(k)
+                data[k[1:]] = tmp
+        return data

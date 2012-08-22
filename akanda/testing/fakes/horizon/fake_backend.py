@@ -102,4 +102,4 @@ class PortForwardingRuleManager(Manager):
 
     def create(self, request, obj):
         obj = PortForwardingRule(**obj)
-        self.db[obj.id] = obj.__dict__
+        self.db[obj.id] = obj.raw()
