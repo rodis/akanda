@@ -258,7 +258,7 @@ portforwarding_rules_fake_data = {
     '68fc216ced5c44b2a5041345d0265f04': {
         'id': '68fc216ced5c44b2a5041345d0265f04',
         'rule_name': 'Rule 3',
-        'instance': '015eff2961d8430ba0c7c483fcb2da7a',
+        'instance': '7f256428dbfe4bec91e643fac513778e',
         'public_port_alias': 'df698e967f554e4284583c10ba326c5b',
         'public_protocol': 0,
         'public_ports': [21, 22],

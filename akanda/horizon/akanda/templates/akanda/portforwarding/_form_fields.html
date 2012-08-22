@@ -8,7 +8,7 @@
 {% endif %}
 
 <script>
-	$('#id_private_port_alias, #id_public_port_alias', '#create_portforwarding_rule__portsaction').change(function(){
+	$('#id_private_port_alias, #id_public_port_alias', '#create_portforwarding_rule__portsaction, #edit_portforwarding_rule__portsaction').change(function(){
 		if ($(this).attr('id').indexOf('public') != -1) {
 			$fields = $('div.public-port');
 		}else if ($(this).attr('id').indexOf('private') != -1) {

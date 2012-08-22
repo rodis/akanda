@@ -225,8 +225,8 @@ class PortForwardingRule(object):
 
     @property
     def public_ports(self):
-        # return '-'.join(map(str, self._public_ports))
-        return self._public_ports
+        # return self._public_ports
+        return '-'.join(map(str, self._public_ports))
 
     @public_ports.setter
     def public_ports(self, value):
@@ -249,8 +249,8 @@ class PortForwardingRule(object):
 
     @property
     def private_ports(self):
-        # return '-'.join(map(str, self._private_ports))
-        return self._private_ports
+        # return self._private_ports
+        return '-'.join(map(str, self._private_ports))
 
     @private_ports.setter
     def private_ports(self, value):
@@ -266,13 +266,17 @@ class PortForwardingRule(object):
 
     @property
     def t_public_ports(self):
+        # return "%s %s" % (PROTOCOL_CHOICES[self.public_protocol],
+        #                   list_to_string(self.public_ports))
         return "%s %s" % (PROTOCOL_CHOICES[self.public_protocol],
-                          list_to_string(self.public_ports))
+                          self.public_ports)
 
     @property
     def t_private_ports(self):
+        # return "%s %s" % (PROTOCOL_CHOICES[self.private_protocol],
+        #                   list_to_string(self.private_ports))
         return "%s %s" % (PROTOCOL_CHOICES[self.private_protocol],
-                          list_to_string(self.private_ports))
+                          self.private_ports)
 
     def raw(self):
         data = self.__dict__.copy()
