@@ -3,8 +3,9 @@ from akanda.testing.fakes.horizon import fake_data
 from akanda.testing.fakes.horizon import fake_backend
 
 
-INSTANCES_FAKE_DATA = [(k, v['name']) for k, v in
-                       fake_data.instances_fake_data.items()]
+INSTANCES = [(k, v['name']) for k, v in
+             fake_data.instances_fake_data.items()]
+INSTANCES_FAKE_DATA = sorted(INSTANCES, key=lambda instance: instance[1])
 
 PORT_ALIASES_DB = DictKvs(fake_data.port_aliases_fake_data)
 PortAliasManager = fake_backend.PortAliasManager(PORT_ALIASES_DB)

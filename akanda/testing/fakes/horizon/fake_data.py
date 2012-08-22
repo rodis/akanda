@@ -208,8 +208,9 @@ firewall_rules_fake_data = {
 # .. attribute:: rule_name
 #         type: string(free text)??
 #
-# .. attribute:: instances
-#         type: list of instances id??
+# .. attribute:: instance
+#         Instance id
+#         type: string??
 #
 # .. attribute:: public_port_alias/private_port_alias
 #         The id of the Public/Private Port Alias or some other value if
@@ -235,7 +236,7 @@ portforwarding_rules_fake_data = {
     'fc15f8956de74ec5aa10e8335e5191ee': {
         'id': 'fc15f8956de74ec5aa10e8335e5191ee',
         'rule_name': 'Rule 1',
-        'instances': ['015eff2961d8430ba0c7c483fcb2da7a'],
+        'instance': '015eff2961d8430ba0c7c483fcb2da7a',
         'public_port_alias': 'df698e967f554e4284583c10ba326c5b',
         'public_protocol': 0,
         'public_ports': [21, 22],
@@ -246,7 +247,7 @@ portforwarding_rules_fake_data = {
     '0b23fe767c1e4160b5b68d82b0f74518': {
         'id': '0b23fe767c1e4160b5b68d82b0f74518',
         'rule_name': 'Rule 2',
-        'instances': ['015eff2961d8430ba0c7c483fcb2da7a'],
+        'instance': '015eff2961d8430ba0c7c483fcb2da7a',
         'public_port_alias': 'Custom',
         'public_protocol': 0,
         'public_ports': [125],
@@ -257,8 +258,7 @@ portforwarding_rules_fake_data = {
     '68fc216ced5c44b2a5041345d0265f04': {
         'id': '68fc216ced5c44b2a5041345d0265f04',
         'rule_name': 'Rule 3',
-        'instances': ['015eff2961d8430ba0c7c483fcb2da7a',
-                      '7f256428dbfe4bec91e643fac513778e'],
+        'instance': '015eff2961d8430ba0c7c483fcb2da7a',
         'public_port_alias': 'df698e967f554e4284583c10ba326c5b',
         'public_protocol': 0,
         'public_ports': [21, 22],

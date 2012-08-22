@@ -99,3 +99,7 @@ class FirewallRuleManager(Manager):
 class PortForwardingRuleManager(Manager):
     def list_all(self, request=None):
         return [PortForwardingRule(**v) for v in self.db.values()]
+
+    def create(self, request, obj):
+        obj = PortForwardingRule(**obj)
+        self.db[obj.id] = obj.__dict__

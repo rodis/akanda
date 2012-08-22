@@ -20,8 +20,9 @@ def get_port_aliases():
 
 
 def get_networks_alias_choices():
-    return [(network.id, network.alias_name) for network in
-            NetworkAliasManager.list_all()]
+    networks = [(network.id, network.alias_name) for network in
+                NetworkAliasManager.list_all()]
+    return sorted(networks, key=lambda network: network[1])
 
 
 class BaseFirewallRuleForm(forms.SelfHandlingForm):
@@ -83,14 +84,12 @@ class CreateFirewallRuleForm(BaseFirewallRuleForm):
                 request, data['source_port_alias'])
             data['source_protocol'] = source_port_alias._protocol
             data['source_public_ports'] = source_port_alias._ports
-        # data.pop('source_port_alias')
 
         if data['destination_port_alias'] != 'Custom':
             destination_port_alias = PortAliasManager.get(
                 request, data['destination_port_alias'])
             data['destination_protocol'] = destination_port_alias._protocol
             data['destination_public_ports'] = destination_port_alias._ports
-        # data.pop('destination_port_alias')
 
         FirewallRuleManager.create(request, data)
 

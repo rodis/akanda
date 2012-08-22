@@ -4,8 +4,13 @@ from horizon import tables
 
 
 class Delete(tables.DeleteAction):
+    name = 'delete'
     data_type_singular = _("Firewall")
     data_type_plural = _("Firewalls")
+
+    def delete(self, request, obj_id):
+        from akanda.testing.fakes.horizon import PortForwardingRuleManager
+        PortForwardingRuleManager.delete(request, obj_id)
 
 
 class Create(tables.LinkAction):
@@ -24,7 +29,7 @@ class Edit(tables.LinkAction):
 
 class PortForwardingTable(tables.DataTable):
     rule_name = tables.Column('rule_name', verbose_name=_("Rule Name"))
-    instances = tables.Column('t_instances', verbose_name=_("Instance"))
+    instances = tables.Column('t_instance', verbose_name=_("Instance"))
     public_ports = tables.Column(
         't_public_ports', verbose_name=_("Public Ports"))
     private_ports = tables.Column(
@@ -35,3 +40,6 @@ class PortForwardingTable(tables.DataTable):
         verbose_name = _("Port Forwarding")
         table_actions = (Create, Delete,)
         row_actions = (Edit,)
+
+    def get_object_display(self, datum):
+        return datum.rule_name

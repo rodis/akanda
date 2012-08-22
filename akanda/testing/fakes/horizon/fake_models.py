@@ -199,11 +199,11 @@ class FirewallRule(object):
 
 
 class PortForwardingRule(object):
-    def __init__(self, rule_name, instances, public_port_alias,
+    def __init__(self, rule_name, instance, public_port_alias,
                  public_protocol, public_ports, private_port_alias,
-                 private_protocol, private_ports, id):
+                 private_protocol, private_ports, id=None):
         self.rule_name = rule_name
-        self.instances = instances
+        self.instance = instance
         self.public_port_alias = public_port_alias
         self.public_protocol = public_protocol
         self.public_ports = public_ports
@@ -213,11 +213,8 @@ class PortForwardingRule(object):
         self.id = id or uuid.uuid4().hex
 
     @property
-    def t_instances(self):
-        instances = [instances_fake_data[instance]['name'] for instance in
-                     self.instances]
-        instances.sort()
-        return ', '.join(instances)
+    def t_instance(self):
+        return instances_fake_data[self.instance]['name']
 
     @property
     def t_public_ports(self):
