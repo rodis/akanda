@@ -37,7 +37,8 @@ class AddressBookResource(_authzbase.ResourceDelegate):
         """
         res = {'id': addressbook['id'],
                'name': addressbook['name'],
-               'groups': addressbook['groups']}
+               'groups': [group['id']
+                           for group in addressbook['groups']]}
 
         return res
 
