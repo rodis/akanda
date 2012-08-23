@@ -2,7 +2,8 @@ from quantum.api.v2 import attributes
 from quantum.db import models_v2
 from quantum.extensions import extensions
 
-from quantum.extensions import _authzbase
+from akanda.userapi import _authzbase
+from akanda.userapi.db import models
 
 
 # XXX: I used Network as an existing model for testing.  Need to change to
@@ -30,19 +31,21 @@ class AliasResource(_authzbase.ResourceDelegate):
                       'is_visible': True},
     }
 
-    def make_dict(self, network):
-        res = {'id': network['id'],
-               'name': network['name'],
-               'tenant_id': network['tenant_id'],
-               'admin_state_up': network['admin_state_up'],
-               'status': network['status'],
-               'subnets': [subnet['id']
-                           for subnet in network['subnets']]}
+    def make_dict(self, alias):
+        """
+        Convert a alias model object to a dictionary.
+        """
+        # XXX here's an example that is used for converting a network model to
+        # a dictionary (delete this when the alias conversion has been
+        # implemented):
+        #res = {'id': network['id'],
+        #       'name': network['name'],
+        #       'tenant_id': network['tenant_id'],
+        #       'admin_state_up': network['admin_state_up'],
+        #       'status': network['status'],
+        #       'subnets': [subnet['id']
+        #                   for subnet in network['subnets']]}
         return res
-
-    def create(self, tenant_id, resource_dict):
-        #import pdb;pdb.set_trace()
-        return {}
 
     def update(self, tenant_id, resource, resource_dict):
         #import pdb;pdb.set_trace()

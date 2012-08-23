@@ -114,8 +114,9 @@ class ResourcePlugin(object):
         return resource
 
 
-class ResourceDelegate(object):
+class ResourceDelegateInterface(object):
     """
+    An abstract marker class defines the interface of RESTful resources.
     """
     __metaclass__ = abc.ABCMeta
 
@@ -149,6 +150,18 @@ class ResourceDelegate(object):
     @abc.abstractmethod
     def make_dict(self, obj):
         pass
+
+
+class ResourceDelegate(ResourceDelegateInterface):
+    """
+    This class partially implemnts the ResourceDelegateInterface, providing
+    common code for use by child classes that inherit from it.
+    """
+    def create(self, tenant_id, body):
+        with context.session.begin(subtransactions=True):
+            item = self.model(**body)
+            context.session.add(item)
+        return self.make_dict(item)
 
 
 def create_extension(delegate):
