@@ -128,7 +128,6 @@ class EditPortForwardingRule(workflows.Workflow):
     failure_message = _('Unable to edit Port Forwarding Rule".')
     success_url = "horizon:nova:networking:index"
     default_steps = (Details, Ports)
-    entry_point = 'details'
 
     def get_success_url(self):
         url = super(EditPortForwardingRule, self).get_success_url()
@@ -145,6 +144,7 @@ class EditPortForwardingRule(workflows.Workflow):
     def _update_portforwarding_rule(self, request, data):
         from akanda.testing.fakes.horizon import PortForwardingRuleManager
         from akanda.testing.fakes.horizon import PortAliasManager
+
         if data['public_port_alias'] != 'Custom':
             public_port_alias = PortAliasManager.get(
                 request, data['public_port_alias'])
@@ -157,6 +157,4 @@ class EditPortForwardingRule(workflows.Workflow):
             data['private_protocol'] = private_port_alias._protocol
             data['private_ports'] = private_port_alias._ports
 
-        # data.pop('public_ip')
-        # data.pop('private_ip')
         PortForwardingRuleManager.update(request, data)
