@@ -162,7 +162,7 @@ Akanda comes with two REST APIs:
 #. Then there is the user-facing, 24/7, load-balanced REST API :-) This is what
    users will be able to interact with in order to programmatically manage
    their router instances (e.g., set NAT, port-forwarding, and basic firewall
-   rules).
+   rules). This API is exposed as Quantum extensions.
 
 The Router-Instance REST API
 ----------------------------
@@ -176,7 +176,7 @@ The User-Facing REST API
 ------------------------
 
 This API will be created using the standard REST service tools that come with
-OpenStack.
+OpenStack. Current implementation will use Quantum extensions.
 
 Adding New API Classes/Methods
 ------------------------------
