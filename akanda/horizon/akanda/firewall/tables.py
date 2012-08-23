@@ -16,14 +16,14 @@ class Delete(tables.DeleteAction):
 class Create(tables.LinkAction):
     name = "create"
     verbose_name = _("Create Rule")
-    url = "horizon:nova:networking:firewall:create_rule"
+    url = "horizon:nova:networking:firewall:create"
     classes = ("ajax-modal", "btn-create")
 
 
 class Edit(tables.LinkAction):
     name = "edit_rule"
     verbose_name = _("Edit Rule")
-    url = "horizon:"
+    url = "horizon:nova:networking:firewall:edit"
     classes = ("ajax-modal", "btn-edit")
 
 

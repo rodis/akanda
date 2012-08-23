@@ -1,5 +1,5 @@
 from akanda.testing.fakes.horizon.fake_models import (
-    Port, Host, Network, FirewallRule)
+    Port, Host, Network, FirewallRule, PortForwardingRule)
 
 
 class DictKvs(dict):
@@ -31,7 +31,7 @@ class Manager(object):
 
 
 class PortAliasManager(Manager):
-    def list_all(self, request):
+    def list_all(self, request=None):
         return [Port(**v) for v in self.db.values()]
 
     def get(self, request, obj_id):
@@ -49,7 +49,7 @@ class PortAliasManager(Manager):
 
 
 class HostAliasManager(Manager):
-    def list_all(self, request):
+    def list_all(self, request=None):
         return [Host(**v) for v in self.db.values()]
 
     def get(self, request, obj_id):
@@ -65,7 +65,7 @@ class HostAliasManager(Manager):
 
 
 class NetworkAliasManager(Manager):
-    def list_all(self, request):
+    def list_all(self, request=None):
         return [Network(**v) for v in self.db.values()]
 
     def get(self, request, obj_id):
@@ -81,5 +81,32 @@ class NetworkAliasManager(Manager):
 
 
 class FirewallRuleManager(Manager):
-    def list_all(self, request):
+    def list_all(self, request=None):
         return [FirewallRule(**v) for v in self.db.values()]
+
+    def create(self, request, obj):
+        obj = FirewallRule(**obj)
+        self.db[obj.id] = obj.raw()
+
+    def get(self, request, obj_id):
+        return FirewallRule(**self.db[obj_id])
+
+    def update(self, request, obj):
+        obj = FirewallRule(**obj)
+        self.db[obj.id] = obj.raw()
+
+
+class PortForwardingRuleManager(Manager):
+    def list_all(self, request=None):
+        return [PortForwardingRule(**v) for v in self.db.values()]
+
+    def create(self, request, obj):
+        obj = PortForwardingRule(**obj)
+        self.db[obj.id] = obj.raw()
+
+    def get(self, request, obj_id):
+        return PortForwardingRule(**self.db[obj_id])
+
+    def update(self, request, obj):
+        obj = PortForwardingRule(**obj)
+        self.db[obj.id] = obj.raw()
