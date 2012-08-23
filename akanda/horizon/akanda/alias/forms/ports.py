@@ -59,4 +59,4 @@ class EditPortAliasForm(BasePortAliasForm):
 
     def _update_port_alias(self, request, data):
         from akanda.testing.fakes.horizon import PortAliasManager
-        PortAliasManager.update(self.request, data)
+        PortAliasManager.update(request, data)

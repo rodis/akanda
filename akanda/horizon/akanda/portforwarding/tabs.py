@@ -12,4 +12,5 @@ class PortForwardingTab(tabs.TableTab):
     template_name = "horizon/common/_detail_table.html"
 
     def get_portforwarding_data(self):
-        return {}
+        from akanda.testing.fakes.horizon import PortForwardingRuleManager
+        return PortForwardingRuleManager.list_all(self.request)

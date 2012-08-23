@@ -3,11 +3,12 @@ from akanda.testing.fakes.horizon import fake_data
 from akanda.testing.fakes.horizon import fake_backend
 
 
+INSTANCES = [(k, v['name']) for k, v in
+             fake_data.instances_fake_data.items()]
+INSTANCES_FAKE_DATA = sorted(INSTANCES, key=lambda instance: instance[1])
+
 PORT_ALIASES_DB = DictKvs(fake_data.port_aliases_fake_data)
 PortAliasManager = fake_backend.PortAliasManager(PORT_ALIASES_DB)
-
-INSTANCES_FAKE_DATA = [(k, v['name']) for k, v in
-                       fake_data.instances_fake_data.items()]
 
 HOST_ALIAS_DB = DictKvs(fake_data.host_aliases_fake_data)
 HostAliasManager = fake_backend.HostAliasManager(HOST_ALIAS_DB)
@@ -17,3 +18,7 @@ NetworkAliasManager = fake_backend.NetworkAliasManager(NETWORK_ALIASES_DB)
 
 FIREWALL_RULES_DB = DictKvs(fake_data.firewall_rules_fake_data)
 FirewallRuleManager = fake_backend.FirewallRuleManager(FIREWALL_RULES_DB)
+
+PORTFORWARDING_RULE_DB = DictKvs(fake_data.portforwarding_rules_fake_data)
+PortForwardingRuleManager = fake_backend.PortForwardingRuleManager(
+    PORTFORWARDING_RULE_DB)

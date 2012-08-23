@@ -23,4 +23,5 @@ class AliasTab(tabs.TableTab):
 
     def get_networks_data(self):
         from akanda.testing.fakes.horizon import NetworkAliasManager
-        return NetworkAliasManager.list_all(self.request)
+        networks = NetworkAliasManager.list_all(self.request)
+        return sorted(networks, key=lambda network: network.alias_name)
