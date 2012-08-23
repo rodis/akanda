@@ -1,22 +1,23 @@
 """
 Base classes for Router API tests.
 """
+from unittest import TestCase
+
 import flask
 from mock import patch
 
-from akanda.routerapi import v1
-from akanda.routerapi.drivers.pf import PFManager
-from akanda.testing.fakes.routerapi import FakePFManager
-from akanda.testing.payloads import routerapi_firewall as payload
-from akanda.testing.testcase import UnitTestCase
+from akanda.router.api import v1
+from akanda.router.drivers.pf import PFManager
+from .fakes import FakePFManager
+from .payloads import routerapi_firewall as payload
 
 
-class FirewallAPITestCase(UnitTestCase):
+class FirewallAPITestCase(TestCase):
     """
     """
     def setUp(self):
         self.app = flask.Flask('firewall_test')
-        self.app.register_blueprint(v1.firewall.firewall)
+        self.app.register_blueprint(v1.firewall)
         self.test_app = self.app.test_client()
 
     @patch.object(PFManager, 'get_rules', FakePFManager.fake_get_rules)

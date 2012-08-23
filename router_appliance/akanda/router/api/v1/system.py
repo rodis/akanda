@@ -5,8 +5,8 @@ import json
 
 from flask import Response
 
-from akanda import utils
-from akanda.routerapi.drivers import ifconfig
+from akanda.router import utils
+from akanda.router.drivers import ifconfig
 
 
 system = utils.blueprint_factory(__name__)

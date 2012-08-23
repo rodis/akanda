@@ -1,4 +1,4 @@
-from akanda import models
+from akanda.router import models
 
 
 class FakeIFManager(object):

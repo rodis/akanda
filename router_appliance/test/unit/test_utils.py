@@ -1,12 +1,12 @@
 import json
+from unittest import TestCase
 
 import netaddr
 
-from akanda import utils
-from akanda.testing.testcase import UnitTestCase
+from akanda.router import utils
 
 
-class ModelSerializerTestCase(UnitTestCase):
+class ModelSerializerTestCase(TestCase):
     """
     """
     def test_default(self):

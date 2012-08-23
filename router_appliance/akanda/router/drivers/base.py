@@ -1,4 +1,4 @@
-from akanda import utils
+from akanda.router import utils
 
 
 class Manager(object):
