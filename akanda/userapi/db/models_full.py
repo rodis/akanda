@@ -25,6 +25,8 @@ from sqlalchemy.orm import relation
 
 from quantum.api import api_common as common
 from quantum.db import model_base
+from quantum.db import models_v2 as models
+from quantum.openstack.common import timeutils
 
 
 BASE = model_base.BASE
