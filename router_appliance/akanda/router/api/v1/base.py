@@ -1,7 +1,7 @@
 """
 Blueprint for the "base" portion of the version 1 of the API.
 """
-from akanda import utils
+from akanda.router import utils
 
 
 base = utils.blueprint_factory(__name__)

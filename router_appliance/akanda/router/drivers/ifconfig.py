@@ -2,8 +2,8 @@ import re
 
 import netaddr
 
-from akanda import models
-from akanda.routerapi.drivers import base
+from akanda.router import models
+from akanda.router.drivers import base
 
 
 GENERIC_IFNAME = 'ge'

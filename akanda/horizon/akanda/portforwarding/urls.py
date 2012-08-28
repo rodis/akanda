@@ -1,10 +1,11 @@
 from django.conf.urls.defaults import patterns, url
 
 from akanda.horizon.akanda.portforwarding.views import (
-    CreatePortForwardingRuleView)
+    CreatePortForwardingRuleView, EditPortForwardingRuleView)
 
 urlpatterns = patterns(
     '',
-    url(r'^rule/create/$', CreatePortForwardingRuleView.as_view(),
-        name='create_rule'),
+    url(r'^create/$', CreatePortForwardingRuleView.as_view(), name='create'),
+    url(r'^(?P<portforward_rule_id>[^/]+)/edit/$',
+        EditPortForwardingRuleView.as_view(), name='edit'),
 )

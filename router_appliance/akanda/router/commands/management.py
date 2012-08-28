@@ -1,7 +1,7 @@
 import re
 import sys
 
-from akanda.drivers import ifconfig
+from akanda.router.drivers import ifconfig
 
 
 def configure_ssh():

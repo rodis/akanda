@@ -1,8 +1,9 @@
+from unittest2 import TestCase
+
 import mock
 import netaddr
 
-from akanda.routerapi.drivers import ifconfig
-from akanda.testing.testcase import UnitTestCase
+from akanda.router.drivers import ifconfig
 
 
 SAMPLE_OUTPUT = """lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 33152
@@ -51,11 +52,11 @@ SAMPLE_SINGLE_OUTPUT = (
 """)
 
 
-class IfconfigTestCase(UnitTestCase):
+class IfconfigTestCase(TestCase):
     """
     """
     def setUp(self):
-        self.execute_patch = mock.patch('akanda.utils.execute')
+        self.execute_patch = mock.patch('akanda.router.utils.execute')
         self.mock_execute = self.execute_patch.start()
 
     def tearDown(self):
@@ -71,7 +72,7 @@ class IfconfigTestCase(UnitTestCase):
 
         iface_b = mock.Mock()
         iface_b.ifname = 'em1'
-        ifaces = 'akanda.routerapi.drivers.ifconfig._parse_interfaces'
+        ifaces = 'akanda.router.drivers.ifconfig._parse_interfaces'
         with mock.patch(ifaces) as parse:
             parse.return_value = [iface_a, iface_b]
             mgr = ifconfig.InterfaceManager()
@@ -84,8 +85,8 @@ class IfconfigTestCase(UnitTestCase):
     def test_get_interface(self):
         iface_a = mock.Mock()
         iface_a.ifname = 'em0'
-        iface = 'akanda.routerapi.drivers.ifconfig._parse_interface'
-        ifaces = 'akanda.routerapi.drivers.ifconfig._parse_interfaces'
+        iface = 'akanda.router.drivers.ifconfig._parse_interface'
+        ifaces = 'akanda.router.drivers.ifconfig._parse_interfaces'
         with mock.patch(iface) as parse:
             with mock.patch(ifaces) as pi:
                 pi.return_value = [iface_a]
@@ -263,7 +264,7 @@ class IfconfigTestCase(UnitTestCase):
         self.assertEqual(self.mock_execute.call_count, 0)
 
 
-class ParseTestCase(UnitTestCase):
+class ParseTestCase(TestCase):
     def test_parse_interfaces(self):
         with mock.patch.object(ifconfig, '_parse_interface') as parse:
             parse.side_effect = lambda x: x
