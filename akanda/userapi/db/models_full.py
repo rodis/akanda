@@ -19,9 +19,10 @@
 # @author: Salvatore Orlando, Citrix Systems
 
 import uuid
-
+import sqlalchemy as sa
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relation
+
 
 from quantum.api import api_common as common
 from quantum.db import model_base
@@ -79,6 +80,9 @@ class Network(model_base.BASE):
                                            self.op_status, self.tenant_id)
 
 
+
+#DreamHost PortFoward, Firewall(FilterRule), AddressBook models for
+#Quantum extensions
 class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
     name = sa.Column(sa.String(255))
     public_port = sa.Column(sa.Integer, nullable=False)
