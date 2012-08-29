@@ -115,7 +115,7 @@ class AddressBook(model_base.BASEV2, models.HasId, models.HasTenant):
     groups = orm.relationship(AddressBookGroup, backref='book')
 
 
-class FilterRule(model_base.BASEV2, models.HasId, models.HasTenant):
+class Firewall(model_base.BASEV2, models.HasId, models.HasTenant):
     action = sa.Column(sa.String(6), nullable=False, primary_key=True)
     ip_version = sa.Column(sa.Integer, nullable=True)
     protocol = sa.Column(sa.String(4), nullable=False)
