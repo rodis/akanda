@@ -55,19 +55,17 @@ Preliminary steps:
 2. Hit Ctrl+C
 3. Create a localrc file with the following:
 
-    MYSQL_PASSWORD=openstack
-    RABBIT_PASSWORD=openstack
-    SERVICE_TOKEN=openstack
-    SERVICE_PASSWORD=openstack
-    ADMIN_PASSWORD=openstack
-                                                                                                                                                                                    idisable_service n-net
-    enable_service q-svc
-    enable_service q-agt
-    enable_service q-dhcp
-    enable_service quantum
-    LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-    Q_PLUGIN=openvswitch
-    NOVA_USE_QUANTUM_API=v2
+MYSQL_PASSWORD=openstack
+RABBIT_PASSWORD=openstack
+SERVICE_TOKEN=openstack
+SERVICE_PASSWORD=openstack
+ADMIN_PASSWORD=openstack                                                                                                        
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service quantum
+LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
+Q_PLUGIN=openvswitch NOVA_USE_QUANTUM_API=v2
 
 
 Quantum Extensions install:
@@ -84,7 +82,7 @@ Quantum Extensions install:
 
     Edit supported_extension_aliases to allow the extension. For example, dhportfoward for portfoward.py
 
-     supported_extension_aliases = ["provider", "os-quantum-router", "dhportfoward"]
+    supported_extension_aliases = ["provider", "os-quantum-router", "dhportfoward"]
 
 9. Edit /etc/quantum/quantum.conf to enable the quota driver:
 

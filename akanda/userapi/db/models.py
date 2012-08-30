@@ -55,40 +55,47 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
 
 
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
-    group_id = sa.Column(sa.String(36), sa.ForeignKey('addressbookgroup.id'),
-        nullable=False)
-    cidr = sa.Column(sa.String(64), nullable=False)
 
+   # __tablename__ = 'addressbookentries'
+
+    # group_id = sa.Column(sa.String(36), sa.ForeignKey('addressbookgroup.id'),
+    #     nullable=False)
+    # cidr = sa.Column(sa.String(64), nullable=False)
+    pass
 
 class AddressBookGroup(model_base.BASEV2, models.HasId, models.HasTenant):
-    name = sa.Column(sa.String(255), nullable=False, primary_key=True)
-    table_id = sa.Column(sa.String(36), sa.ForeignKey('addressbook.id'),
-        nullable=False)
-    entries = orm.relationship(AddressBookEntry, backref='groups')
 
+    # __tablename__ = 'addressbookgroups'
+
+    # name = sa.Column(sa.String(255), nullable=False, primary_key=True)
+    # table_id = sa.Column(sa.String(36), sa.ForeignKey('addressbook.id'),
+    #     nullable=False)
+    # entries = orm.relationship(AddressBookEntry, backref='groups')
+    pass
 
 class AddressBook(model_base.BASEV2, models.HasId, models.HasTenant):
 
-    __tablename__ = 'addressbookgroups'
+    # __tablename__ = 'addressbooks'
 
-    name = sa.Column(sa.String(255), nullable=False, primary_key=True)
-    groups = orm.relationship(AddressBookGroup, backref='book')
-
+    # name = sa.Column(sa.String(255), nullable=False, primary_key=True)
+    # groups = orm.relationship(AddressBookGroup, backref='book')
+    pass
 
 class FilterRule(model_base.BASEV2, models.HasId, models.HasTenant):
 
-    __tablename__ = 'filterrules'
+    # __tablename__ = 'filterrules'
 
-    action = sa.Column(sa.String(6), nullable=False, primary_key=True)
-    ip_version = sa.Column(sa.Integer, nullable=True)
-    protocol = sa.Column(sa.String(4), nullable=False)
-    source_alias = sa.Column(sa.String(36),
-        sa.ForeignKey('addressbookentry.id'),
-        nullable=False)
-    source_port = sa.Column(sa.Integer, nullable=True)
-    destination_alias = sa.Column(sa.String(36),
-        sa.ForeignKey('addressbookentry.id'),
-        nullable=False)
-    destination_port = sa.Column(sa.Integer, nullable=True)
-    created_at = sa.Column(sa.DateTime, default=timeutils.utcnow,
-        nullable=False)
+    #  action = sa.Column(sa.String(6), nullable=False, primary_key=True)
+    #  ip_version = sa.Column(sa.Integer, nullable=True)
+    #  protocol = sa.Column(sa.String(4), nullable=False)
+    #  source_alias = sa.Column(sa.String(36),
+    #      sa.ForeignKey('addressbookentry.id'),
+    #      nullable=False)
+    #  source_port = sa.Column(sa.Integer, nullable=True)
+    #  destination_alias = sa.Column(sa.String(36),
+    #      sa.ForeignKey('addressbookentry.id'),
+    #      nullable=False)
+    #  destination_port = sa.Column(sa.Integer, nullable=True)
+    #  created_at = sa.Column(sa.DateTime, default=timeutils.utcnow,
+    #      nullable=False)
+    pass
