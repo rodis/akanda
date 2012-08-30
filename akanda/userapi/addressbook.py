@@ -43,7 +43,7 @@ class AddressBookResource(_authzbase.ResourceDelegate):
         return res
 
 
-_authzbase.register_quota('portforward', 'quota_portforward')
+_authzbase.register_quota('addressbook', 'quota_portforward')
 
 
 class Portforward(object):

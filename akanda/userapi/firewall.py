@@ -46,7 +46,7 @@ class FirewallResource(_authzbase.ResourceDelegate):
         return res
 
 
-_authzbase.register_quota('portforward', 'quota_portforward')
+_authzbase.register_quota('firewall', 'quota_portforward')
 
 
 class Portforward(object):
