@@ -77,7 +77,15 @@ Quantum Extensions install:
 4. Copy portfoward.py userapi to quantum/extensions/
 5. Copy firewally.py userapi to quantum/extensions/
 6. Copy addressbook.py userapi to quantum/extensions/
-7. Run ./stack.sh again to generate the required DB migrations and start services
+7. Modify the plugin to allow the extension. In this case, the OVS plugin:
+
+    vi quantum/plugins/openvswitch/ovs_quantum_plugin.py
+
+    Edit supported_extension_aliases to allow the extension. For example, dhportfoward for portfoward.py
+
+     supported_extension_aliases = ["provider", "os-quantum-router", "dhportfoward"]
+
+8. Run ./stack.sh again to generate the required DB migrations and start services
 
 To manually start and stop Quantum Services under DevStack:
 
