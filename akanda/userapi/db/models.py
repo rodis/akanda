@@ -97,6 +97,7 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
     fixed_id = sa.Column(
         sa.String(36), sa.ForeignKey('ipallocation.id', ondelete="CASCADE"),
         nullable=True)
+    op_status = Column(String(16))
 
     def __init__(self, instance_id, name,
                  op_status=common.OperationalStatus.UNKNOWN):
