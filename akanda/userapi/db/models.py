@@ -21,69 +21,23 @@
 import uuid
 import sqlalchemy as sa
 from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relation
+from sqlalchemy import orm
 
 
 from quantum.api import api_common as common
 from quantum.db import model_base
-from quantum.db import models_v2
+from quantum.db import models_v2 as models
 from quantum.openstack.common import timeutils
 
 
 BASE = model_base.BASE
 
 
-class Port(model_base.BASE):
-    """Represents a port on a quantum network"""
-    __tablename__ = 'ports'
-
-    uuid = Column(String(255), primary_key=True)
-    network_id = Column(String(255), ForeignKey("networks.uuid"),
-                        nullable=False)
-    interface_id = Column(String(255), nullable=True)
-    # Port state - Hardcoding string value at the moment
-    state = Column(String(8))
-    op_status = Column(String(16))
-
-    def __init__(self, network_id, op_status=common.OperationalStatus.UNKNOWN):
-        self.uuid = str(uuid.uuid4())
-        self.network_id = network_id
-        self.interface_id = None
-        self.state = "DOWN"
-        self.op_status = op_status
-
-    def __repr__(self):
-        return "<Port(%s,%s,%s,%s,%s)>" % (self.uuid, self.network_id,
-                                           self.state, self.op_status,
-                                           self.interface_id)
-
-
-class Network(model_base.BASE):
-    """Represents a quantum network"""
-    __tablename__ = 'networks'
-
-    uuid = Column(String(255), primary_key=True)
-    tenant_id = Column(String(255), nullable=False)
-    name = Column(String(255))
-    ports = relation(Port, order_by=Port.uuid, backref="network")
-    op_status = Column(String(16))
-
-    def __init__(self, tenant_id, name,
-                 op_status=common.OperationalStatus.UNKNOWN):
-        self.uuid = str(uuid.uuid4())
-        self.tenant_id = tenant_id
-        self.name = name
-        self.op_status = op_status
-
-    def __repr__(self):
-        return "<Network(%s,%s,%s,%s)>" % (self.uuid, self.name,
-                                           self.op_status, self.tenant_id)
-
-
-
 #DreamHost PortFoward, Firewall(FilterRule), AddressBook models as
 #Quantum extensions
 class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
+
+    __tablename__ = 'portfowards'
 
     name = sa.Column(sa.String(255))
     public_port = sa.Column(sa.Integer, nullable=False)
@@ -98,19 +52,6 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
         nullable=True)
     op_status = Column(String(16))
 
-    def __init__(self, instance_id, name,
-                 op_status=common.OperationalStatus.UNKNOWN):
-        self.name = name
-        self.public_port = public_port
-        self.instance_id = instance_id
-        self.private_port = private_port
-        self.fixed_id = fixed_id
-        self.op_status = op_status
-
-    def __repr__(self):
-        return "<PortFoward(%s,%s,%s,%s,%s,%s)>" % (self.name, self.public_port,
-                                                    self.instance_id, self.private_port,
-                                                    self.fixed_id, self.op_status)
 
 
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
