@@ -55,18 +55,18 @@ Preliminary steps:
 2. Hit Ctrl+C
 3. Create a localrc file with the following:
 
-MYSQL_PASSWORD=openstack
-RABBIT_PASSWORD=openstack
-SERVICE_TOKEN=openstack
-SERVICE_PASSWORD=openstack
-ADMIN_PASSWORD=openstack
+    MYSQL_PASSWORD=openstack
+    RABBIT_PASSWORD=openstack
+    SERVICE_TOKEN=openstack
+    SERVICE_PASSWORD=openstack
+    ADMIN_PASSWORD=openstack
                                                                                                                                                                                     idisable_service n-net
-enable_service q-svc
-enable_service q-agt
-enable_service q-dhcp
-enable_service quantum
-LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-Q_PLUGIN=openvswitch NOVA_USE_QUANTUM_API=v2
+    enable_service q-svc
+    enable_service q-agt
+    enable_service q-dhcp
+    enable_service quantum
+    LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
+    Q_PLUGIN=openvswitch NOVA_USE_QUANTUM_API=v2
 
 
 Quantum Extensions install:
