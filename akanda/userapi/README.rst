@@ -85,9 +85,15 @@ Quantum Extensions install:
 
      supported_extension_aliases = ["provider", "os-quantum-router", "dhportfoward"]
 
-8. Run ./stack.sh again to generate the required DB migrations and start services
+9. Edit /etc/quantum/quantum.conf to enable the quota driver:
 
-9. You should see:
+    [QUOTAS]
+
+    quota_driver = quantum.extensions._quotav2_driver.DbQuotaDriver
+
+10. Run ./stack.sh again to generate the required DB migrations and start services
+
+11. You should see:
 
 2012-08-30 15:33:11     INFO [quantum.api.extensions] Loading extension file: portforward.py
 2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext name: port forward
