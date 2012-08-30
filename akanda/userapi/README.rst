@@ -87,6 +87,17 @@ Quantum Extensions install:
 
 8. Run ./stack.sh again to generate the required DB migrations and start services
 
+9. You should see:
+
+2012-08-30 15:33:11     INFO [quantum.api.extensions] Loading extension file: portforward.py
+2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext name: port forward
+2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext alias: dhportforward
+2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext description: A port forwarding extension
+2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext namespace: http://docs.dreamcompute.com/api/ext/v1.0
+2012-08-30 15:33:11    DEBUG [quantum.api.extensions] Ext updated: 2012-08-02T16:00:00-05:00
+2012-08-30 15:33:11  WARNING [quantum.api.extensions] extension dhportforward not supported by
+plugin <quantum.plugins.openvswitch.ovs_quantum_plugin.OVSQuantumPluginV2 object at 0x336fc50>
+
 To manually start and stop Quantum Services under DevStack:
 
 1. Run 'screen -x'
