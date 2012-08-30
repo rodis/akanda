@@ -52,27 +52,31 @@ Installation - DevStack (single node setup)
 Preliminary steps:
 
 1. Run ./stack.sh until the stack account and /opt/stack directory gets created.
-2. Hit Ctrl+C and proceed to Quantum Extensions install
+2. Hit Ctrl+C
+3. Create a localrc file with the following:
 
-Quantum Extensions install:
-
-
-1. Copy db/models_full.py to quantum/db/models.py
-2. Copy _authzbase.py to quantum/extensions/
-3. Copy portfoward.py to quantum/extensions/
-4. Copy firewally.py to quantum/extensions/
-5. Copy addressbook.py to quantum/extensions/
-6. Add the following to localrc:
-
-disable_service n-net
+MYSQL_PASSWORD=openstack
+RABBIT_PASSWORD=openstack
+SERVICE_TOKEN=openstack
+SERVICE_PASSWORD=openstack
+ADMIN_PASSWORD=openstack
+                                                                                                                                                                                    idisable_service n-net
 enable_service q-svc
 enable_service q-agt
 enable_service q-dhcp
 enable_service quantum
 LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-Q_PLUGIN=openvswitch
-NOVA_USE_QUANTUM_API=v2
+Q_PLUGIN=openvswitch NOVA_USE_QUANTUM_API=v2
 
+
+Quantum Extensions install:
+
+1. Clone quantum to /opt/stack - git clone https://github.com/openstack/quantum.git
+2. Copy db/models.py from userapi/db to quantum/db/models.py
+3. Copy _authzbase.py userapi to quantum/extensions/
+4. Copy portfoward.py userapi to quantum/extensions/
+5. Copy firewally.py userapi to quantum/extensions/
+6. Copy addressbook.py userapi to quantum/extensions/
 7. Run ./stack.sh again to generate the required DB migrations and start services
 
 To manually start and stop Quantum Services under DevStack:
