@@ -70,7 +70,7 @@ class Portforward(object):
     def get_resources(self):
         return [extensions.ResourceExtension(
             'dhfirewall',
-            _authzbase.create_extension(PortforwardResource()))]
+            _authzbase.create_extension(FirewallResource()))]
             #_authzbase.ResourceController(PortforwardResource()))]
 
     def get_actions(self):
