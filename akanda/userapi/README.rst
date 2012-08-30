@@ -66,7 +66,8 @@ Preliminary steps:
     enable_service q-dhcp
     enable_service quantum
     LIBVIRT_FIREWALL_DRIVER=nova.virt.firewall.NoopFirewallDriver
-    Q_PLUGIN=openvswitch NOVA_USE_QUANTUM_API=v2
+    Q_PLUGIN=openvswitch
+    NOVA_USE_QUANTUM_API=v2
 
 
 Quantum Extensions install:

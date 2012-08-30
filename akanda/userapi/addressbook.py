@@ -18,7 +18,7 @@ class AddressBookResource(_authzbase.ResourceDelegate):
     """
     model = models.AddressBook
     resource_name = 'addressbook'
-    collection_name = 'addressbookgroup'
+    collection_name = 'addressbookgroups'
 
     ATTRIBUTE_MAP = {
         'id': {'allow_post': False, 'allow_put': False,
@@ -43,20 +43,20 @@ class AddressBookResource(_authzbase.ResourceDelegate):
         return res
 
 
-_authzbase.register_quota('addressbook', 'quota_portforward')
+_authzbase.register_quota('addressbook', 'quota_addressbook')
 
 
-class Portforward(object):
+class AddressBook(object):
     """
     """
     def get_name(self):
-        return "port forward"
+        return "addressbook"
 
     def get_alias(self):
-        return "dhportforward"
+        return "dhaddressbook"
 
     def get_description(self):
-        return "A port forwarding extension"
+        return "An addressbook extension"
 
     def get_namespace(self):
         return 'http://docs.dreamcompute.com/api/ext/v1.0'
@@ -68,7 +68,7 @@ class Portforward(object):
         return [extensions.ResourceExtension(
             'dhaddressbook',
             _authzbase.create_extension(AddressBookResource()))]
-            #_authzbase.ResourceController(PortforwardResource()))]
+            #_authzbase.ResourceController(AddressBookResource()))]
 
     def get_actions(self):
         return []
