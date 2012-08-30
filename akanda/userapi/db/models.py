@@ -81,10 +81,9 @@ class Network(model_base.BASE):
 
 
 
-#DreamHost PortFoward, Firewall(FilterRule), AddressBook models for
+#DreamHost PortFoward, Firewall(FilterRule), AddressBook models as
 #Quantum extensions
 class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
-
 
     name = sa.Column(sa.String(255))
     public_port = sa.Column(sa.Integer, nullable=False)
@@ -101,14 +100,17 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
 
     def __init__(self, instance_id, name,
                  op_status=common.OperationalStatus.UNKNOWN):
-        self.uuid = str(uuid.uuid4())
-        self.instance_id = instance_id
         self.name = name
+        self.public_port = public_port
+        self.instance_id = instance_id
+        self.private_port = private_port
+        self.fixed_id = fixed_id
         self.op_status = op_status
 
     def __repr__(self):
-        return "<PortFoward(%s,%s,%s,%s)>" % (self.uuid, self.name,
-                                           self.op_status, self.instance_id)
+        return "<PortFoward(%s,%s,%s,%s,%s,%s)>" % (self.name, self.public_port,
+                                                    self.instance_id, self.private_port,
+                                                    self.fixed_id, self.op_status)
 
 
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
