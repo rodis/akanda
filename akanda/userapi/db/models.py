@@ -18,7 +18,6 @@
 # @author: Dan Wendlandt, Nicira Networks, Inc.
 # @author: Salvatore Orlando, Citrix Systems
 
-import uuid
 import sqlalchemy as sa
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy import orm
@@ -53,7 +52,6 @@ class PortForward(model_base.BASEV2, models.HasId, models.HasTenant):
     op_status = Column(String(16))
 
 
-
 class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
 
    # __tablename__ = 'addressbookentries'
@@ -62,6 +60,7 @@ class AddressBookEntry(model_base.BASEV2, models.HasId, models.HasTenant):
     #     nullable=False)
     # cidr = sa.Column(sa.String(64), nullable=False)
     pass
+
 
 class AddressBookGroup(model_base.BASEV2, models.HasId, models.HasTenant):
 
@@ -73,6 +72,7 @@ class AddressBookGroup(model_base.BASEV2, models.HasId, models.HasTenant):
     # entries = orm.relationship(AddressBookEntry, backref='groups')
     pass
 
+
 class AddressBook(model_base.BASEV2, models.HasId, models.HasTenant):
 
     # __tablename__ = 'addressbooks'
@@ -80,6 +80,7 @@ class AddressBook(model_base.BASEV2, models.HasId, models.HasTenant):
     # name = sa.Column(sa.String(255), nullable=False, primary_key=True)
     # groups = orm.relationship(AddressBookGroup, backref='book')
     pass
+
 
 class FilterRule(model_base.BASEV2, models.HasId, models.HasTenant):
 

@@ -59,7 +59,7 @@ MYSQL_PASSWORD=openstack
 RABBIT_PASSWORD=openstack
 SERVICE_TOKEN=openstack
 SERVICE_PASSWORD=openstack
-ADMIN_PASSWORD=openstack                                                                                                        
+ADMIN_PASSWORD=openstack
 enable_service q-svc
 enable_service q-agt
 enable_service q-dhcp
