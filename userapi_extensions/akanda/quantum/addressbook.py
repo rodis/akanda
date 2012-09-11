@@ -1,9 +1,28 @@
+# Copyright 2012 New Dream Network, LLC (DreamHost)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# DreamHost Qauntum Extensions
+# @author: Murali Raju, New Dream Network, LLC (DreamHost)
+# @author: Mark Mcclain, New Dream Network, LLC (DreamHost)
+
 from quantum.api.v2 import attributes
 from quantum.db import models_v2
 from quantum.extensions import extensions
 
-from akanda.quantum import _authzbase
-from akanda.quantum.db import models
+
+from quantum.extensions import _authzbase
 
 
 # XXX: I used Network as an existing model for testing.  Need to change to
@@ -13,12 +32,12 @@ from akanda.quantum.db import models
 # can be updated to use it.
 
 
-class AddressBookResource(_authzbase.ResourceDelegate):
+class AddressbookResource(_authzbase.ResourceDelegate):
     """
     """
-    model = models.AddressBook
+    model = models_v2.AddressBook
     resource_name = 'addressbook'
-    collection_name = 'addressbookgroup'
+    collection_name = 'addressbookgroups'
 
     ATTRIBUTE_MAP = {
         'id': {'allow_post': False, 'allow_put': False,
@@ -39,24 +58,23 @@ class AddressBookResource(_authzbase.ResourceDelegate):
                'name': addressbook['name'],
                'groups': [group['id']
                            for group in addressbook['groups']]}
-
         return res
 
 
-_authzbase.register_quota('portforward', 'quota_portforward')
+_authzbase.register_quota('addressbook', 'quota_addressbook')
 
 
-class Portforward(object):
+class Addressbook(object):
     """
     """
     def get_name(self):
-        return "port forward"
+        return "addressbook"
 
     def get_alias(self):
-        return "dhportforward"
+        return "dhaddressbook"
 
     def get_description(self):
-        return "A port forwarding extension"
+        return "An addressbook extension"
 
     def get_namespace(self):
         return 'http://docs.dreamcompute.com/api/ext/v1.0'
@@ -66,9 +84,9 @@ class Portforward(object):
 
     def get_resources(self):
         return [extensions.ResourceExtension(
-            'dhportforward',
-            _authzbase.create_extension(PortforwardResource()))]
-            #_authzbase.ResourceController(PortforwardResource()))]
+            'dhaddressbook',
+            _authzbase.create_extension(AddressbookResource()))]
+            #_authzbase.ResourceController(AddressBookResource()))]
 
     def get_actions(self):
         return []
