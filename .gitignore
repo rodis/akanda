@@ -8,4 +8,3 @@ dropin.cache
 .tox
 build
 dist
-requirements.txt
