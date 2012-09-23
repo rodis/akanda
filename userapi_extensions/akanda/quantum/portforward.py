@@ -1,15 +1,27 @@
+# Copyright 2012 New Dream Network, LLC (DreamHost)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# DreamHost Qauntum Extensions
+# @author: Murali Raju, New Dream Network, LLC (DreamHost)
+# @author: Mark Mcclain, New Dream Network, LLC (DreamHost)
+
 from quantum.api.v2 import attributes
+from quantum.db import models_v2
 from quantum.extensions import extensions
 
-from akanda.quantum import _authzbase
-from akanda.quantum.db import models
-
-
-# XXX: I used Network as an existing model for testing.  Need to change to
-# use an actual PortForward model.
-#
-# Duncan: cool, we'll get a PortForward model in place ASAP, so that this code
-# can be updated to use it.
+from quantum.extensions import _authzbase
 
 
 class PortforwardResource(_authzbase.ResourceDelegate):
@@ -17,7 +29,7 @@ class PortforwardResource(_authzbase.ResourceDelegate):
     This class is responsible for receiving REST requests and operating on the
     defined data model to create, update, or delete portforward-related data.
     """
-    model = models.PortForward
+    model = models_v2.PortForward
     resource_name = 'portforward'
     collection_name = 'portforwards'
 
@@ -30,6 +42,21 @@ class PortforwardResource(_authzbase.ResourceDelegate):
         'tenant_id': {'allow_post': True, 'allow_put': False,
                       'required_by_policy': True,
                       'is_visible': True},
+        'instance_id': {'allow_post': True, 'allow_put': False,
+                        'required_by_policy': True,
+                        'is_visible': True},
+        'public_port': {'allow_post': True, 'allow_put': False,
+                        'required_by_policy': True,
+                        'is_visible': True},
+        'private_port': {'allow_post': True, 'allow_put': False,
+                         'required_by_policy': True,
+                         'is_visible': True},
+        'fixed_id': {'allow_post': True, 'allow_put': False,
+                     'required_by_policy': True,
+                     'is_visible': True},
+        'op_status': {'allow_post': True, 'allow_put': False,
+                      'required_by_policy': True,
+                      'is_visible': True}
     }
 
     def make_dict(self, portforward):
@@ -39,8 +66,10 @@ class PortforwardResource(_authzbase.ResourceDelegate):
         res = {'id': portforward['id'],
                'name': portforward['name'],
                'instance_id': portforward['instance_id'],
+               'public_port': portforward['public_port'],
                'private_port': portforward['private_port'],
-               'fixed_id': portforward['fixed_id']}
+               'fixed_id': portforward['fixed_id'],
+               'op_status': portforward['op_status']}
         return res
 
 

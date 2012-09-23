@@ -1,9 +1,29 @@
+# Copyright 2012 New Dream Network, LLC (DreamHost)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# DreamHost Qauntum Extensions
+# @author: Murali Raju, New Dream Network, LLC (DreamHost)
+# @author: Mark Mcclain, New Dream Network, LLC (DreamHost)
+
 import abc
 
+from sqlalchemy import orm
 from sqlalchemy.orm import exc as sa_exc
 
+
 from quantum import quota
-#from quantum.api.v2 import attributes
 from quantum.api.v2 import base
 from quantum.api.v2 import resource as api_resource
 from quantum.common import exceptions as q_exc
@@ -68,11 +88,9 @@ class ResourcePlugin(object):
             query = self._model_query(context)
             if verbose:
                 if verbose and isinstance(verbose, list):
-                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins if join in verbose]
                 else:
-                    # XXX orm is undefined; please fix
                     options = [orm.joinedload(join) for join in
                                self.delegate.joins]
                 query = query.options(*options)
@@ -87,9 +105,7 @@ class ResourcePlugin(object):
     def _update_item(self, context, id, **kwargs):
         key = self.delegate.resource_name
         resource_dict = kwargs[key][key]
-        # XXX context and verbase are not defined here, probably missing in the
-        # method signature; please fix
-        obj = self._get_by_id(context, id, verbose=verbose)
+        obj = self._get_by_id(context, id, verbose=cfg.verbose)
         return self.delegate.update(context, obj, resource_dict)
 
     def _create_item(self, context, **kwargs):
@@ -99,9 +115,7 @@ class ResourcePlugin(object):
         return self.delegate.create(context, tenant_id, resource_dict)
 
     def _delete_item(self, context, id):
-        # XXX verbose is missing a definition, probably missing from the method
-        # signature; please fix
-        obj = self._get_by_id(context, id, verbose=verbose)
+        obj = self._get_by_id(context, id, verbose=cfg.verbose)
         with context.session.begin():
             self.delegate.before_delete(obj)
             context.session.delete(obj)
