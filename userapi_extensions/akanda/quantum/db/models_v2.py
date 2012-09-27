@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# DreamHost Qauntum Extensions
+# DreamHost Quantum Extensions
 # Copyright 2012 New Dream Network, LLC (DreamHost)
 # @author: Murali Raju, New Dream Network, LLC (DreamHost)
 # @author: Mark Mcclain, New Dream Network, LLC (DreamHost)
@@ -385,3 +385,33 @@ class FilterRule(model_base.BASEV2, HasId, HasTenant):
     def validate_created_at(self, key, created_at):
         assert isinstance(created_at) is datetime
         return created_at
+
+
+class PortAlias(model_base.BASEV2, HasId, HasTenant):
+    """A PortAlias Model used by Horizon. There is no
+    port alias extension and this is merely to satisfy
+    a Horizon need
+    """
+    name = sa.Column(sa.String(255))
+    protocol = sa.Column(sa.String(4), nullable=False)
+    port = sa.Column(sa.Integer, nullable=True)
+    
+    @validates('name')
+    def validate_name(self, key, name):
+        assert isinstance(name, basestring)
+        assert len(name) <= 255
+        return name
+        
+   @validates('protocol')
+   def validate_protocol(self, key, protocol):
+       assert isinstance(protocol, basestring)
+       assert protocol.lower() in ('tcp', 'udp', 'icmp')
+       assert len(protocol) <= 4
+       return protocol
+
+    @validates('port')
+    def validate_port(self, key, port):
+        port = int(port)
+        assert port >= 0 and port <= 65536
+        return port
+    
