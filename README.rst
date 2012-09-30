@@ -32,7 +32,7 @@ The code for this project contains the following:
 The Product
 -----------
 
-Akanda is Layer 3 Services for OpenStack comprised by mutliple components including
+Akanda is Layer 3 plus Services for OpenStack comprised by mutliple components including
 those in OpenStack Quantum.
 
 
