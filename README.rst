@@ -22,8 +22,7 @@ The code for this project contains the following:
 
 * A User-facing REST service implemented as OpenStack Quantum Extensions.
 
-* An orchestration layer that works with Quantum and other REST Services to provision
-services, decommission services, and provide metrics for each tenant.
+* An orchestration layer that works with Quantum and other REST Services.
 
 * a GUI for integrating Akanda Layer 3 Services into OpenStack `Horizon`_
 
