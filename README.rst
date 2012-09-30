@@ -2,7 +2,7 @@
 akanda
 ~~~~~~
 
-An open source packet filter solution for `OpenStack`_ deployments.
+A set of Layer 3 plus Services for OpenStack.
 
 ----
 
@@ -18,25 +18,24 @@ The Code
 
 The code for this project contains the following:
 
-* a set of APIs that manipulate PF (in-progress)
+* A set of APIs that manipulate and controlling OpenBSD PF (the appliance REST API)
 
-* a service-facing REST server for controlling PF (in-progress)
+* A User-facing REST service implemented as OpenStack Quantum Extensions.
 
-* a user-facing REST server that passes requests to a user's Akanda instance
-  and that instance's REST server (forth-coming)
+* An orchestration layer that works with Quantum and other REST Services to provision
+services, decommission services, and provide metrics for each tenant.
 
-* a GUI for integrating Akanda into OpenStack `Horizon`_
+* a GUI for integrating Akanda Layer 3 Services into OpenStack `Horizon`_
 
 * a set of tools/scripts for developing Akanda and building Akanda images
 
-In the future, this will be extended to make use of the IOCTL interface for
-controlling PF and a Python library for manipulating it.
 
 The Product
 -----------
 
-Akanda "the product" is this code bundled into an OpenBSD .iso image. The make
-file provides a target for building your own image.
+Akanda is Layer 3 Services for OpenStack comprised by mutliple components including
+those in OpenStack Quantum.
+
 
 The Name
 --------
