@@ -18,22 +18,22 @@ The Code
 
 The code for this project contains the following:
 
-* A set of APIs that manipulate and controlling OpenBSD PF (the appliance REST API)
+* A set of APIs that manipulate and control OpenBSD PF (the appliance REST API)
 
 * A User-facing REST service implemented as OpenStack Quantum Extensions.
 
 * An orchestration layer that works with Quantum and other REST Services.
 
-* a GUI for integrating Akanda Layer 3 Services into OpenStack `Horizon`_
+* A GUI for integrating Akanda Layer 3 Services into OpenStack `Horizon`_
 
-* a set of tools/scripts for developing Akanda and building Akanda images
+* A set of tools/scripts for developing Akanda and building Akanda images
 
 
 The Product
 -----------
 
 Akanda is Layer 3 plus Services for OpenStack comprised by mutliple components including
-those in OpenStack Quantum.
+those implemented within OpenStack Quantum.
 
 
 The Name
