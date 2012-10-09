@@ -4,40 +4,65 @@ Blueprint for the "system" portion of the version 1 of the API.
 import json
 
 from flask import Response
+from flask import abort, request
 
+from akanda.router import models
 from akanda.router import utils
-from akanda.router.drivers import ifconfig
+from akanda.router.manager import manager
+
+blueprint = utils.blueprint_factory(__name__)
 
 
-system = utils.blueprint_factory(__name__)
-
-
-@system.route('/check_route')
+@blueprint.route('/check_route')
 def check_route():
     return Response("you got it! *** " + __name__ + " *** " + __file__)
 
 
-@system.route('/interface/<ifname>')
+@blueprint.route('/interface/<ifname>')
+@utils.json_response
 def get_interface(ifname):
     '''
     Show interface parameters given an interface name.
     For example ge1, ge2 for generic ethernet
     '''
-    if_mgr = ifconfig.InterfaceManager()
-    result = if_mgr.get_interface(ifname)
-    js = json.dumps({"interface": result.to_dict()}, cls=utils.ModelSerializer)
-    resp = Response(js, status=200, mimetype='application/json')
-    return resp
+    return dict(interface=manager.get_interface(ifname))
 
 
-@system.route('/interfaces')
+@blueprint.route('/interfaces')
+@utils.json_response
 def get_interfaces():
     '''
     Show all interfaces and parameters
     '''
-    if_mgr = ifconfig.InterfaceManager()
-    results = if_mgr.get_interfaces()
-    interfaces = [x.to_dict() for x in results]
-    js = json.dumps({"interfaces": interfaces}, cls=utils.ModelSerializer)
-    resp = Response(js, status=200, mimetype='application/json')
-    return resp
+    return dict(interfaces=manager.get_interfaces())
+
+
+@blueprint.route('/config', methods=['GET'])
+@utils.json_response
+def get_configuration():
+    """Return the current router configuration."""
+
+    return dict(configuration=manager.config)
+
+
+@blueprint.route('/config', methods=['PUT'])
+@utils.json_response
+def put_configuration():
+    if request.content_type != 'application/json':
+        abort(415)
+
+    try:
+        config_candidate = models.Configuration(request.json)
+    except ValueError, e:
+        return Response(
+            'The config failed to deserialize.\n' + str(e),
+            status=422)
+
+    errors = config_candidate.validate()
+    if errors:
+        return Response(
+            'The config failed to validate.\n' + '\n'.join(errors),
+            status=422)
+
+    manager.update_config(config_candidate)
+    return dict(configuration=manager.config)

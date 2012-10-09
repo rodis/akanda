@@ -1,14 +1,14 @@
 """Set up the API server application instance
 """
-
 import flask
 
 from akanda.router.api import v1
+from akanda.router.manager import manager
 
 app = flask.Flask(__name__)
-app.register_blueprint(v1.base)
-app.register_blueprint(v1.system)
-app.register_blueprint(v1.firewall)
+app.register_blueprint(v1.base.blueprint)
+app.register_blueprint(v1.system.blueprint)
+app.register_blueprint(v1.firewall.blueprint)
 
 
 @app.before_request
@@ -20,6 +20,10 @@ def attach_config():
 
 
 def main():
-    #TODO(mark): make this use a config file
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.debug = False
+    #TODO(mark): make this use a config file ie
+    # app.config.from_object('akanda.router.config.Default')
+    # manager.state_path = app.config['STATE_PATH']
+
+    app.run(host=manager.management_address(ensure_configuration=True),
+            port=5000)

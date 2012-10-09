@@ -103,7 +103,7 @@ class IfconfigTestCase(TestCase):
         attr = 'get_interfaces'
         with mock.patch.object(ifconfig.InterfaceManager, attr) as get_ifaces:
             mgr = ifconfig.InterfaceManager()
-            mgr._ensure_mapping()
+            mgr.ensure_mapping()
 
             get_ifaces.assert_called_once_with()
 
@@ -112,7 +112,7 @@ class IfconfigTestCase(TestCase):
         with mock.patch.object(ifconfig.InterfaceManager, attr) as get_ifaces:
             mgr = ifconfig.InterfaceManager()
             mgr.host_mapping['em0'] = 'ge0'
-            mgr._ensure_mapping()
+            mgr.ensure_mapping()
 
             self.assertEqual(get_ifaces.call_count, 0)
 
@@ -191,7 +191,7 @@ class IfconfigTestCase(TestCase):
             mgr.update_interface(iface)
 
             mock_methods['generic_to_host'].assert_called_once_with('ge0')
-            mock_methods['get_interface'].assert_called_once_with('em0')
+            mock_methods['get_interface'].assert_called_once_with('ge0')
             mock_methods['_update_description'].assert_called_once_with(
                 'em0', iface)
             mock_methods['_update_groups'].assert_called_once_with(
@@ -245,8 +245,8 @@ class IfconfigTestCase(TestCase):
         mgr._update_set('em0', iface, old_iface, 'groups', add, delete)
 
         self.mock_execute.assert_has_calls([
-            mock.call(['/sbin/ifconfig', ('em0', 'group', 'a')], 'sudo'),
-            mock.call(['/sbin/ifconfig', ('em0', '-group', 'c')], 'sudo')
+            mock.call(['/sbin/ifconfig', 'em0', 'group', 'a'], 'sudo'),
+            mock.call(['/sbin/ifconfig', 'em0', '-group', 'c'], 'sudo')
         ])
 
     def test_update_set_no_diff(self):

@@ -9,13 +9,13 @@
 #         \/     \/     \/     \/      \/     \/
 #
 # This script creates an Akanda Live CD - powered by OpenBSD, Python, and
-# Twisted - and # lets you customize it.
+# Flask - and # lets you customize it.
 #
 # Copyright (c) 2009 Reiner Rottmann. Released under the BSD license.
 # Copyright (c) 2012 New Dream Network, LLC (DreamHost).
 #
 # First release 2009-06-20
-# Akanda release 2012-07-29
+# Akanda release 2012-10-14
 #
 # Notes:
 #
@@ -27,20 +27,23 @@
 ###############################################################################
 MAJ=5                    # Version major number
 MIN=1                    # Version minor number
-ARCH=i386                # Architecture
-TZ=US/Eastern            # Time zones are in /usr/share/zoneinfo
+ARCH=amd64                # Architecture
+TZ=UTC                   # Time zones are in /usr/share/zoneinfo
 # The base sets that should be installed on the akanda live cd
 SETS="base etc man"
 # Additional packages that should be installed on the akanda live cd
-PACKAGES="python-2.7.1p12 rsync-3.0.9 git py-pip gmake curl wget"
+PACKAGES="ntp python-2.7.1p12 py-pip wget"
 
 
-WDIR=/tmp/akanda-livecdx            # Working directory
+WDIR=/usr/local/akanda-livecdx            # Working directory
 CDBOOTDIR=$WDIR/$MAJ.$MIN/$ARCH        # CD Boot directory
+OUTDIR=/tmp
+HERE=`pwd`
 
 # Mirror to use to download the OpenBSD files
 #BASEURL=http://ftp-stud.fht-esslingen.de/pub/OpenBSD
 BASEURL=http://openbsd.mirrors.pair.com
+BASEURL=http://192.168.57.254:8000/OpenBSD
 MIRROR=$BASEURL/$MAJ.$MIN/$ARCH
 PKG_PATH=$BASEURL/$MAJ.$MIN/packages/$ARCH
 DNS=8.8.8.8            # Google DNS Server to use in live cd (change accordingly)
@@ -89,7 +92,7 @@ function usage {
     echo -e "  -W :\tselect working directory (default: $WDIR)" >&2
     echo >&2
     echo -e "Example:" >&2
-    echo -e "# $SCRIPTNAME -A i386 -M 4 -m 5 -W /tmp/livecd" >&2
+    echo -e "# $SCRIPTNAME -A amd64 -M 4 -m 5 -W /tmp/livecd" >&2
     echo >&2
     [[ $# -eq 1 ]] && exit $1 || exit $EXIT_FAILED
 }
@@ -201,210 +204,110 @@ Welcome to Akanda: Powered by OpenBSD.
 
 EOF
 
-    echo "[*] Creating dhcp client configuration..."
-    cat >$WDIR/etc/dhclient.conf <<EOF
-    initial-interval 1;
-    request subnet-mask,
-    broadcast-address,
-    routers, domain-name,
-    domain-name-servers,
-    host-name;
-EOF
-
     echo "[*] Setting name..."
     cat > $WDIR/etc/myname <<EOF
     akanda
 EOF
 
-    echo "[*] Setting hostname.em0 to dhcp..."
-    cat > $WDIR/etc/hostname <<EOF
-    dhcp
+echo "[*] Modifying the library path..."
+cat > $WDIR/root/.cshrc << EOF
+# Workaround for missing libraries:
+export LD_LIBRARY_PATH=/usr/local/lib
+EOF
+cat > $WDIR/root/.profile << EOF
+# Workaround for missing libraries:
+export LD_LIBRARY_PATH=/usr/local/lib
+EOF
+cat > $WDIR/etc/profile/.cshrc << EOF
+# Workaround for missing libraries:
+export LD_LIBRARY_PATH=/usr/local/lib
+EOF
+cat > $WDIR/etc/profile/.profile << EOF
+# Workaround for missing libraries:
+export LD_LIBRARY_PATH=/usr/local/lib
 EOF
 
-    echo "[*] Modifying rc.local..."
-    cat >>$WDIR/etc/rc.local <<EOF
-# If you have enough memory, this speeds up some bins, but you must
-# add /binmfs/bin and /binmfs/sbin to your path, before /bin and /sbin
-# mymem=`sysctl hw.physmem | cut -f 2 -d =`
-# if [ \$mymem -gt 268000000 ]
-# then
-#         mount_mfs -s 48000 swap /binmfs >/dev/null 2>&1
-#         mkdir /binmfs/bin
-#         mkdir /binmfs/sbin
-#         /bin/cp -rp /bin /binmfs
-#         /bin/cp -rp /sbin /binmfs
-# fi
+echo "[*] Using DNS ($DNS) in livecd environment..."
+echo "nameserver $DNS" > $WDIR/etc/resolv.conf
 
-# Select keyboard language
-echo "Select keyboard language (by number):"
-select klang in us de es it fr be jp nl ru uk sv no pt br hu tr dk sg pl sf lt la lv
-do
-        /sbin/kbd \$klang
-        break
-done
-
-# function for setting the timezone
-sub_timezone() {
-
-   while :
-   do
-      echo -n "What timezone are you in? ('?' for list) "
-      read zone
-
-      if [ \${zone} = "?" ]
-      then
-         ls -F /usr/share/zoneinfo
-      fi
-
-      if [ -d /usr/share/zoneinfo/\${zone} ]
-      then
-         ls -F /usr/share/zoneinfo/\${zone}
-         echo -n "What sub-timezone of \${zone} are you in? "
-         read subzone
-         zone="\${zone}/\${subzone}"
-      fi
-
-      if [ -f /usr/share/zoneinfo/\${zone} ]
-      then
-         echo "Setting local timezone to \${zone} ..."
-         rm /etc/localtime
-         ln -sf /usr/share/zoneinfo/\${zone} /etc/localtime
-         echo "done"
-         return
-      fi
-   done
-}
-
-# Select timezone
-echo -n "Do you want to configure the timezone? (y/N): "
-read timeconf
-if [ ! -z \$timeconf ]
-then
-   if [ \$timeconf = "y" ] || [ \$timeconf = "Y" ] || [ \$timeconf = "yes"] || [ \$timeconf = "Yes" ]
-   then
-      sub_timezone
-   fi
-fi
-
-# Configure network interface
-myif=\$(ifconfig | awk -F: '/^[a-z][a-z]+[0-3]: flags=/ { print \$1 }' | grep -v lo | grep -v enc | grep -v pflog)
-for thisif in \$myif
-do
-   ifconfig \$thisif up
-   echo "starting dhclient \$thisif in background"
-   dhclient -q \$thisif 2>/dev/null &
-done
-
-# If you have enough memory, you can populate /usr/local to RAM
-if [ \$mymem -gt 500000000 ]
-then
-        echo -n "Do you want /usr/local loading to RAM (y/N)? "
-        read ownpack
-        if [ ! -z \$ownpack ]
-        then
-           if [ \$ownpack = "y" ] || [ \$ownpack = "Y" ] || [ \$ownpack = "yes" ] || [ \$ownpack = "Yes" ]
-           then
-              echo "Loading ... please wait ..."
-              if [ \$mymem -gt 800000000 ]
-              then
-                 mount_mfs -s 691200 -P /usr/local-cd swap /usr/local
-              else
-                 mount_mfs -s 473088 -P /usr/local-cd swap /usr/local
-              fi
-           fi
-         fi
-fi
-
-# Password for root
-echo -n "Do you want to set a password for root(y/N)?"
-read rootpass
-if [ ! -z \$rootpass ]
-then
-   if [ \$rootpass = "y" ] || [ \$rootpass = "Y" ] || [ \$rootpass = "Yes" ] || [ \$rootpass = "yes" ] || [ \$rootpass = "YES" ]
-   then
-      passwd root
-   fi
-else
-   echo "password for root not set (password empty)"
-fi
-
-EOF
-    echo "[*] Modifying the library path..."
-    echo >> $WDIR/root/.cshrc << EOF
-    # Workaround for missing libraries:
-    export LD_LIBRARY_PATH=/usr/local/lib
-    EOF
-        echo >> $WDIR/root/.profile << EOF
-    # Workaround for missing libraries:
-    export LD_LIBRARY_PATH=/usr/local/lib
-    EOF
-        echo >> $WDIR/etc/profile/.cshrc << EOF
-    # Workaround for missing libraries:
-    export LD_LIBRARY_PATH=/usr/local/lib
-    EOF
-        echo >> $WDIR/etc/profile/.profile << EOF
-    # Workaround for missing libraries:
-    export LD_LIBRARY_PATH=/usr/local/lib
-    EOF
-
-    echo "[*] Using DNS ($DNS) in livecd environment..."
-    echo "nameserver $DNS" > $WDIR/etc/resolv.conf
-
-    echo "[*] Installing additional packages..."
-    cat > $WDIR/tmp/packages.sh <<EOF
-    #!/bin/sh
-    export PKG_PATH=$(echo $PKG_PATH | sed 's#\ ##g')
-    for i in $PACKAGES
-    do
-        pkg_add -i \$i
-    done
+echo "[*] Disabling services...."
+cat > $WDIR/etc/rc.conf.local <<EOF
+spamlogd_flags=NO
+inetd=NO
+amd_master=NO
 EOF
 
-    echo "[*] Copying akanda to /var/..."
-    cp -r /root/repos/akanda $WDIR/var
+echo "[*] Setting default password..."
+cp $HERE/etc/master.passwd $WDIR/etc/master.passwd
+cp $HERE/etc/passwd $WDIR/etc/passwd
+cp $HERE/etc/group $WDIR/etc/group
+chroot $WDIR passwd root
 
-
-    chmod +x $WDIR/tmp/packages.sh
-    chroot $WDIR /tmp/packages.sh
-    rm $WDIR/tmp/packages.sh
-
-    echo "[*] Entering Akanda livecd builder (chroot environment)."
-    echo "[*] Once you have finished your modifications, type \"exit\""
-cat <<EOF
-
-
-**These steps will eventually be automated as part of the build process in further revisions**
-
-Setup environment:
-
+echo "[*] Installing additional packages..."
+cat > $WDIR/tmp/packages.sh <<EOF
+#!/bin/sh
 export PKG_PATH=$(echo $PKG_PATH | sed 's#\ ##g')
+for i in $PACKAGES
+do
+   pkg_add -i \$i
+done
+EOF
 
-To get rid load libraries erros, run:
+chmod +x $WDIR/tmp/packages.sh
+chroot $WDIR /tmp/packages.sh
+rm $WDIR/tmp/packages.sh
 
+echo "[*] Installing akanda software..."
+cat > $WDIR/tmp/akanda.sh <<EOF
+#!/bin/sh
 export LD_LIBRARY_PATH=/usr/local/lib
 
 ln -sf /usr/local/bin/python2.7 /usr/local/bin/python
-ln -sf /usr/local/bin/python2.7-2to3 /usr/local/bin/2to3
-ln -sf /usr/local/bin/python2.7-config /usr/local/bin/python-config
-ln -sf /usr/local/bin/pydoc2.7  /usr/local/bin/pydoc
 ln -sf /usr/local/bin/pip-2.7 /usr/local/bin/pip
 
-Install deps:
-
-pip install netaddr repoze.lru txroutes
-
-Install Akanda:
-
-**You may have to generate a new ssh key and add it to github for the akanda install to continue**
-
-cd /var
-git clone git@github.com:dreamhost/akanda.git
-cd akanda
-gmake install-dev
-
+cd /tmp/router_appliance && python setup.py install
 
 EOF
-    chroot $WDIR
+
+echo "[*] Disabling services...."
+cat > $WDIR/etc/rc.conf.local <<EOF
+spamlogd_flags=NO
+inetd=NO
+amd_master=NO
+EOF
+
+cp -r $HERE/../../router_appliance/ $WDIR/tmp
+
+chmod +x $WDIR/tmp/akanda.sh
+chroot $WDIR /tmp/akanda.sh
+rm $WDIR/tmp/akanda.sh
+
+rm -rf $WDIR/tmp
+mkdir $WDIR/tmp
+
+echo "[*] Add SSH autoconfig...."
+cp $HERE/etc/rc.d/sshd $WDIR/etc/rc.d/sshd
+
+echo "[*] Add rc.conf.local...."
+cat > $WDIR/etc/rc.conf.local <<EOF
+spamlogd_flags=NO
+inetd=NO
+amd_master=NO
+EOF
+
+echo "[*] Add rc.local file...."
+cp $HERE/etc/rc.local $WDIR/etc/rc.local
+
+echo "[*] Add up files...."
+cat "up" > $WDIR/etc/hostname.em0
+chmod 750 $WDIR/etc/hostname.em0
+cat "up" > $WDIR/etc/hostname.re0
+chmod 750 $WDIR/etc/hostname.re0
+
+#echo "[*] Entering Akanda livecd builder (chroot environment)."
+#echo "[*] Once you have finished your modifications, type \"exit\""
+
+#    chroot $WDIR
 
     echo "[*] Deleting sensitive information..."
     cd $WDIR && rm -i root/{.history,.viminfo}
@@ -440,10 +343,10 @@ EOF
 
     echo "[*] Creating Akanda live-cd iso..."
     cd /
-    mkhybrid -l -R -o $WDIR/livecd$MAJ$MIN-$ARCH.iso -b $MAJ.$MIN/$ARCH/cdbr -c $MAJ.$MIN/$ARCH/boot.catalog $WDIR
+    mkhybrid -l -R -o $OUTDIR/livecd$MAJ$MIN-$ARCH.iso -b $MAJ.$MIN/$ARCH/cdbr -c $MAJ.$MIN/$ARCH/boot.catalog $WDIR
 
-    echo "[*] Your modified Akanda iso is in $WDIR/livecd$MAJ$MIN-$ARCH.iso"
-    ls -lh $WDIR/livecd$MAJ$MIN-$ARCH.iso
+    echo "[*] Your modified Akanda iso is in $OUTDIR/livecd$MAJ$MIN-$ARCH.iso"
+    ls -lh $OUTDIR/livecd$MAJ$MIN-$ARCH.iso
 
     if [ $CLEANUP="yes" ];then
         echo "[*] Cleanup"
