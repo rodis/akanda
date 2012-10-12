@@ -3,6 +3,8 @@ from django.utils.translation import ugettext as _
 
 from horizon import tables
 
+from akanda.horizon.api import quantum_extensions_client
+
 
 class Delete(tables.DeleteAction):
     name = 'delete'
@@ -11,8 +13,7 @@ class Delete(tables.DeleteAction):
     success_url = reverse_lazy('horizon:nova:networking:index')
 
     def delete(self, request, obj_id):
-        from akanda.horizon.fakes import PortAliasManager
-        PortAliasManager.delete(request, obj_id)
+        quantum_extensions_client.portalias_delete(request, obj_id)
 
 
 class Create(tables.LinkAction):
@@ -31,8 +32,8 @@ class Edit(tables.LinkAction):
 
 class PortAliasTable(tables.DataTable):
     alias_name = tables.Column('alias_name', verbose_name=_("Alias Name"))
-    protocol = tables.Column('protocol', verbose_name=_("Protocol"))
-    ports = tables.Column('ports', verbose_name=_("Ports"))
+    protocol = tables.Column('display_protocol', verbose_name=_("Protocol"))
+    ports = tables.Column('port', verbose_name=_("Port"))
 
     class Meta:
         name = "ports"

@@ -3,6 +3,8 @@ from django.utils.translation import ugettext as _
 
 from horizon import tables
 
+from akanda.horizon.api import quantum_extensions_client
+
 
 class Delete(tables.DeleteAction):
     name = 'delete'
@@ -17,8 +19,7 @@ class Delete(tables.DeleteAction):
         return "%s?tab=%s" % (url, portforwarding_tab_redirect())
 
     def delete(self, request, obj_id):
-        from akanda.horizon.fakes import PortForwardingRuleManager
-        PortForwardingRuleManager.delete(request, obj_id)
+        quantum_extensions_client.portforward_delete(request, obj_id)
 
 
 class Create(tables.LinkAction):
@@ -37,11 +38,11 @@ class Edit(tables.LinkAction):
 
 class PortForwardingTable(tables.DataTable):
     rule_name = tables.Column('rule_name', verbose_name=_("Rule Name"))
-    instances = tables.Column('t_instance', verbose_name=_("Instance"))
-    public_ports = tables.Column(
-        't_public_ports', verbose_name=_("Public Ports"))
-    private_ports = tables.Column(
-        't_private_ports', verbose_name=_("Private Ports"))
+    instances = tables.Column('display_instance', verbose_name=_("Instance"))
+    public_port = tables.Column(
+        'display_public_port', verbose_name=_("Public Port"))
+    private_port = tables.Column(
+        'display_private_port', verbose_name=_("Private Port"))
 
     class Meta:
         name = "portforwarding"
