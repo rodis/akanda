@@ -8,3 +8,5 @@ dropin.cache
 .tox
 build
 dist
+fpm.log*
+packages/
