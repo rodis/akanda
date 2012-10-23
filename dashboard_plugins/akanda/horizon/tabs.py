@@ -35,7 +35,10 @@ class NetworkingTabs(tabs.TabGroup):
             PortForwardingTab,
             #VPNTab,
             )
+    sticky = True
 
+    def __init__(self, request, **kwargs):
+        super(NetworkingTabs, self).__init__(request, **kwargs)
 
 def alias_tab_redirect():
     tab_group_slug = NetworkingTabs.slug

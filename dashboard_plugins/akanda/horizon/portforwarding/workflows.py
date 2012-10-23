@@ -7,7 +7,6 @@ from horizon.api.nova import server_list
 
 from akanda.horizon import common
 from akanda.horizon import utils
-from akanda.horizon.tabs import portforwarding_tab_redirect
 from akanda.horizon.api import quantum_extensions_client
 
 
@@ -151,9 +150,9 @@ class PortForwardingRule(workflows.Workflow):
     success_url = "horizon:nova:networking:index"
     default_steps = (Details, Ports)
 
-    def get_success_url(self):
-        url = super(PortForwardingRule, self).get_success_url()
-        return "%s?tab=%s" % (url, portforwarding_tab_redirect())
+
+    # def get_success_url(self):
+    #     return super(PortForwardingRule, self).get_success_url()
 
     def handle(self, request, data):
         try:
@@ -215,9 +214,8 @@ class EditPortForwardingRule(workflows.Workflow):
     success_url = "horizon:nova:networking:index"
     default_steps = (Details, EditPorts)
 
-    def get_success_url(self):
-        url = super(EditPortForwardingRule, self).get_success_url()
-        return "%s?tab=%s" % (url, portforwarding_tab_redirect())
+    # def get_success_url(self):
+    #     return super(EditPortForwardingRule, self).get_success_url()
 
     def handle(self, request, data):
         try:

@@ -12,7 +12,7 @@ class AliasTab(tabs.TableTab):
     slug = "alias_tab"
     table_classes = (PortAliasTable, HostAliasTable, NetworkAliasTable)
     template_name = "akanda/alias/index.html"
-    # preload = False
+    preload = False
 
     def get_ports_data(self):
         return quantum_extensions_client.portalias_list(self.request)

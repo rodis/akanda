@@ -8,7 +8,6 @@ from horizon.utils import fields
 
 from akanda.horizon.api import quantum_extensions_client
 from akanda.horizon.utils import get_address_groups
-from akanda.horizon.tabs import alias_tab_redirect
 
 
 class BaseNetworkAliasForm(forms.SelfHandlingForm):
@@ -40,9 +39,7 @@ class CreateNetworkAliasForm(BaseNetworkAliasForm):
                     data['name'],))
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"),
-                alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to create network alias.'),
                               redirect=redirect)
 
@@ -60,8 +57,7 @@ class EditNetworkAliasForm(BaseNetworkAliasForm):
                   'network alias: %s') % data['name'])
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"), alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to update network alias.'),
                               redirect=redirect)
 

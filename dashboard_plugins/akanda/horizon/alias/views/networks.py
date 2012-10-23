@@ -7,7 +7,6 @@ from horizon import forms
 from akanda.horizon.alias.forms import (
     CreateNetworkAliasForm, EditNetworkAliasForm)
 from akanda.horizon.api import quantum_extensions_client
-from akanda.horizon.tabs import alias_tab_redirect
 
 
 class CreateNetworkView(forms.ModalFormView):
@@ -15,9 +14,8 @@ class CreateNetworkView(forms.ModalFormView):
     template_name = 'akanda/alias/networks/create.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(CreateNetworkView, self).get_success_url()
-        return "%s?tab=%s" % (url, alias_tab_redirect())
+    # def get_success_url(self):
+    #     return super(CreateNetworkView, self).get_success_url()
 
 
 class EditNetworkAliasView(forms.ModalFormView):
@@ -25,9 +23,8 @@ class EditNetworkAliasView(forms.ModalFormView):
     template_name = 'akanda/alias/networks/edit_rules.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(EditNetworkAliasView, self).get_success_url()
-        return "%s?tab=%s" % (url, alias_tab_redirect())
+    # def get_success_url(self):
+    #     return super(EditNetworkAliasView, self).get_success_url()
 
     def _get_object(self):
         if not hasattr(self, "_object"):

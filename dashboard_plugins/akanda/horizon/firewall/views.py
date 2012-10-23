@@ -5,7 +5,6 @@ from horizon import exceptions
 from horizon import forms
 
 from akanda.horizon.api import quantum_extensions_client
-from akanda.horizon.tabs import firewall_tab_redirect
 from akanda.horizon.firewall.forms import (
     CreateFirewallRuleForm, EditFirewallRuleForm)
 
@@ -15,9 +14,8 @@ class CreateFirewallRuleView(forms.ModalFormView):
     template_name = 'akanda/firewall/create.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(CreateFirewallRuleView, self).get_success_url()
-        return "%s?tab=%s" % (url, firewall_tab_redirect())
+    # def get_success_url(self):
+    #     return super(CreateFirewallRuleView, self).get_success_url()
 
 
 class EditFirewallRuleView(forms.ModalFormView):
@@ -25,9 +23,8 @@ class EditFirewallRuleView(forms.ModalFormView):
     template_name = 'akanda/firewall/edit.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(EditFirewallRuleView, self).get_success_url()
-        return "%s?tab=%s" % (url, firewall_tab_redirect())
+    # def get_success_url(self):
+    #     return super(EditFirewallRuleView, self).get_success_url()
 
     def _get_object(self, ):
         if not hasattr(self, "_object"):

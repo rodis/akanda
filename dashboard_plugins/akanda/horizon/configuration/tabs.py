@@ -24,6 +24,7 @@ class ConfigurationTab(tabs.TableTab):
     slug = "configuration_tab"
     template_name = "akanda/configuration/index.html"
     table_classes = (PublicIPsTable,)
+    preload = False
 
     def get_publicips_data(self):
         data = []

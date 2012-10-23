@@ -11,7 +11,7 @@ class FirewallRuleTab(tabs.TableTab):
     slug = "firewall_tab"
     table_classes = (FirewallRuleTable,)
     template_name = "horizon/common/_detail_table.html"
-    # preload = False
+    preload = False
 
     def get_firewall_rule_data(self):
         return quantum_extensions_client.filterrule_list(self.request)

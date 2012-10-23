@@ -12,11 +12,8 @@ class Delete(tables.DeleteAction):
     data_type_plural = _("Ports Forward")
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self, request=None):
-        # import here to avoid circular import
-        from akanda.horizon.tabs import portforwarding_tab_redirect
-        url = super(Delete, self).get_success_url(request)
-        return "%s?tab=%s" % (url, portforwarding_tab_redirect())
+    # def get_success_url(self, request=None):
+    #     return super(Delete, self).get_success_url(request)
 
     def delete(self, request, obj_id):
         quantum_extensions_client.portforward_delete(request, obj_id)

@@ -7,7 +7,6 @@ from horizon import exceptions
 
 from akanda.horizon import common
 from akanda.horizon.api import quantum_extensions_client
-from akanda.horizon.tabs import alias_tab_redirect
 
 
 class BasePortAliasForm(forms.SelfHandlingForm):
@@ -33,8 +32,7 @@ class CreatePortAliasForm(BasePortAliasForm):
                 _('Successfully created port alias: %s') % data['alias_name'])
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"), alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to create port alias.'),
                               redirect=redirect)
 
@@ -53,8 +51,7 @@ class EditPortAliasForm(BasePortAliasForm):
                 _('Successfully updated port alias: %s') % data['alias_name'])
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"), alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to create port alias.'),
                               redirect=redirect)
 

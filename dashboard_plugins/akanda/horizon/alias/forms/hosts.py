@@ -28,8 +28,7 @@ class CreateHostAliasForm(BaseHostAliasForm):
                 _('Successfully created Address Group: %s') % data['name'])
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"), alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to create Address Group.'),
                               redirect=redirect)
 
@@ -48,8 +47,7 @@ class EditHostAliasForm(BaseHostAliasForm):
                 _('Successfully updated Address Group: %s') % data['name'])
             return data
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"), alias_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to update Address Group.'),
                               redirect=redirect)
 

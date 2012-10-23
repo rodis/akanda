@@ -11,6 +11,7 @@ class PortForwardingTab(tabs.TableTab):
     slug = "portforwarding"
     table_classes = (PortForwardingTable,)
     template_name = "horizon/common/_detail_table.html"
+    preload = False
 
     def get_portforwarding_data(self):
         return quantum_extensions_client.portforward_list(self.request)

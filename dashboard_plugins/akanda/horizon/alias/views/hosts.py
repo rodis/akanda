@@ -7,7 +7,6 @@ from horizon import forms
 from akanda.horizon.alias.forms import (
     CreateHostAliasForm, EditHostAliasForm)
 from akanda.horizon.api import quantum_extensions_client
-from akanda.horizon.tabs import alias_tab_redirect
 
 
 class CreateHostAliasView(forms.ModalFormView):
@@ -15,9 +14,8 @@ class CreateHostAliasView(forms.ModalFormView):
     template_name = 'akanda/alias/hosts/create.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(CreateHostAliasView, self).get_success_url()
-        return "%s?tab=%s" % (url, alias_tab_redirect())
+    # def get_success_url(self):
+    #     return super(CreateHostAliasView, self).get_success_url()
 
 
 class EditHostAliasView(forms.ModalFormView):
@@ -25,9 +23,8 @@ class EditHostAliasView(forms.ModalFormView):
     template_name = 'akanda/alias/hosts/edit_rules.html'
     success_url = reverse_lazy('horizon:nova:networking:index')
 
-    def get_success_url(self):
-        url = super(EditHostAliasView, self).get_success_url()
-        return "%s?tab=%s" % (url, alias_tab_redirect())
+    # def get_success_url(self):
+    #     return super(EditHostAliasView, self).get_success_url()
 
     def _get_object(self):
         if not hasattr(self, "_object"):

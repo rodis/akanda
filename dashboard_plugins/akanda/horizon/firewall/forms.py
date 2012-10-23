@@ -8,7 +8,6 @@ from horizon import exceptions
 from akanda.horizon.api import quantum_extensions_client
 from akanda.horizon import common
 from akanda.horizon import utils
-from akanda.horizon.tabs import firewall_tab_redirect
 
 
 class BaseFirewallRuleForm(forms.SelfHandlingForm):
@@ -116,9 +115,7 @@ class CreateFirewallRuleForm(BaseFirewallRuleForm):
             messages.success(request, _('Successfully created firewall rule'))
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"),
-                firewall_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to create firewall rule.'),
                               redirect=redirect)
 
@@ -157,9 +154,7 @@ class EditFirewallRuleForm(BaseFirewallRuleForm):
             messages.success(request, _('Successfully edited firewall rule'))
             return result
         except:
-            redirect = "%s?tab=%s" % (
-                reverse("horizon:nova:networking:index"),
-                firewall_tab_redirect())
+            redirect = reverse("horizon:nova:networking:index")
             exceptions.handle(request, _('Unable to edit firewall rule.'),
                               redirect=redirect)
 
