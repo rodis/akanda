@@ -30,6 +30,26 @@ akanda_opts = [
 
 cfg.CONF.register_opts(akanda_opts)
 
+# Provide a list of the default port aliases to be
+# created for a tenant.
+# FIXME(dhellmann): This list should come from
+# a configuration file somewhere.
+DEFAULT_PORT_ALIASES = [
+    ('tcp', 0, 'Any TCP'),
+    ('udp', 0, 'Any UDP'),
+    ('tcp', 22, 'ssh'),
+    ('udp', 53, 'DNS'),
+    ('tcp', 80, 'HTTP'),
+    ('tcp', 443, 'HTTPS'),
+    ]
+
+# Provide a list of the default address entries
+# to be created for a tenant.
+# FIXME(dhellmann): This list should come from
+# a configuration file somewhere.
+DEFAULT_ADDRESS_GROUPS = [
+    ('Any', [('Any', '0.0.0.0/0')]),
+    ]
 
 
 class OVSQuantumPluginV2(ovs_quantum_plugin.OVSQuantumPluginV2):
@@ -38,12 +58,16 @@ class OVSQuantumPluginV2(ovs_quantum_plugin.OVSQuantumPluginV2):
         ["dhportforward", "dhaddressgroup", "dhaddressentry",
          "dhfilterrule", "dhportalias"])
 
-
     def create_network(self, context, network):
         retval = super(OVSQuantumPluginV2, self).create_network(context,
                                                                 network)
         # auto create IPv6 network
         self._akanda_add_ipv6_subnet(context, retval)
+
+        # auto-create port aliases and address groups for
+        # use in firewall rules and port forwarding rules
+        self._akanda_auto_add_port_aliases(context)
+        self._akanda_auto_add_address_groups(context)
         return retval
 
     def update_network(self, context, id, network):
@@ -174,6 +198,74 @@ class OVSQuantumPluginV2(ovs_quantum_plugin.OVSQuantumPluginV2):
         else:
             LOG.error('Unable to generate a unique tenant subnet cidr')
 
+    def _akanda_auto_add_port_aliases(self, context):
+        """Create the default port aliases for the current tenant, if
+        they don't already exist.
+        """
+        for protocol, port, name in DEFAULT_PORT_ALIASES:
+            pa_q = context.session.query(akmodels.PortAlias)
+            pa_q = pa_q.filter_by(tenant_id=context.tenant_id,
+                                  port=port,
+                                  protocol=protocol,
+                                  )
+            try:
+                pa_q.one()
+            except exc.NoResultFound:
+                with context.session.begin(subtransactions=True):
+                    alias = akmodels.PortAlias(
+                        name=name,
+                        protocol=protocol,
+                        port=port,
+                        tenant_id=context.tenant_id,
+                        )
+                    context.session.add(alias)
+                    LOG.debug('Created default port alias %s', alias.name)
+        return
+
+    def _akanda_auto_add_address_groups(self, context):
+        """Create default address groups.
+        """
+        for ag_name, entries in DEFAULT_ADDRESS_GROUPS:
+            ag_q = context.session.query(akmodels.AddressGroup)
+            ag_q = ag_q.filter_by(tenant_id=context.tenant_id,
+                                  name=ag_name,
+                                  )
+            try:
+                address_group = ag_q.one()
+            except exc.NoResultFound:
+                with context.session.begin(subtransactions=True):
+                    address_group = akmodels.AddressGroup(
+                        name=ag_name,
+                        tenant_id=context.tenant_id,
+                        )
+                    context.session.add(address_group)
+                    LOG.debug('Created default address group %s',
+                              address_group.name)
+
+            for entry_name, cidr in entries:
+                entry_q = context.session.query(akmodels.AddressEntry)
+                entry_q = entry_q.filter_by(group=address_group,
+                                            name=entry_name,
+                                            cidr=cidr,
+                                            )
+                try:
+                    entry_q.one()
+                except exc.NoResultFound:
+                    with context.session.begin(subtransactions=True):
+                        entry = akmodels.AddressEntry(
+                            name=entry_name,
+                            group=address_group,
+                            cidr=cidr,
+                            tenant_id=context.tenant_id,
+                            )
+                        context.session.add(entry)
+                        LOG.debug(
+                            'Created default entry for %s in address group %s',
+                            cidr, address_group.name)
+
+        return
+
+
 def _ipv6_subnet_generator(network_range, prefixlen):
     # coerce prefixlen to stay within bounds
     prefixlen = min(128, prefixlen)
@@ -188,7 +280,7 @@ def _ipv6_subnet_generator(network_range, prefixlen):
                          'range prefixlen (/%s)' % (prefixlen, net.prefixlen))
 
     rand = random.SystemRandom()
-    max_range = 2**(prefixlen - net.prefixlen)
+    max_range = 2 ** (prefixlen - net.prefixlen)
 
     while True:
         rand_bits = rand.randint(0, max_range)
