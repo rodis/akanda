@@ -69,10 +69,16 @@ class Interface(ModelBase):
 
     @property
     def is_up(self):
-        if ('state' in self.extra_params and
-            self.extra_params['state'].lower() == 'up'):
+        if self.extra_params.get('state', '').lower() == 'up':
             return 'UP'
         return 'UP' in self.flags
+
+    @property
+    def first_v4(self):
+        addrs = sorted(a.ip for a in self._addresses if a.version == 4)
+
+        if addrs:
+            return addrs[0]
 
     @classmethod
     def from_dict(cls, d):
@@ -219,10 +225,24 @@ class AddressBookEntry(ModelBase):
 
 
 class Allocation(ModelBase):
-    def __init__(self, lladdr, ip_address, hostname):
-        self.lladdr = lladdr
-        self.ip_address = ip_address
+    def __init__(self, mac_address, ip_addresses, hostname, device_id):
+        self.mac_address = mac_address
+        self.ip_addresses = ip_addresses or {}
         self.hostname = hostname
+        self.device_id = device_id
+
+    @property
+    def dhcp_addresses(self):
+        return [ip for ip, dhcp in self.ip_addresses.items() if dhcp]
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(
+            d['mac_address'],
+            d['ip_addresses'],
+            d['hostname'],
+            d['device_id'],
+        )
 
 
 class StaticRoute(ModelBase):
@@ -269,6 +289,51 @@ class Label(ModelBase):
                 (', '.join(map(str, self.cidrs)), self.name))
 
 
+class Subnet(ModelBase):
+    def __init__(self, cidr, gateway_ip, dhcp_enabled=True,
+                 dns_nameservers=None, host_routes=None):
+        self.cidr = cidr
+        self.gateway_ip = gateway_ip
+        self.dhcp_enabled = bool(dhcp_enabled)
+        self.dns_nameservers = dns_nameservers
+        self.host_routes = host_routes
+
+    @property
+    def cidr(self):
+        return self._cidr
+
+    @cidr.setter
+    def cidr(self, value):
+        self._cidr = netaddr.IPNetwork(value)
+
+    @property
+    def gateway_ip(self):
+        return self._gateway_ip
+
+    @gateway_ip.setter
+    def gateway_ip(self, value):
+        self._gateway_ip = netaddr.IPAddress(value)
+
+    @property
+    def dns_nameservers(self):
+        return self._dns_nameservers
+
+    @dns_nameservers.setter
+    def dns_nameservers(self, value):
+        self._dns_nameservers = [netaddr.IPAddress(a) for a in value]
+
+    @classmethod
+    def from_dict(cls, d):
+        host_routes = [StaticRoute(r['destination'], r['next_hop'])
+                       for r in d.get('host_routes', [])]
+        return cls(
+            d['cidr'],
+            d['gateway_ip'],
+            d['dhcp_enabled'],
+            d['dns_nameservers'],
+            host_routes)
+
+
 class Network(ModelBase):
     SERVICE_STATIC = 'static'
     SERVICE_RA = 'ra'
@@ -283,14 +348,28 @@ class Network(ModelBase):
     def __init__(self, id_, interface, name='', network_type=TYPE_ISOLATED,
                  v4_conf_service=SERVICE_STATIC,
                  v6_conf_service=SERVICE_STATIC,
-                 address_allocations=[]):
+                 address_allocations=None,
+                 subnets=None):
         self.id = id_
         self.interface = interface
         self.name = name
         self.network_type = network_type
         self.v4_conf_service = v4_conf_service
         self.v6_conf_service = v6_conf_service
-        self.address_allocations = address_allocations
+        self.address_allocations = address_allocations or []
+        self.subnets = subnets or []
+
+    @property
+    def is_tenant_network(self):
+        return self._network_type in (self.TYPE_INTERNAL, self.TYPE_ISOLATED)
+
+    @property
+    def is_internal_network(self):
+        return self._network_type == self.TYPE_INTERNAL
+
+    @property
+    def is_external_network(self):
+        return self._network_type == self.TYPE_EXTERNAL
 
     @property
     def network_type(self):
@@ -352,7 +431,8 @@ class Network(ModelBase):
             v6_conf_service=d.get('v6_conf_service', cls.SERVICE_STATIC),
             v4_conf_service=d.get('v4_conf_service', cls.SERVICE_STATIC),
             address_allocations=[
-                Allocation(*a) for a in d.get('allocations', [])])
+                Allocation.from_dict(a) for a in d.get('allocations', [])],
+            subnets=[Subnet.from_dict(s) for s in d.get('subnets', [])])
 
 
 class Configuration(ModelBase):
@@ -402,6 +482,17 @@ class Configuration(ModelBase):
         return dict((f, getattr(self, f)) for f in fields)
 
     @property
+    def external_v4_id(self):
+        addrs = [n.interface.first_v4
+                 for n in self.networks if n.is_external_network]
+
+        # remove any none
+        addrs = sorted(a for a in addrs if a)
+
+        if addrs:
+            return addrs[0]
+
+    @property
     def interfaces(self):
         return [n.interface for n in self.networks if n.interface]
 
@@ -419,7 +510,7 @@ class Configuration(ModelBase):
         # add in nat and management rules
         for network in self.networks:
             if network.network_type == Network.TYPE_EXTERNAL:
-                continue
+                rv.extend(_format_ext_rule(network.interface.ifname))
             elif network.network_type == Network.TYPE_INTERNAL:
                 if ext_if:
                     rv.extend(
@@ -428,7 +519,7 @@ class Configuration(ModelBase):
                 rv.extend(_format_mgt_rule(network.interface.ifname))
             else:
                 # isolated and management nets block all between interfaces
-                rv.append(_format_isolated_rule(network.interface.ifname))
+                rv.extend(_format_isolated_rule(network.interface.ifname))
 
         # add address book tables
         rv.extend(ab.pf_rule for ab in self.address_book.values())
@@ -442,21 +533,49 @@ class Configuration(ModelBase):
         return '\n'.join(rv) + '\n'
 
 
+def _format_ext_rule(ext_if):
+    return [('pass on %s inet6 proto ospf' % ext_if)]
+
+
 def _format_nat_rule(ext_if, int_if):
     tcp_ports = ', '.join(str(p) for p in defaults.OUTBOUND_TCP_PORTS)
     udp_ports = ', '.join(str(p) for p in defaults.OUTBOUND_UDP_PORTS)
-    return [('pass out on %s from %s:network to any nat-to %s' %
-            (ext_if, int_if, ext_if)),
-            'pass in on %s proto tcp to any port {%s}' % (int_if, tcp_ports),
-            'pass in on %s proto udp to any port {%s}' % (int_if, udp_ports)]
+
+    return [
+        _format_metadata_rule(int_if),
+        ('pass out on %s from %s:network to any nat-to %s' %
+        (ext_if, int_if, ext_if)),
+
+        # IPv4 DHCP: Server: 68 Client: 67
+        'pass quick on %s proto udp from port 68 to port 67' % int_if,
+
+        # IPv6 DHCP: Server: 547 Client: 546
+        'pass quick on %s proto udp from port 546 to port 547' % int_if,
+        'pass in on %s proto tcp to any port {%s}' % (int_if, tcp_ports),
+        'pass in on %s proto udp to any port {%s}' % (int_if, udp_ports)
+    ]
 
 
 def _format_mgt_rule(mgt_if):
     ports = ', '.join(str(p) for p in defaults.MANAGEMENT_PORTS)
     return [('pass quick proto tcp from %s:network to %s port { %s }' %
-            (mgt_if, mgt_if, ports)),
-            'block quick from !%s to %s:network' % (mgt_if, mgt_if)]
+             (mgt_if, mgt_if, ports)),
+            ('pass quick proto tcp from %s to %s:network port %s' %
+             (mgt_if, mgt_if, defaults.RUG_META_PORT)),
+            'block in quick on !%s to %s:network' % (mgt_if, mgt_if)]
 
 
 def _format_isolated_rule(int_if):
-    return 'block from %s:network to any' % int_if
+    return [_format_metadata_rule(int_if),
+            'block from %s:network to any' % int_if]
+
+
+def _format_metadata_rule(int_if):
+    args = {
+        'ifname': int_if,
+        'dest_addr': defaults.METADATA_DEST_ADDRESS,
+        'local_port': defaults.internal_metadata_port(int_if)
+    }
+
+    return ('pass in quick on %(ifname)s proto tcp to %(dest_addr)s port http '
+            'rdr-to 127.0.0.1 port %(local_port)d') % args
